@@ -4,7 +4,7 @@ build:
 	python3.11 -m venv .venv && \
 	source .venv/bin/activate && \
 	pip3.11 install --upgrade pip && \
-	pip3.11 install -r scripts/requirements.txt 
+	pip3.11 install -r scripts/util/requirements.txt 
 .PHONY: build
 
 deploy: build

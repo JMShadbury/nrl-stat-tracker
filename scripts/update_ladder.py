@@ -1,10 +1,11 @@
-from scraper import WebScraper
-from dynamodb import DynamoDBClient
+from util.scraper import WebScraper
+from util.dynamodb import DynamoDBClient
+from util.defaults import Url
 
 
 class UpdateLadder:
     def __init__(self):
-        self.scraper = WebScraper("https://www.nrl.com/ladder/")
+        self.scraper = WebScraper(Url.LADDER.value)
         self.db_client = DynamoDBClient("Ladder")
 
     def update_ladder(self):
