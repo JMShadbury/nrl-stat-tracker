@@ -16,3 +16,15 @@ def process_table_row(row):
 
 def format_team_name_for_dynamodb(team_name):
     return ''.join(word.capitalize() for word in team_name.split())
+
+def process_table_row(row):
+    # Extract data from the row
+    # For example, if you need the "Played" and "Points" data
+    played = row.select_one('td:nth-of-type(4)').get_text(strip=True)
+    points = row.select_one('td:nth-of-type(5)').get_text(strip=True)
+
+    return {
+        'TeamName': row.select_one('span.u-font-weight-600').get_text(strip=True),
+        'Played': played,
+        'Points': points  # or whatever data you need to extract
+    }
