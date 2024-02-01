@@ -4,13 +4,12 @@ build:
 	python3.11 -m venv .venv && \
 	source .venv/bin/activate && \
 	pip3.11 install --upgrade pip && \
-	pip3.11 install -r requirements.txt 
+	pip3.11 install -r scripts/requirements.txt 
 .PHONY: build
 
 deploy: build
 	. .venv/bin/activate && \
-	cd dynamodb; cdk deploy; cd .. && \
-	python3.11 scripts/update_ladder.py
+	cd dynamodb; cdk deploy 
 .PHONY: deploy
 
 updateLadder: build
