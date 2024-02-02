@@ -7,19 +7,19 @@ from teams.defaults import TeamDefaults
 logger = get_logger()
 logger.setLevel("DEBUG")
 
-class Tries:
+class Goals:
     def __init__(self):
-        logger.info("Initialising Tries")
+        logger.info("Initialising Goals")
         self.url = Url.TEAM_POINTS.value
         logger.debug("Setting URL: {}".format(self.url))
         self.scraper = WebScraper(self.url)
 
-    def get_all_tries_data(self):
-        logger.info("Getting all tries data")
+    def get_all_goals_data(self):
+        logger.info("Getting all goals data")
         return self.scraper.load_page(TeamDefaults.TEAMS_PATH.value)
 
-    def process_tries_data(self, soup, team_name):
-        logger.info("Processing tries data")
+    def process_goals_data(self, soup, team_name):
+        logger.info("Processing goals data")
         if soup:
             table_element = soup.find(TeamDefaults.TEAMS_FIND_TAG.value, class_=TeamDefaults.TEAMS_FIND.value)
             logger.debug("Table element: {}".format(table_element))

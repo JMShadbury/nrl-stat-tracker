@@ -2,10 +2,10 @@
 from enum import Enum
  
 class TeamDefaults(Enum):
-    POINTS_TABLE_ELEMENT = '//tbody[@class="table-tbody u-white-space-no-wrap"]'
-    POINTS_ELEMENT_TYPE  = 'tbody'
-    POINTS_ELEMENT       = 'tr.table-tbody__tr'
-    TRIES_TABLE_ELEMENT  = '//tbody[@class="table-tbody u-white-space-no-wrap"]'
-    TRIES_ELEMENT_TYPE   = 'tbody'
-    TRIES_ELEMENT        = 'tr.table-tbody__tr'
+    TEAMS_PATH           = '//tbody[@class="table-tbody u-white-space-no-wrap"]'
+    TEAMS_FIND_TAG       = 'tbody'
+    TEAMS_FIND           = 'table-tbody u-white-space-no-wrap'
+    TEAMS_ELEMENT_SELECT = 'tr.table-tbody__tr'
+    TEAMS_ROW_FIND_TAG   = 'span'
+    TEAMS_ROW_FIND       = 'u-font-weight-600'
     

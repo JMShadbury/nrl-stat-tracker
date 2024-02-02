@@ -1,23 +1,34 @@
 from util.scraper import WebScraper
-from util.data_processing import process_table_row
+from util.data_processing import process_table_row_points
 from util.defaults import Url
+from util.logger import get_logger
 from teams.defaults import TeamDefaults
+
+logger = get_logger()
+logger.setLevel("DEBUG")
 
 class Points:
     def __init__(self):
+        logger.info("Initialising Points")
         self.url = Url.TEAM_POINTS.value
+        logger.debug("Setting URL: {}".format(self.url))
         self.scraper = WebScraper(self.url)
 
     def get_all_points_data(self):
-        return self.scraper.load_page(TeamDefaults.POINTS_TABLE_ELEMENT.value)
+        logger.info("Getting all points data")
+        return self.scraper.load_page(TeamDefaults.TEAMS_PATH.value)
 
     def process_points_data(self, soup, team_name):
+        logger.info("Processing points data")
         if soup:
-            table_element = soup.find(TeamDefaults.POINTS_ELEMENT_TYPE.value, class_=TeamDefaults.POINTS_TABLE_ELEMENT.value)
+            table_element = soup.find(TeamDefaults.TEAMS_FIND_TAG.value, class_=TeamDefaults.TEAMS_FIND.value)
+            logger.debug("Table element: {}".format(table_element))
             if table_element:
-                for row in table_element.select(TeamDefaults.POINTS_ELEMENT.value):
-                    team_name_element = row.find('span', class_='u-font-weight-600')
-                    if team_name_element and team_name_element.get_text(strip=True) == team_name:
-                        return process_table_row(row)
+                for row in table_element.select(TeamDefaults.TEAMS_ELEMENT_SELECT.value):
+                    logger.debug("Table element row: {}".format(row))
+                    team_name_element = row.find(TeamDefaults.TEAMS_ROW_FIND_TAG.value, class_=TeamDefaults.TEAMS_ROW_FIND.value)
+                    logger.debug("Team name element: {}".format(team_name_element))
+                    if team_name_element and team_name_element.get_text(strip=True).replace(" ", "") == team_name:
+                        return process_table_row_points(row)
         return None
 
