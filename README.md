@@ -34,6 +34,9 @@ Use the `make` command to execute various tasks:
   ```bash
   make build
   ```
+
+  ![StackBuild](img/deploy_stack.gif)
+
 - **Update Team Statistics**:
   ```bash
   make update-teams
@@ -42,6 +45,9 @@ Use the `make` command to execute various tasks:
   ```bash
   make update-ladder
   ```
+
+  ![After Updates](img/after_deploy.gif)
+
 
 ## Contributing
 
