@@ -8,6 +8,7 @@ from util.logger import get_logger
 
 logger = get_logger()
 
+
 class WebScraper:
     def __init__(self, url):
         logger.info("Initialising WebScraper")
@@ -20,7 +21,8 @@ class WebScraper:
         self.driver.get(self.url)
         logger.debug(f"URL: {self.url}")
         try:
-            WebDriverWait(self.driver, delay).until(EC.presence_of_element_located((By.XPATH, xpath)))
+            WebDriverWait(self.driver, delay).until(
+                EC.presence_of_element_located((By.XPATH, xpath)))
             source = BeautifulSoup(self.driver.page_source, 'html.parser')
             logger.info("Page data found, closing driver")
             self.close()

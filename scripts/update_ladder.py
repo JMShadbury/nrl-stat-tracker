@@ -4,6 +4,7 @@ from util.defaults import Url
 from util.logger import configure_logger
 
 logger = configure_logger("UpdateLadder")
+logger.setLevel("DEBUG")
 
 
 class UpdateLadder:
@@ -17,16 +18,17 @@ class UpdateLadder:
 
     def update_ladder(self):
         try:
-            soup = self.scraper.load_page('//tr[@q-component="ladder-body-row"]')
+            soup = self.scraper.load_page(
+                '//tr[@q-component="ladder-body-row"]')
             if soup:
                 table_element = soup.find('table', {"id": "ladder-table"})
-
                 if table_element:
                     for row in table_element.select('tr[q-component="ladder-body-row"]'):
                         pos_text = row.select_one('.ladder-position')
                         if pos_text:
                             pos_text = pos_text.get_text(strip=True)
-                            team_text = row.select_one('.ladder-club').get_text(strip=True)
+                            team_text = row.select_one(
+                                '.ladder-club').get_text(strip=True)
                             played_text = row.select_one(
                                 '.ladder__item:nth-of-type(5)').get_text(strip=True)
                             points_text = row.select_one(
@@ -51,8 +53,7 @@ class UpdateLadder:
                                 '.ladder__item:nth-of-type(15)').get_text(strip=True)
                             form_text = row.select_one(
                                 '.ladder__item:nth-of-type(16)').get_text(strip=True)
-                            
-                            
+
                             data = {
                                 'Pos': int(pos_text),
                                 'TeamName': team_text,
@@ -69,7 +70,7 @@ class UpdateLadder:
                                 'Away': away_text,
                                 'Form': form_text
                             }
-                            
+
                             self.db_client.insert_item(data)
                     self.scraper.close()
         except Exception as e:
@@ -77,6 +78,6 @@ class UpdateLadder:
             self.scraper.close()
             raise e
 
-# Usage
+
 update_ladder = UpdateLadder()
 update_ladder.update_ladder()
