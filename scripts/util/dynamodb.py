@@ -12,7 +12,7 @@ class DynamoDBClient:
         logger.debug(f"DynamoDB table: {self.table}")
 
     def insert_item(self, item):
-        logger.debug(f"Inserting item: {item}")
+        logger.info(f"Inserting item: {item}")
         self.table.put_item(Item=item)
         
     def get_team_names(self, team_info_table, key):

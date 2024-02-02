@@ -1,17 +1,16 @@
 from util.scraper import WebScraper
-from util.data_processing import process_table_row_tries
+from util.data_processing import process_table_row_points
 from util.defaults import Url
-from teams.defaults import TeamDefaults
 from util.logger import get_logger
+from teams.defaults import TeamDefaults
 
 logger = get_logger()
-
 logger.setLevel("DEBUG")
 
 class Tries:
     def __init__(self):
         logger.info("Initialising Tries")
-        self.url = Url.TEAM_TRIES.value
+        self.url = Url.TEAM_POINTS.value
         logger.debug("Setting URL: {}".format(self.url))
         self.scraper = WebScraper(self.url)
 
@@ -30,6 +29,6 @@ class Tries:
                     team_name_element = row.find(TeamDefaults.TEAMS_ROW_FIND_TAG.value, class_=TeamDefaults.TEAMS_ROW_FIND.value)
                     logger.debug("Team name element: {}".format(team_name_element))
                     if team_name_element and team_name_element.get_text(strip=True).replace(" ", "") == team_name:
-                        return process_table_row_tries(row)
+                        return process_table_row_points(row)
         return None
 

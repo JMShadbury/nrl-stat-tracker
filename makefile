@@ -9,8 +9,11 @@ build:
 
 deploy: build
 	. .venv/bin/activate && \
-	cd dynamodb; cdk deploy 
+	cd dynamodb; cdk deploy
 .PHONY: deploy
+
+deployAll: build deploy updateLadder updateTeams
+.PHONY: deployAll
 
 updateLadder: build
 	. .venv/bin/activate && \
