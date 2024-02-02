@@ -22,9 +22,12 @@ updateTeams: build
 	python3.11 scripts/update_teams.py
 .PHONY: updateTeams
 
-
 destroy:
 	. .venv/bin/activate && \
 	cd dynamodb; cdk destroy; cd .. && \
 	rm -rf .venv
 .PHONY: destroy
+
+clean:
+	rm -rf .venv
+.PHONY: clean

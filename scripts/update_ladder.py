@@ -1,14 +1,22 @@
 from util.scraper import WebScraper
 from util.dynamodb import DynamoDBClient
 from util.defaults import Url
+from util.logger import get_logger
+
+logger = get_logger()
 
 
 class UpdateLadder:
     def __init__(self):
+        logger.info("Initialising UpdateLadder")
         self.scraper = WebScraper(Url.LADDER.value)
+        logger.debug(f"Setting URL: {Url.LADDER.value}")
         self.db_client = DynamoDBClient("Ladder")
+        logger.debug("Setting DynamoDB client {self.db_client}")
+        logger.info("Initialised UpdateLadder")
 
     def update_ladder(self):
+        logger.info("Updating ladder")
         soup = self.scraper.load_page('//tr[@q-component="ladder-body-row"]')
         if soup:
             table_element = soup.find('table', {"id": "ladder-table"})
