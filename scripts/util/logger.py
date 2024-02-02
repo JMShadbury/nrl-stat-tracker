@@ -2,6 +2,8 @@ import logging
 import os
 
 # Custom formatter class to handle color formatting
+
+
 class ColoredFormatter(logging.Formatter):
     '''
     Custom formatter class to handle color formatting
@@ -33,6 +35,7 @@ class ColoredFormatter(logging.Formatter):
         log_message = super().format(record)
         return f"\x1b[{color_code}m{log_message}\x1b[0m"
 
+
 class FileHandler(logging.Handler):
     '''
     Custom logging handler that forwards INFO messages to a file
@@ -43,6 +46,7 @@ class FileHandler(logging.Handler):
     Returns:
         None
     '''
+
     def __init__(self, filename):
         super().__init__()
         self.filename = filename
@@ -63,6 +67,7 @@ class ConsoleHandler(logging.Handler):
     Returns:
         None
     '''
+
     def emit(self, record):
         log_message = self.format(record)
         if record.levelname in ("INFO", "WARNING", "ERROR"):
@@ -93,7 +98,8 @@ def configure_logger(log_filename):
     logger = logging.getLogger("application_log")
     logger.setLevel(logging.DEBUG)
 
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     file_handler = FileHandler(log_filepath)
     file_handler.setLevel(logging.DEBUG)
@@ -101,7 +107,8 @@ def configure_logger(log_filename):
     logger.addHandler(file_handler)
 
     console_handler = ConsoleHandler()
-    console_handler.setLevel(logging.DEBUG)  # Use DEBUG level for console to show all log levels
+    # Use DEBUG level for console to show all log levels
+    console_handler.setLevel(logging.DEBUG)
     color_formatter = ColoredFormatter(
         "%(asctime)s - %(levelname)s - %(message)s"
     )
