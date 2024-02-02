@@ -35,6 +35,11 @@ Use the `make` command to execute various tasks:
   make build
   ```
 
+- **Deploy the CDK Stack**:
+```bash
+make deploy
+```
+
   ![StackBuild](img/deploy_stack.gif)
 
 - **Update Team Statistics**:
