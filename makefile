@@ -25,6 +25,10 @@ updateTeams: build
 	python3.11 scripts/update_teams.py
 .PHONY: updateTeams
 
+getData: build
+	. .venv/bin/activate && \
+	python3.11 scripts/dynamodb_to_grafana.py
+
 destroy:
 	. .venv/bin/activate && \
 	cd dynamodb; cdk destroy; cd .. && \

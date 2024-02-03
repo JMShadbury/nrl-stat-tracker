@@ -182,7 +182,8 @@ for team_name in team_names:
             merged_data.update(conversion_percentage_data)
             logger.debug(f"Merged data: {json.dumps(merged_data, indent=2)}")
             logger.info(f"Inserting {team_name} into DynamoDB")
-            db_client.insert_item(merged_data)
+            if merged_data:
+                db_client.insert_item(merged_data)
             continue
     except Exception as e:
         logger.error(f"Error processing {team_name}: {e}", exc_info=True)
