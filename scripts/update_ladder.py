@@ -9,6 +9,9 @@ logger.setLevel("DEBUG")
 
 class UpdateLadder:
     def __init__(self):
+        '''
+        Initialise the UpdateLadder class
+        '''
         logger.info("Initialising UpdateLadder")
         self.scraper = WebScraper(Url.LADDER.value)
         logger.debug(f"Setting URL: {Url.LADDER.value}")
@@ -17,6 +20,9 @@ class UpdateLadder:
         logger.info("Initialised UpdateLadder")
 
     def update_ladder(self):
+        '''
+        Update the ladder
+        '''
         try:
             soup = self.scraper.load_page(
                 '//tr[@q-component="ladder-body-row"]')

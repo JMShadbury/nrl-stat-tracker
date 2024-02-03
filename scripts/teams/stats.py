@@ -11,6 +11,11 @@ logger.setLevel("DEBUG")
 class Stats:
 
     def __init__(self, url, stat):
+        '''
+        Initialise the Stats class
+        :param url: The URL to scrape
+        :param stat: The statistic to scrape
+        '''
         logger.info("Initialising Goals")
         logger.debug("URL: {}".format(url))
         self.url = url
@@ -18,10 +23,20 @@ class Stats:
         self.scraper = WebScraper(self.url)
 
     def get_all_data(self):
+        '''
+        Get all the data from the URL
+        :return: The data from the URL
+        '''
         logger.info("Getting all data")
         return self.scraper.load_page(TeamDefaults.TEAMS_PATH.value)
 
     def process_data(self, soup, team_name):
+        '''
+        Process the data
+        :param soup: The data to process
+        :param team_name: The team name to process
+        :return: The processed data
+        '''
         logger.info("Processing data")
         if soup:
             table_element = soup.find(
