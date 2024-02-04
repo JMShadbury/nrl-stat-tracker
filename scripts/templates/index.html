@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Statistics</title>
+</head>
+<body>
+    <h1>Compare Team Statistics</h1>
+    <form method="POST">
+        <div>
+            <label for="team1">Select First Team:</label>
+            <select name="team1" id="team1">
+                {% for team in teams %}
+                <option value="{{ team }}">{{ team }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="team2">Select Second Team:</label>
+            <select name="team2" id="team2">
+                {% for team in teams %}
+                <option value="{{ team }}">{{ team }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="submit" value="Compare Statistics">
+    </form>
+
+    <!-- Display Images Here -->
+    {% if images_data %}
+    <div>
+        <h2>Comparison Images:</h2>
+        {% for image_data in images_data %}
+        <img src="data:image/png;base64,{{ image_data }}" alt="Comparison Image">
+        {% endfor %}
+    </div>
+    {% endif %}
+</body>
+</html>
