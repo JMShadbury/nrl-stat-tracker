@@ -8,31 +8,30 @@ from util.logger import configure_logger
 try:
     logger = configure_logger("UpdateTeams")
     logger.setLevel("DEBUG")
+    
+    def create_stat_instance(url, stat_name):
+        return Stats(url.value, stat_name)
 
-    # Stats
-    tries_instance = Stats(Url.TEAM_TRIES.value, "Tries")
-    points_instance = Stats(Url.TEAM_POINTS.value, "Points")
-    goals_instance = Stats(Url.TEAM_GOALS.value, "Goals")
-    line_engaged_instance = Stats(Url.TEAM_LINE_ENGAGED.value, "Line Engaged")
-    completion_instance = Stats(Url.TEAM_COMPLETION.value, "Completion")
-    support_instance = Stats(Url.TEAM_SUPPORT.value, "Support")
-    line_breaks_instance = Stats(Url.TEAM_LINE_BREAKS.value, "Line Breaks")
-    post_contact_metres_instance = Stats(
-        Url.TEAM_POST_CONTACT_METRES.value, "Post Contact Metres")
-    tackle_breaks_instance = Stats(Url.TEAM_TACKLE_BREAKS.value, "Tackle Breaks")
-    run_metres_instance = Stats(Url.TEAM_ALL_RUN_METRES.value, "Run Metres")
-    runs_instance = Stats(Url.TEAM_ALL_RUNS.value, "Runs")
-    kick_return_metres_instance = Stats(
-        Url.TEAM_KICK_RETURN_METRES.value, "Kick Return Metres")
-    offloads_instance = Stats(Url.TEAM_OFFLOADS.value, "Offloads")
-    line_break_assists_instance = Stats(
-        Url.TEAM_LINE_BREAK_ASSISTS
-        .value, "Line Break Assists")
-    kicks_instance = Stats(Url.TEAM_TOTAL_KICKS.value, "Kicks")
-    kick_metres_instance = Stats(Url.TEAM_TOTAL_KICK_METRES.value, "Kick Metres")
-    try_assists_instance = Stats(Url.TEAM_TRY_ASSISTS.value, "Try Assists")
-    conversion_percentage_instance = Stats(
-        Url.TEAM_CONVERSION_PERCENT.value, "Conversion Percentage")
+    stats_instances = {
+    "Tries": create_stat_instance(Url.TEAM_TRIES, "Tries"),
+    "Points": create_stat_instance(Url.TEAM_POINTS, "Points"),
+    "Goals": create_stat_instance(Url.TEAM_GOALS, "Goals"),
+    "Line Engaged": create_stat_instance(Url.TEAM_LINE_ENGAGED, "Line Engaged"),
+    "Completion": create_stat_instance(Url.TEAM_COMPLETION, "Completion"),
+    "Support": create_stat_instance(Url.TEAM_SUPPORT, "Support"),
+    "Line Breaks": create_stat_instance(Url.TEAM_LINE_BREAKS, "Line Breaks"),
+    "Post Contact Metres": create_stat_instance(Url.TEAM_POST_CONTACT_METRES, "Post Contact Metres"),
+    "Tackle Breaks": create_stat_instance(Url.TEAM_TACKLE_BREAKS, "Tackle Breaks"),
+    "Run Metres": create_stat_instance(Url.TEAM_ALL_RUN_METRES, "Run Metres"),
+    "Runs": create_stat_instance(Url.TEAM_ALL_RUNS, "Runs"),
+    "Kick Return Metres": create_stat_instance(Url.TEAM_KICK_RETURN_METRES, "Kick Return Metres"),
+    "Offloads": create_stat_instance(Url.TEAM_OFFLOADS, "Offloads"),
+    "Line Break Assists": create_stat_instance(Url.TEAM_LINE_BREAK_ASSISTS, "Line Break Assists"),
+    "Kicks": create_stat_instance(Url.TEAM_TOTAL_KICKS, "Kicks"),
+    "Kick Metres": create_stat_instance(Url.TEAM_TOTAL_KICK_METRES, "Kick Metres"),
+    "Try Assists": create_stat_instance(Url.TEAM_TRY_ASSISTS, "Try Assists"),
+    "Conversion Percentage": create_stat_instance(Url.TEAM_CONVERSION_PERCENT, "Conversion Percentage")
+    }
     
 
     logger.info("Updating teams data")

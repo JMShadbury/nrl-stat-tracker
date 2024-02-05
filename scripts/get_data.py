@@ -13,7 +13,7 @@ def get_dynamodb_client():
         dynamodb_client = boto3.client('dynamodb')
         return dynamodb_client
     except NoCredentialsError:
-        print("Credentials not available")
+        logger.error("Credentials not available")
         return None
 
 def fetch_ladder_data_from_dynamodb(client, table_name):
@@ -64,7 +64,6 @@ def main():
     team_names = {team.split(":")[0]: team.split(":")[1] for team in team_names}
     
     for team_name in team_names:
-        print(team_name)
         raw_data = fetch_ladder_data_from_dynamodb(dynamodb_client, team_name)
         if raw_data:
             transformed_data = prepare_ladder_data_for_display(raw_data)
