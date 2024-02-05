@@ -24,3 +24,18 @@ class Url(Enum):
     TEAM_TRY_ASSISTS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=35"
     TEAM_CONVERSION_PERCENT = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000209"
     
+    TEAM_ALL_RECEIPTS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000028"
+    TEAM_FIELD_GOALS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=69"
+    TEAM_DECOY_RUNS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000002"
+    TEAM_DUMMY_HALF_RUNS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=81"
+    TEAM_TACKLES = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=3"
+    TEAM_MISSED_TACKLES = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=4"
+    TEAM_CHARGE_DOWNS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000000"
+    TEAM_INTERCEPTS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000004"
+    TEAM_40_20_KICKS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=82"
+    TEAM_SHORT_DROPOUTS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000415"
+    TEAM_ERRORS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=37"
+    TEAM_INEFFECTIVE_TACKLES = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000003"
+    TEAM_PENALTIES_CONCEDED = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000026"
+    TEAM_HANDLING_ERRORS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000079"
+    

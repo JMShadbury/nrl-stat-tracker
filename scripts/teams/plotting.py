@@ -81,24 +81,26 @@ def generate_comparison_plots(data, team1, team2, selected_statistic):
 
     return base64_strings
 
-def generate_all_plots(data, statistics):
+def generate_all_plots(data):
     # Number of teams
     num_teams = len(data.index)
 
-    # Create a figure with subplots - one for each statistic
-    num_statistics = len(statistics)
-    fig, axes = plt.subplots(num_statistics, 1, figsize=(10, num_statistics * 5))
+    # Create a figure with subplots - one for each numeric column
+    fig, axes = plt.subplots(len(data.columns), 1, figsize=(10, len(data.columns) * 5))
 
     # Generate a color map with unique colors for each team
     colors = plt.cm.hsv(np.linspace(0, 1, num_teams))
 
-    for i, stat in enumerate(statistics):
-        ax = axes[i] if num_statistics > 1 else axes
-        values = data[stat].values
+    for i, column in enumerate(data.columns):
+        ax = axes[i] if len(data.columns) > 1 else axes
+        print("i is: ", i)
+        print("column is: ", column)
+        values = data[column].values
         team_names = data.index
         indices = np.arange(num_teams)
 
-        values = [int(value.replace(',', '')) if isinstance(value, str) else int(value) for value in values]
+        # Convert values to integers, handling NaN values by replacing them with 0
+        values = [int(value.replace(',', '')) if isinstance(value, str) else int(value) if not np.isnan(value) else 0 for value in values]
 
         team_names, values = zip(*sorted(zip(team_names, values), key=lambda x: x[1], reverse=True))
 
@@ -110,7 +112,7 @@ def generate_all_plots(data, statistics):
 
         ax.set_xticks(indices)
         ax.set_xticklabels(team_names, rotation='vertical')
-        ax.set_title(stat)
+        ax.set_title(column)
 
     plt.tight_layout()
 

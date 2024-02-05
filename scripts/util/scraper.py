@@ -20,7 +20,7 @@ class WebScraper:
         logger.info(f"Setting URL: {self.url}")
         self.driver = webdriver.Firefox()
 
-    def load_page(self, xpath, delay=10):
+    def load_page(self, xpath, delay=1):
         '''
         Load the page and return the source
         :param xpath: The xpath to find

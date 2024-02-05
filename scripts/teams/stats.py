@@ -16,7 +16,7 @@ class Stats:
         :param url: The URL to scrape
         :param stat: The statistic to scrape
         '''
-        logger.info("Initialising Goals")
+        logger.info("Initialising {}".format(stat))
         logger.debug("URL: {}".format(url))
         self.url = url
         self.stat = stat
@@ -37,7 +37,6 @@ class Stats:
         :param team_name: The team name to process
         :return: The processed data
         '''
-        logger.info("Processing data")
         if soup:
             table_element = soup.find(
                 TeamDefaults.TEAMS_FIND_TAG.value, class_=TeamDefaults.TEAMS_FIND.value)

@@ -34,7 +34,7 @@ def index():
                     return "One or both teams not found.", 404
             elif action == 'all':
                 # Call generate_all_plots function when 'Compare All' is selected
-                images_data = generate_all_plots(team_data, available_statistics)
+                images_data = generate_all_plots(team_data)
 
         return render_template('index.html', teams=teams, images_data=images_data,
                             available_statistics=available_statistics,
@@ -65,28 +65,9 @@ available_statistics = list(data[0].keys())
 
 
 def get_available_statistics():
-    available_stats = [
-        "Support",
-        "Try Assists",
-        "Kick Return Metres",
-        "Tackle Breaks",
-        "Line Engaged",
-        "Kick Metres",
-        "Conversion Percentage",
-        "Completion",
-        "Kicks",
-        "Post Contact Metres",
-        "Offloads",
-        "Goals",
-        "Line Breaks",
-        "Tries",
-        "Points",
-        "Line Break Assists",
-        "Runs",
-        "Played",
-        "Run Metres"
-    ]
-    return available_stats
+    with open('data/Broncos.json', 'r') as json_file:
+        data = json.load(json_file)
+    return list(data[0].keys())
 
 
 @app.route('/stat/<statistic_name>')
