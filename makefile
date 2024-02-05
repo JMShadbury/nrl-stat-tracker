@@ -27,7 +27,7 @@ updateTeams: build
 
 getData: build
 	. .venv/bin/activate && \
-	python3.11 scripts/dynamodb_to_grafana.py
+	python3.11 scripts/get_data.py
 .PHONY: getData
 
 viewStats: build

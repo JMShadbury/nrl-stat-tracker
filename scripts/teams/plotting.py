@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import base64
 from io import BytesIO
 from util.logger import get_logger
@@ -79,4 +80,40 @@ def generate_comparison_plots(data, team1, team2, selected_statistics):
 
     return [base64_string]
 
+def generate_all_plots(data, statistics):
+    # Number of teams
+    num_teams = len(data.index)
+
+    # Create a figure with subplots - one for each statistic
+    num_statistics = len(statistics)
+    fig, axes = plt.subplots(num_statistics, 1, figsize=(10, num_statistics * 5))
+
+    # Generate a color map with unique colors for each team
+    colors = plt.cm.hsv(np.linspace(0, 1, num_teams))
+
+    for i, stat in enumerate(statistics):
+        ax = axes[i] if num_statistics > 1 else axes
+        values = data[stat].values
+        team_names = data.index
+        indices = np.arange(num_teams)
+
+        for j, value in enumerate(values):
+            # Plot each bar individually and specify the color
+            ax.bar(indices[j], value, color=colors[j], align='center', alpha=0.7)
+            # Annotate the value on top of each bar
+            ax.text(indices[j], value, str(value), ha='center', va='bottom')
+
+        ax.set_xticks(indices)
+        ax.set_xticklabels(team_names, rotation='vertical')
+        ax.set_title(stat)
+
+    plt.tight_layout()
+
+    buf = BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight')
+    plt.close(fig)
+    buf.seek(0)
+    base64_string = base64.b64encode(buf.read()).decode('utf-8')
+
+    return [base64_string]
 

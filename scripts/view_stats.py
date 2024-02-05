@@ -4,45 +4,63 @@ import base64
 from io import BytesIO
 from util.logger import configure_logger
 from teams.data_manager import team_data
-from teams.plotting import generate_comparison_plots
+from teams.plotting import generate_comparison_plots, generate_all_plots
 
 logger = configure_logger("flask.log")
 
 app = Flask(__name__)
 
-# Read the JSON data from the file or your data source
-with open('data/Broncos.json', 'r') as json_file:
-    data = json.load(json_file)
-
-# Extract the statistics (keys) from the JSON data
-available_statistics = list(data[0].keys())
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    teams = team_data.index.unique()  # Assuming team_data is a DataFrame with team names as index
+    available_statistics = get_available_statistics()  # Your function to get available statistics
     images_data = []
-    teams = team_data.index.unique()  # Get the list of teams
+    selected_team1 = ''
+    selected_team2 = ''
+
     if request.method == 'POST':
-        team1 = request.form.get('team1')
-        team2 = request.form.get('team2')
-        selected_statistic = request.form.get('statistic')  # Get the selected statistic
-        print(selected_statistic)
+        action = request.form.get('action')
+        selected_team1 = request.form.get('team1', '')
+        selected_team2 = request.form.get('team2', '')
 
-        if team1 in teams and team2 in teams:
-            images_data = generate_comparison_plots(team_data, team1, team2, [selected_statistic])  # Pass the selected statistic as a list
-        else:
-            return ("One or both teams not found.", 404)
+        if action == 'compare':
+            selected_statistic = request.form.get('statistic')
 
-    # Get available statistics dynamically
-    available_statistics = get_available_statistics()
+            if selected_team1 in teams and selected_team2 in teams:
+                images_data = generate_comparison_plots(team_data, selected_team1, selected_team2, [selected_statistic])
+            else:
+                return "One or both teams not found.", 404
+        elif action == 'all':
+            # Call generate_all_plots function when 'Compare All' is selected
+            images_data = generate_all_plots(team_data, available_statistics)
 
-    return render_template('index.html', teams=teams, images_data=images_data, available_statistics=available_statistics)  # Pass available_statistics to the template
+    return render_template('index.html', teams=teams, images_data=images_data,
+                           available_statistics=available_statistics,
+                           selected_team1=selected_team1,
+                           selected_team2=selected_team2)
 
 
 
+def get_unique_color_for_stat(stat, available_statistics):
+    colors = [
+        'red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'black', 
+        'purple', 'pink', 'lime', 'orange', 'teal', 'coral', 'navy', 
+        'maroon', 'olive', 'mint', 'apricot', 'beige', 'lavender'
+    ]
+    assert len(colors) >= len(available_statistics), "Not enough colors for the number of statistics"
+    
+    index = available_statistics.index(stat)
+    
+    return colors[index]
+
+with open('data/Broncos.json', 'r') as json_file:
+    data = json.load(json_file)
+
+available_statistics = list(data[0].keys())
 
 
 def get_available_statistics():
-    # Define a list of available statistics
     available_stats = [
         "Support",
         "Try Assists",
@@ -70,7 +88,6 @@ def get_available_statistics():
 @app.route('/stat/<statistic_name>')
 def display_statistic(statistic_name):
     if statistic_name in team_data.columns:
-        # Get data for the selected statistic
         data = team_data[statistic_name]
         return render_template('statistic.html', data=data, statistic_name=statistic_name)
     else:
@@ -81,13 +98,30 @@ def display_statistic(statistic_name):
 def plot():
     team1 = request.form.get('team1')
     team2 = request.form.get('team2')
-    selected_statistic = [request.form.get('statistic')]  # Pass the selected statistic as a list
+    selected_statistic = [request.form.get('statistic')]
     if team1 in team_data.index and team2 in team_data.index:
-        # Use the generate_comparison_plots function from plotting.py
         images_data = generate_comparison_plots(team_data, team1, team2, selected_statistic)
         return jsonify({'image_data': images_data})
     else:
         return jsonify({'error': 'One or both teams not found'}), 404
+    
+    
+@app.route('/ladder', methods=['GET'])
+def view_ladder():
+    dynamodb_client = get_dynamodb_client()
+    if not dynamodb_client:
+        logger.error("Failed to initialize DynamoDB client")
+        return "Error connecting to DynamoDB", 500
+
+    # Assuming 'YourDynamoDBTableName' contains the ladder data
+    raw_data = retrieve_data_from_dynamodb(dynamodb_client, 'YourDynamoDBTableName')
+    if raw_data:
+        ladder_data = transform_data_for_grafana(raw_data)
+    else:
+        return "No data found", 404
+
+    # Render the ladder view using a template
+    return render_template('ladder.html', ladder_data=ladder_data)
 
 
 
