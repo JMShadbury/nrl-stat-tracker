@@ -13,32 +13,36 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    teams = team_data.index.unique()  # Assuming team_data is a DataFrame with team names as index
-    available_statistics = get_available_statistics()  # Your function to get available statistics
-    images_data = []
-    selected_team1 = ''
-    selected_team2 = ''
+    try:
+        teams = team_data.index.unique()  # Assuming team_data is a DataFrame with team names as index
+        available_statistics = get_available_statistics()  # Your function to get available statistics
+        images_data = []
+        selected_team1 = ''
+        selected_team2 = ''
 
-    if request.method == 'POST':
-        action = request.form.get('action')
-        selected_team1 = request.form.get('team1', '')
-        selected_team2 = request.form.get('team2', '')
+        if request.method == 'POST':
+            action = request.form.get('action')
+            selected_team1 = request.form.get('team1', '')
+            selected_team2 = request.form.get('team2', '')
 
-        if action == 'compare':
-            selected_statistic = request.form.get('statistic')
+            if action == 'compare':
+                selected_statistic = request.form.get('statistic')
 
-            if selected_team1 in teams and selected_team2 in teams:
-                images_data = generate_comparison_plots(team_data, selected_team1, selected_team2, [selected_statistic])
-            else:
-                return "One or both teams not found.", 404
-        elif action == 'all':
-            # Call generate_all_plots function when 'Compare All' is selected
-            images_data = generate_all_plots(team_data, available_statistics)
+                if selected_team1 in teams and selected_team2 in teams:
+                    images_data = generate_comparison_plots(team_data, selected_team1, selected_team2, [selected_statistic])
+                else:
+                    return "One or both teams not found.", 404
+            elif action == 'all':
+                # Call generate_all_plots function when 'Compare All' is selected
+                images_data = generate_all_plots(team_data, available_statistics)
 
-    return render_template('index.html', teams=teams, images_data=images_data,
-                           available_statistics=available_statistics,
-                           selected_team1=selected_team1,
-                           selected_team2=selected_team2)
+        return render_template('index.html', teams=teams, images_data=images_data,
+                            available_statistics=available_statistics,
+                            selected_team1=selected_team1,
+                            selected_team2=selected_team2)
+    except Exception as e:
+        logger.error(f"Error processing request: {e}", exc_info=True)
+        return "An error occurred", 500
 
 
 
