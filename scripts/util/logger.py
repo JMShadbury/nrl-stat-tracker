@@ -1,8 +1,6 @@
 import logging
 import os
 
-# Custom formatter class to handle color formatting
-
 
 class ColoredFormatter(logging.Formatter):
     '''
@@ -15,7 +13,7 @@ class ColoredFormatter(logging.Formatter):
         None
     '''
     COLORS = {
-        "INFO": "32",      # Green
+        "INFO": "37",      # White
         "WARNING": "33",   # Yellow
         "ERROR": "31",     # Red
     }
@@ -34,7 +32,6 @@ class ColoredFormatter(logging.Formatter):
         color_code = self.COLORS.get(levelname, "0")
         log_message = super().format(record)
         return f"\x1b[{color_code}m{log_message}\x1b[0m"
-
 
 class FileHandler(logging.Handler):
     '''
@@ -56,7 +53,6 @@ class FileHandler(logging.Handler):
         with open(self.filename, "a") as file:
             file.write(log_message + "\n")
 
-
 class ConsoleHandler(logging.Handler):
     '''
     Custom logging handler that forwards WARNING and ERROR messages to the console
@@ -72,7 +68,6 @@ class ConsoleHandler(logging.Handler):
         log_message = self.format(record)
         if record.levelname in ("INFO", "WARNING", "ERROR"):
             print(log_message)
-
 
 def configure_logger(log_filename):
     '''
@@ -116,7 +111,6 @@ def configure_logger(log_filename):
     logger.addHandler(console_handler)
 
     return logger
-
 
 def get_logger():
     '''

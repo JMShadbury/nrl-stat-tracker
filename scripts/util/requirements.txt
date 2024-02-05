@@ -4,3 +4,7 @@ boto3
 requests
 bs4
 selenium
+matplotlib
+seaborn
+flask
+numpy

@@ -12,7 +12,7 @@ deploy: build
 	cd dynamodb; cdk deploy
 .PHONY: deploy
 
-deployAll: build deploy updateLadder updateTeams
+deployAll: build deploy updateLadder updateTeams getData viewStats
 .PHONY: deployAll
 
 updateLadder: build
@@ -24,6 +24,15 @@ updateTeams: build
 	. .venv/bin/activate && \
 	python3.11 scripts/update_teams.py
 .PHONY: updateTeams
+
+getData: build
+	. .venv/bin/activate && \
+	python3.11 scripts/get_data.py
+.PHONY: getData
+
+viewStats: build
+	. .venv/bin/activate && \
+	python3.11 scripts/view_stats.py
 
 destroy:
 	. .venv/bin/activate && \
