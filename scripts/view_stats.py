@@ -100,7 +100,7 @@ def plot():
     team2 = request.form.get('team2')
     selected_statistic = [request.form.get('statistic')]
     if team1 in team_data.index and team2 in team_data.index:
-        images_data = generate_comparison_plots(team_data, team1, team2, selected_statistic)
+        images_data = generate_comparison_plots(team_data, team1, team2, [selected_statistic])
         return jsonify({'image_data': images_data})
     else:
         return jsonify({'error': 'One or both teams not found'}), 404
@@ -108,22 +108,17 @@ def plot():
     
 @app.route('/ladder', methods=['GET'])
 def view_ladder():
-    dynamodb_client = get_dynamodb_client()
-    if not dynamodb_client:
-        logger.error("Failed to initialize DynamoDB client")
-        return "Error connecting to DynamoDB", 500
-
-    # Assuming 'YourDynamoDBTableName' contains the ladder data
-    raw_data = retrieve_data_from_dynamodb(dynamodb_client, 'YourDynamoDBTableName')
-    if raw_data:
-        ladder_data = transform_data_for_grafana(raw_data)
-    else:
-        return "No data found", 404
-
-    # Render the ladder view using a template
-    return render_template('ladder.html', ladder_data=ladder_data)
-
-
+    try:
+        # Read ladder data from the JSON file
+        with open('ladder/ladder_data.json', 'r') as file:
+            ladder_data = json.load(file)
+        return render_template('ladder.html', ladder_data=ladder_data)
+    except FileNotFoundError:
+        logger.error("Ladder data file not found.")
+        return "Ladder data not found", 404
+    except json.JSONDecodeError:
+        logger.error("Error decoding ladder data file.")
+        return "Error processing ladder data", 500
 
 if __name__ == '__main__':
     app.run(debug=True)
