@@ -12,7 +12,7 @@ deploy: build
 	cd dynamodb; cdk deploy
 .PHONY: deploy
 
-deployAll: build deploy updateLadder updateTeams
+deployAll: build deploy updateLadder updateTeams getData viewStats
 .PHONY: deployAll
 
 updateLadder: build

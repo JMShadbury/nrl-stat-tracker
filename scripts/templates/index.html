@@ -1,39 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Team Statistics</title>
+    <title>NRL Statistics</title>
 </head>
 <body>
-    <h1>Compare Team Statistics</h1>
+    <h1>NRL Statistics Comparison</h1>
     <form method="POST">
-        <div>
-            <label for="team1">Select First Team:</label>
-            <select name="team1" id="team1">
-                {% for team in teams %}
+        <label for="team1">Select Team 1:</label>
+        <select name="team1">
+            {% for team in teams %}
                 <option value="{{ team }}">{{ team }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div>
-            <label for="team2">Select Second Team:</label>
-            <select name="team2" id="team2">
-                {% for team in teams %}
+            {% endfor %}
+        </select>
+        <br>
+        <label for="team2">Select Team 2:</label>
+        <select name="team2">
+            {% for team in teams %}
                 <option value="{{ team }}">{{ team }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <input type="submit" value="Compare Statistics">
+            {% endfor %}
+        </select>
+        <br>
+        <label for="statistic">Select Statistic:</label>
+        <select name="statistic">
+            {% for stat in available_statistics %}
+                <option value="{{ stat }}">{{ stat }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Generate Plot</button>
     </form>
-
-    <!-- Display Images Here -->
+    
+    <!-- Display the generated images here -->
     {% if images_data %}
-    <div>
-        <h2>Comparison Images:</h2>
+        <h2>Generated Images:</h2>
         {% for image_data in images_data %}
-        <img src="data:image/png;base64,{{ image_data }}" alt="Comparison Image">
+            <img src="data:image/png;base64, {{ image_data }}" alt="Comparison Plot">
         {% endfor %}
-    </div>
     {% endif %}
 </body>
 </html>
