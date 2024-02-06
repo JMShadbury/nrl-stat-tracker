@@ -93,8 +93,6 @@ def generate_all_plots(data):
 
     for i, column in enumerate(data.columns):
         ax = axes[i] if len(data.columns) > 1 else axes
-        print("i is: ", i)
-        print("column is: ", column)
         values = data[column].values
         team_names = data.index
         indices = np.arange(num_teams)

@@ -48,5 +48,5 @@ class DynamoDBClient:
                 team_names = [team['name'] for team in teams]
                 logger.debug(f"Team names: {team_names}")
         except Exception as e:
-            print(f"Error fetching team names: {e}")
+            logger.error(f"Error fetching team names: {e}")
         return team_names

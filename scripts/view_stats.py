@@ -5,6 +5,7 @@ from io import BytesIO
 from util.logger import configure_logger
 from teams.data_manager import team_data
 from teams.plotting import generate_comparison_plots, generate_all_plots
+import threading, webbrowser
 
 logger = configure_logger("flask.log")
 
@@ -106,4 +107,10 @@ def view_ladder():
         return "Error processing ladder data", 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
+    port = 8000
+    url = "http://127.0.0.1:{0}".format(port)
+
+    threading.Timer(1.25, lambda: webbrowser.open(url) ).start()
+
+    app.run(port=port, debug=False)
