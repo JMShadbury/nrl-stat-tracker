@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from bs4 import BeautifulSoup
 from util.logger import get_logger
-from pyvirtualdisplay import Display
 
 logger = get_logger()
 
@@ -29,8 +28,6 @@ class WebScraper:
         :return: The source of the page
         '''
         logger.info(f"Loading page with xpath: {xpath}")
-        display = Display(visible=0, size=(800, 600))
-        display.start()
         self.driver.get(self.url)
         logger.debug(f"URL: {self.url}")
         try:
@@ -39,7 +36,6 @@ class WebScraper:
             source = BeautifulSoup(self.driver.page_source, 'html.parser')
             logger.info("Page data found, closing driver")
             self.close()
-            display.close()
             return source
         except TimeoutException:
             logger.error("Couldn't load page")
