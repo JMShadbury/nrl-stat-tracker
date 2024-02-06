@@ -1,63 +1,28 @@
-from flask import Flask, render_template, request, Response, jsonify
+from flask import Flask, render_template, request, jsonify
 import json
-import base64
-from io import BytesIO
+from teams.data_manager import load_data
+import re
 from util.logger import configure_logger
-from teams.data_manager import team_data
-from teams.plotting import generate_comparison_plots, generate_all_plots
-import threading, webbrowser
+
 
 logger = configure_logger("flask.log")
 
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    try:
-        teams = team_data.index.unique()  # Assuming team_data is a DataFrame with team names as index
-        available_statistics = get_available_statistics()  # Your function to get available statistics
-        images_data = []
-        selected_team1 = ''
-        selected_team2 = ''
-
-        if request.method == 'POST':
-            action = request.form.get('action')
-            selected_team1 = request.form.get('team1', '')
-            selected_team2 = request.form.get('team2', '')
-
-            if action == 'compare':
-                selected_statistic = request.form.get('statistic')
-
-                if selected_team1 in teams and selected_team2 in teams:
-                    images_data = generate_comparison_plots(team_data, selected_team1, selected_team2, [selected_statistic])
-                else:
-                    return "One or both teams not found.", 404
-            elif action == 'all':
-                # Call generate_all_plots function when 'Compare All' is selected
-                images_data = generate_all_plots(team_data)
-
-        return render_template('index.html', teams=teams, images_data=images_data,
-                            available_statistics=available_statistics,
-                            selected_team1=selected_team1,
-                            selected_team2=selected_team2)
-    except Exception as e:
-        logger.error(f"Error processing request: {e}", exc_info=True)
-        return "An error occurred", 500
-
-
-
 def get_unique_color_for_stat(stat, available_statistics):
     colors = [
-        'red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'black', 
-        'purple', 'pink', 'lime', 'orange', 'teal', 'coral', 'navy', 
+        'red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'black',
+        'purple', 'pink', 'lime', 'orange', 'teal', 'coral', 'navy',
         'maroon', 'olive', 'mint', 'apricot', 'beige', 'lavender'
     ]
-    assert len(colors) >= len(available_statistics), "Not enough colors for the number of statistics"
-    
+    assert len(colors) >= len(
+        available_statistics), "Not enough colors for the number of statistics"
+
     index = available_statistics.index(stat)
-    
+
     return colors[index]
+
 
 with open('data/Broncos.json', 'r') as json_file:
     data = json.load(json_file)
@@ -80,18 +45,6 @@ def display_statistic(statistic_name):
         return "Statistic not found", 404
 
 
-@app.route('/plot', methods=['POST'])
-def plot():
-    team1 = request.form.get('team1')
-    team2 = request.form.get('team2')
-    selected_statistic = [request.form.get('statistic')]
-    if team1 in team_data.index and team2 in team_data.index:
-        images_data = generate_comparison_plots(team_data, team1, team2, [selected_statistic])
-        return jsonify({'image_data': images_data})
-    else:
-        return jsonify({'error': 'One or both teams not found'}), 404
-    
-    
 @app.route('/ladder', methods=['GET'])
 def view_ladder():
     try:
@@ -106,8 +59,67 @@ def view_ladder():
         logger.error("Error decoding ladder data file.")
         return "Error processing ladder data", 500
 
+
+def convert_to_number(value):
+    if isinstance(value, int):
+        # If the value is already an integer, return it as-is
+        return value
+    elif isinstance(value, str):
+        # If the value is a string, remove commas and convert to integer
+        return int(re.sub(r"[^0-9]", "", value))
+    else:
+        # If the value is neither an int nor a string, return a default value (e.g., 0) or handle it as needed
+        return 0
+
+
+team_data = load_data()
+
+
+def process_data_for_display(df):
+    processed_data = []
+    for team in df.index.unique():
+        team_stats = df.loc[team].to_dict()
+        max_value = max(convert_to_number(value)
+                        for key, value in team_stats.items())
+        team_data = [{'statistic': key, 'value': convert_to_number(
+            value), 'max_value': max_value} for key, value in team_stats.items()]
+        processed_data.append({'team': team, 'statistics': team_data})
+    return processed_data
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    logger.info("Index route called")
+    try:
+        teams = sorted(team_data.index.unique())
+        selected_team1 = ''
+        selected_team2 = ''
+        comparison_data = None
+
+        if request.method == 'POST':
+            selected_team1 = request.form.get('team1', '')
+            selected_team2 = request.form.get('team2', '')
+
+            if selected_team1 in teams and selected_team2 in teams:
+                # Extract data for the selected teams
+                team1_data = team_data.loc[selected_team1].to_dict()
+                team2_data = team_data.loc[selected_team2].to_dict()
+                comparison_data = {'team1': {'name': selected_team1, 'data': team1_data},
+                                   'team2': {'name': selected_team2, 'data': team2_data}}
+            else:
+                return "One or both teams not found.", 404
+        else:
+            selected_team1 = ''
+            selected_team2 = ''
+        logger.info(f"Selected teams: {selected_team1}, {selected_team2}")
+        logger.info(f"Comparison data: {comparison_data}")
+
+        return render_template('index.html', teams=teams, selected_team1=selected_team1, selected_team2=selected_team2, comparison_data=comparison_data)
+    except Exception as e:
+        logger.error(f"Error processing request: {e}", exc_info=True)
+        return "An error occurred", 500
+
+
 if __name__ == '__main__':
     port = 8000
-    url = "http://127.0.0.1:{0}".format(port)
-    threading.Timer(1.25, lambda: webbrowser.open(url) ).start()
     app.run(port=port, debug=False)
