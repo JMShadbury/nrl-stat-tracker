@@ -6,6 +6,8 @@
     <style>
         body {
             padding-top: 20px;
+            background-color: #0d1117; /* Background color */
+            color: #c9d1d9; /* Text color */
         }
         .table-container {
             overflow-x: auto;
@@ -13,7 +15,9 @@
         table {
             width: 100%;
             margin-bottom: 1rem;
-            color: #212529;
+        }
+        .table {
+            color:white;
         }
         th {
             vertical-align: bottom;
@@ -42,66 +46,60 @@
             color: red;
         }
         .header-row {
-            background-color: #343a40;
+            background-color: #343a40; /* Header background color */
             color: white;
         }
     </style>
-    <head>
-        <title>NRL Ladder</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <!-- Add DataTables CSS -->
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    </head>
-    <body>
-        <div class="container">
-            <h1 class="text-center">Sports Ladder</h1>
-            <div class="table-container">
-                <table id="ladderTable" class="table table-striped table-hover">
-                    <thead class="header-row">
-                        <tr>
-                            <th class="sortable">Position</th>
-                            <th class="sortable">Team Name</th>
-                            <th class="sortable">Points</th>
-                            <th class="sortable">Wins</th>
-                            <th class="sortable">Losses</th>
-                            <th class="sortable">Played</th>
-                            <th class="sortable">For</th>
-                            <th class="sortable">Against</th>
-                            <th class="sortable">Diff</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for team in ladder_data %}
-                        <tr>
-                            <td class="position-highlight">{{ team.Pos }}</td>
-                            <td>{{ team.TeamName }}</td>
-                            <td>{{ team.Points }}</td>
-                            <td class="win">{{ team.Wins }}</td>
-                            <td class="loss">{{ team.Lost }}</td>
-                            <td>{{ team.Played }}</td>
-                            <td>{{ team.For }}</td>
-                            <td>{{ team.Against }}</td>
-                            <td>{{ team.Diff }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Sports Ladder</h1>
+        <div class="table-container">
+            <table id="ladderTable" class="table table-striped table-hover">
+                <thead class="header-row">
+                    <tr>
+                        <th class="sortable">Position</th>
+                        <th class="sortable">Team Name</th>
+                        <th class="sortable">Points</th>
+                        <th class="sortable">Wins</th>
+                        <th class="sortable">Losses</th>
+                        <th class="sortable">Played</th>
+                        <th class="sortable">For</th>
+                        <th class="sortable">Against</th>
+                        <th class="sortable">Diff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for team in ladder_data %}
+                    <tr>
+                        <td class="position-highlight">{{ team.Pos }}</td>
+                        <td>{{ team.TeamName }}</td>
+                        <td>{{ team.Points }}</td>
+                        <td class="win">{{ team.Wins }}</td>
+                        <td class="loss">{{ team.Lost }}</td>
+                        <td>{{ team.Played }}</td>
+                        <td>{{ team.For }}</td>
+                        <td>{{ team.Against }}</td>
+                        <td>{{ team.Diff }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('#ladderTable').DataTable({
-                    "paging": false, // Disable paging (limit option)
-                    "searching": false // Disable search
-                });
-            });
-        </script>
-        
-<!-- Back to Original Page Button -->
-<a href="/" class="btn btn-primary">Back to Original Page</a>
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#ladderTable').DataTable({
+                "paging": false, // Disable paging (limit option)
+                "searching": false // Disable search
+            });
+        });
+    </script>
+
+    <!-- Back to Original Page Button -->
+    <a href="/" class="btn btn-primary">Back to Original Page</a>
 </body>
 </html>
