@@ -48,7 +48,7 @@ try:
     }
 
     logger.info("Updating teams data")
-    with open("data/teams", "r") as f:
+    with open("scripts/data/teams", "r") as f:
         team_names = f.read().splitlines()
 
     logger.debug(f"Teams: {team_names}")

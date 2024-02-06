@@ -8,84 +8,7 @@ from util.logger import configure_logger
 logger = configure_logger("flask.log")
 
 app = Flask(__name__)
-
-
-def get_unique_color_for_stat(stat, available_statistics):
-    colors = [
-        'red', 'green', 'blue', 'cyan', 'magenta', 'yellow', 'black',
-        'purple', 'pink', 'lime', 'orange', 'teal', 'coral', 'navy',
-        'maroon', 'olive', 'mint', 'apricot', 'beige', 'lavender'
-    ]
-    assert len(colors) >= len(
-        available_statistics), "Not enough colors for the number of statistics"
-
-    index = available_statistics.index(stat)
-
-    return colors[index]
-
-
-with open('data/Broncos.json', 'r') as json_file:
-    data = json.load(json_file)
-
-available_statistics = list(data[0].keys())
-
-
-def get_available_statistics():
-    with open('data/Broncos.json', 'r') as json_file:
-        data = json.load(json_file)
-    return list(data[0].keys())
-
-
-@app.route('/stat/<statistic_name>')
-def display_statistic(statistic_name):
-    if statistic_name in team_data.columns:
-        data = team_data[statistic_name]
-        return render_template('statistic.html', data=data, statistic_name=statistic_name)
-    else:
-        return "Statistic not found", 404
-
-
-@app.route('/ladder', methods=['GET'])
-def view_ladder():
-    try:
-        # Read ladder data from the JSON file
-        with open('ladder/ladder_data.json', 'r') as file:
-            ladder_data = json.load(file)
-        return render_template('ladder.html', ladder_data=ladder_data)
-    except FileNotFoundError:
-        logger.error("Ladder data file not found.")
-        return "Ladder data not found", 404
-    except json.JSONDecodeError:
-        logger.error("Error decoding ladder data file.")
-        return "Error processing ladder data", 500
-
-
-def convert_to_number(value):
-    if isinstance(value, int):
-        # If the value is already an integer, return it as-is
-        return value
-    elif isinstance(value, str):
-        # If the value is a string, remove commas and convert to integer
-        return int(re.sub(r"[^0-9]", "", value))
-    else:
-        # If the value is neither an int nor a string, return a default value (e.g., 0) or handle it as needed
-        return 0
-
-
 team_data = load_data()
-
-
-def process_data_for_display(df):
-    processed_data = []
-    for team in df.index.unique():
-        team_stats = df.loc[team].to_dict()
-        max_value = max(convert_to_number(value)
-                        for key, value in team_stats.items())
-        team_data = [{'statistic': key, 'value': convert_to_number(
-            value), 'max_value': max_value} for key, value in team_stats.items()]
-        processed_data.append({'team': team, 'statistics': team_data})
-    return processed_data
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -118,8 +41,42 @@ def index():
     except Exception as e:
         logger.error(f"Error processing request: {e}", exc_info=True)
         return "An error occurred", 500
+    
+
+@app.route('/ladder', methods=['GET'])
+def view_ladder():
+    try:
+        # Read ladder data from the JSON file
+        with open('ladder/ladder_data.json', 'r') as file:
+            ladder_data = json.load(file)
+        return render_template('ladder.html', ladder_data=ladder_data)
+    except FileNotFoundError:
+        logger.error("Ladder data file not found.")
+        return "Ladder data not found", 404
+    except json.JSONDecodeError:
+        logger.error("Error decoding ladder data file.")
+        return "Error processing ladder data", 500
 
 
+def convert_to_number(value):
+    if isinstance(value, int):
+        return value
+    elif isinstance(value, str):
+        return int(re.sub(r"[^0-9]", "", value))
+    else:
+        return 0
+    
+
+def process_data_for_display(df):
+    processed_data = []
+    for team in df.index.unique():
+        team_stats = df.loc[team].to_dict()
+        max_value = max(convert_to_number(value)
+                        for key, value in team_stats.items())
+        team_data = [{'statistic': key, 'value': convert_to_number(
+            value), 'max_value': max_value} for key, value in team_stats.items()]
+        processed_data.append({'team': team, 'statistics': team_data})
+    return processed_data
+    
 if __name__ == '__main__':
-    port = 8000
-    app.run(port=port, debug=False)
+    app.run(port=8000, debug=True)

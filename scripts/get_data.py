@@ -50,14 +50,14 @@ def process_team_data(client, team_names):
         raw_data = fetch_data_from_dynamodb(client, team_name)
         if raw_data:
             transformed_data = transform_data_for_display(raw_data)
-            save_json(transformed_data, 'data', f'{team_name}.json')
+            save_json(transformed_data, 'scripts/data', f'{team_name}.json')
 
 def main():
     dynamodb_client = get_dynamodb_client()
     if not dynamodb_client:
         return
 
-    with open("data/teams", "r") as f:
+    with open("scripts/data/teams", "r") as f:
         team_names = [team.split(":")[0] for team in f.read().splitlines()]
     
     process_team_data(dynamodb_client, team_names)

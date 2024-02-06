@@ -7,7 +7,7 @@ logger = get_logger()
 
 def load_data():
     logger.info("Loading data")
-    data_dir = 'data'
+    data_dir = 'scripts/data'
     json_files = glob.glob(os.path.join(data_dir, '*.json'))
     logger.info(f"JSON files: {json_files}")
 
