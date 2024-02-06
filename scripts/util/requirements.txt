@@ -8,4 +8,3 @@ matplotlib
 seaborn
 flask
 numpy
-pyvirtualenv
