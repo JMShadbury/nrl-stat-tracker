@@ -34,39 +34,52 @@
 <body>
     <div class="container">
         <h1 class="text-center">NRL Statistics Comparison</h1>
-        <form method="POST">
-            <!-- existing form elements for team selection -->
-            <div class="form-group">
-                <label for="team1">Select Team 1:</label>
-                <select name="team1" class="form-control">
-                    {% for team in teams %}
-                        <option value="{{ team }}" {% if team == selected_team1 %}selected{% endif %}>{{ team }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="team2">Select Team 2:</label>
-                <select name="team2" class="form-control">
-                    {% for team in teams %}
-                        <option value="{{ team }}" {% if team == selected_team2 %}selected{% endif %}>{{ team }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="statistic">Select Statistic:</label>
-                <select name="statistic" class="form-control">
-                    {% for stat in available_statistics %}
-                        <option value="{{ stat }}">{{ stat }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <button type="submit" name="action" value="compare" class="btn btn-primary btn-block">Generate Plot</button>
-            <button type="submit" name="action" value="all" class="btn btn-secondary btn-block">Compare All</button>
-        </form>
+        <form method="post" action="/">
+            <label for="team1">Select Team 1:</label>
+            <select name="team1" class="form-control">
+                <option value="" selected>Select Team 1</option>
+                {% for team in teams %}
+                    <option value="{{ team }}" {% if team == selected_team1 %}selected="selected"{% endif %}>{{ team }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="team2">Select Team 2:</label>
+            <select name="team2" class="form-control">
+                <option value="" selected>Select Team 2</option>
+                {% for team in teams %}
+                    <option value="{{ team }}" {% if team == selected_team2 %}selected="selected"{% endif %}>{{ team }}</option>
+                {% endfor %}
+            </select>
+            
+            <input type="submit" value="Compare" class="btn btn-primary">
+        </form>        
         <form action="/ladder" method="get" style="margin-top: 20px;">
             <button type="submit" class="btn btn-info btn-block">View Ladder</button>
         </form>
-        
+            {% if comparison_data %}
+            <div>
+                <h2>Comparison Results</h2>
+                <h3>{{ comparison_data.team1.name }} vs {{ comparison_data.team2.name }}</h3>
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Statistic</th>
+                            <th>{{ comparison_data.team1.name }}</th>
+                            <th>{{ comparison_data.team2.name }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stat, value1 in comparison_data.team1.data.items() %}
+                        <tr>
+                            <td>{{ stat }}</td>
+                            <td>{{ value1 }}</td>
+                            <td>{{ comparison_data.team2.data[stat] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+            </div>
+        {% endif %}
         <!-- Display the generated images here -->
         {% if images_data %}
             <div class="image-container">
@@ -78,4 +91,31 @@
         {% endif %}
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const team1Select = document.querySelector('select[name="team1"]');
+        const team2Select = document.querySelector('select[name="team2"]');
+    
+        function handleTeamSelect(event) {
+            // Get the selected values
+            const selectedTeam1 = team1Select.value;
+            const selectedTeam2 = team2Select.value;
+    
+            // Enable all options
+            Array.from(team1Select.options).forEach(option => option.disabled = false);
+            Array.from(team2Select.options).forEach(option => option.disabled = false);
+    
+            // Disable the selected options in the opposite select
+            if (selectedTeam1) team2Select.querySelector(`option[value="${selectedTeam1}"]`).disabled = true;
+            if (selectedTeam2) team1Select.querySelector(`option[value="${selectedTeam2}"]`).disabled = true;
+        }
+    
+        // Add event listeners
+        team1Select.addEventListener('change', handleTeamSelect);
+        team2Select.addEventListener('change', handleTeamSelect);
+    
+        // Initial call to set the correct disabled state
+        handleTeamSelect();
+    });
+    </script>
 </html>
