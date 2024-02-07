@@ -17,6 +17,9 @@ updateTeams: build
 	python scripts/scrape/update_teams.py
 .PHONY: updateTeams
 
+updateRounds: build
+	python scripts/scrape/update_rounds.py
+
 getData: build
 	python scripts/scrape/get_data.py
 .PHONY: getData

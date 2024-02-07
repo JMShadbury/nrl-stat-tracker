@@ -3,7 +3,11 @@ from enum import Enum
 
 class Url(Enum):
     '''Enum class for URLs'''
+    
+    # Ladder
     LADDER = "https://www.nrl.com/ladder/"
+    
+    # Teams
     TEAM_TRIES = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=38"
     TEAM_POINTS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=76"
     TEAM_GOALS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000034"
@@ -38,3 +42,9 @@ class Url(Enum):
     TEAM_PENALTIES_CONCEDED = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000026"
     TEAM_HANDLING_ERRORS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000079"
     
+    # Draw
+    DRAW = "https://www.nrl.com/draw/?competition=111&round={round}&season=2024"
+    
+    @staticmethod
+    def get_draw_url(round_number):
+        return Url.DRAW.value.format(round=round_number)

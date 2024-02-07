@@ -19,6 +19,24 @@ class DynamoDBClient:
         logger.debug(f"DynamoDB resource: {self.dynamodb}")
         self.table = self.dynamodb.Table(table_name)
         logger.debug(f"DynamoDB table: {self.table}")
+        
+    def create_table(self, table_name, key_schema, attribute_definitions, provisioned_throughput):
+        super().__init__()
+        '''
+        Create a DynamoDB table
+        
+        :param table_name: The name of the table
+        :param key_schema: The key schema
+        :param attribute_definitions: The attribute definitions
+        :param provisioned_throughput: The provisioned throughput
+        '''
+        logger.info(f"Creating table: {table_name}")
+        self.dynamodb.create_table(
+            TableName=table_name,
+            KeySchema=key_schema,
+            AttributeDefinitions=attribute_definitions,
+            ProvisionedThroughput=provisioned_throughput
+        )
 
     def insert_item(self, item):
         '''
