@@ -14,6 +14,7 @@ file = open("../application_whitelist/whitelist.txt", "r")
 allowed_ips = file.readlines()
 file.close()
 
+
 class FlaskFargateStack(Stack):
 
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
@@ -49,7 +50,7 @@ class FlaskFargateStack(Stack):
             internet_facing=False,  # Set to False if you want the load balancer to be internal
             load_balancer_name="NRLApplicationLoadBalancer"
         )
-        
+
         for ip in allowed_ips:
             lb.connections.allow_from(
                 ec2.Peer.ipv4(ip.replace("\n", "")),
@@ -82,6 +83,7 @@ class FlaskFargateStack(Stack):
             port=80,
             targets=[fargate_service]
         )
+
 
 class DynamodbStack(Stack):
 
