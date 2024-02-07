@@ -2,8 +2,8 @@ name: Deploy App
 
 
 permissions:
- id-token: write # Required for GitHub to be able to create a token for you to authenticate with AWS
- contents: read  # Permits your action to read this repo.
+ id-token: write
+ contents: read 
 
 
 on:
@@ -16,6 +16,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
