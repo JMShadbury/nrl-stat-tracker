@@ -9,6 +9,10 @@ from aws_cdk import (
 )
 from constructs import Construct
 
+allowed_ips = [
+    "101.188.67.134/32"
+]
+
 class FlaskFargateStack(Stack):
 
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
@@ -47,11 +51,12 @@ class FlaskFargateStack(Stack):
             internet_facing=True,  # Set to False if you want the load balancer to be internal
             load_balancer_name="NRLApplicationLoadBalancer"
         )
-
-        lb.connections.allow_from(
-            ec2.Peer.ipv4("101.188.67.134/32"),
-            ec2.Port.tcp(80)
-        )
+        
+        for ip in allowed_ips:
+            lb.connections.allow_from(
+                ec2.Peer.ipv4(ip),
+                ec2.Port.tcp(80)
+            )
 
         listener = lb.add_listener(
             "Listener",
