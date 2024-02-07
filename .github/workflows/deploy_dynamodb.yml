@@ -1,0 +1,33 @@
+name: Deploy LambdaStack
+
+
+permissions:
+ id-token: write # Required for GitHub to be able to create a token for you to authenticate with AWS
+ contents: read  # Permits your action to read this repo.
+
+
+on:
+ push:
+   branches:
+     - main
+
+
+jobs:
+ deploy_lambda_stack:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout this repo
+       uses: actions/checkout@v3
+
+
+     - name: Configure AWS credentials
+       uses: aws-actions/configure-aws-credentials@v2
+       with:
+         role-to-assume: ${{ secrets.AWS_ROLE }}
+         aws-region: ${{ secrets.MY_AWS_REGION }}
+         role-session-name: "GitHubActions-Deploy-DynamoDbStack"
+
+
+      - name: Deploy DynamoDB cdk stack
+        run: |
+          make deployDynamodb

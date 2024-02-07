@@ -5,7 +5,7 @@ build:
 	pip install -r scripts/app/util/requirements.txt 
 .PHONY: build
 
-deploy: build
+deployDynamodb: build
 	cd dynamodb; cdk deploy
 .PHONY: deploy
 
