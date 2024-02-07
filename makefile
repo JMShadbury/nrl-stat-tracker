@@ -1,10 +1,10 @@
 # Targets
 
 build:
-	python3.11 -m venv .venv && \
+	python -m venv .venv && \
 	source .venv/bin/activate && \
-	pip3.11 install --upgrade pip && \
-	pip3.11 install -r scripts/util/requirements.txt 
+	pip install --upgrade pip && \
+	pip install -r scripts/app/requirements.txt 
 .PHONY: build
 
 deploy: build
