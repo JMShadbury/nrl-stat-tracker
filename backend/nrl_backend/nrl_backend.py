@@ -64,7 +64,7 @@ class FlaskFargateStack(cdk.Stack):
             self, "NRLRecord",
             zone=hosted_zone,
             record_name="nrl.tracker.shadbury.com",
-            values=[lb.load_balancer_dns_name]
+            domain_name=lb.load_balancer_dns_name
         )
 
         fargate_service_sg = cdk.aws_ec2.SecurityGroup(
