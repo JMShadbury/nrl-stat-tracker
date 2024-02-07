@@ -3,7 +3,9 @@ name: Deploy App
 on:
   push:
     branches:
-      - feature/auto_build
+      - main
+    paths:
+      - nrl_app/*
 
 permissions:
   id-token: write
