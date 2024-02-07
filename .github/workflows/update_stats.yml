@@ -2,7 +2,7 @@ name: Update Stats
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 * * * *'
 
 env:          
   ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
