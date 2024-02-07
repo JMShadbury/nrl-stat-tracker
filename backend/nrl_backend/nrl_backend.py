@@ -80,7 +80,7 @@ class FlaskFargateStack(cdk.Stack):
             cluster=cluster,
             task_definition=task_definition,
             security_groups=[fargate_service_sg],
-            assign_public_ip=True
+            assign_public_ip=False
         )
 
         target_group = listener.add_targets(
