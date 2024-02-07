@@ -1,33 +1,31 @@
 name: Deploy App
 
+on:
+  push:
+    branches:
+      - feature/auto_build
 
 permissions:
- id-token: write
- contents: read 
-
-
-on:
- push:
-   branches:
-     - feature/auto_build
-
-
+  id-token: write
+  contents: read 
+  
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
+    
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
 
 
-     - name: Configure AWS credentials
-       uses: aws-actions/configure-aws-credentials@v2
-       with:
-         role-to-assume: ${{ secrets.AWS_ROLE }}
-         aws-region: ${{ secrets.MY_AWS_REGION }}
-         role-session-name: "GitHubActions-Deploy-DynamoDbStack"
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: ${{ secrets.MY_AWS_REGION }}
+          role-session-name: "GitHubActions-Deploy-DynamoDbStack"
 
 
       - name: Deploy App cdk stack
