@@ -11,7 +11,7 @@ from constructs import Construct
 
 allowed_ips = [
     "101.182.204.85/32",
-    "211.30.208.200"
+    "211.30.208.200/32"
 ]
 
 class FlaskFargateStack(Stack):
