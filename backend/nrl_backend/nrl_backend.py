@@ -49,7 +49,7 @@ class FlaskFargateStack(Stack):
         lb = elbv2.ApplicationLoadBalancer(
             self, "NRL_LB",
             vpc=vpc,
-            internet_facing=True,  # Set to False if you want the load balancer to be internal
+            internet_facing=False,  # Set to False if you want the load balancer to be internal
             load_balancer_name="NRLApplicationLoadBalancer"
         )
         
