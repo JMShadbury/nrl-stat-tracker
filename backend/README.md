@@ -1,58 +1,56 @@
 
-# Welcome to your CDK Python project!
+# FlaskFargateStack and DynamodbStack README
 
-This is a blank project for CDK development with Python.
+## Overview
+This README provides documentation for the `FlaskFargateStack` and `DynamodbStack` classes. These classes are part of a Python application that uses the AWS Cloud Development Kit (AWS CDK) to define cloud infrastructure in code and provision it through AWS CloudFormation. The application is designed to deploy a Flask-based application on AWS Fargate with an Application Load Balancer and to create DynamoDB tables for team data management.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Requirements
+- AWS CDK
+- Python 3.x
+- An AWS account and AWS CLI configured with appropriate credentials.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+## FlaskFargateStack
 
-To manually create a virtualenv on MacOS and Linux:
+### Description
+The `FlaskFargateStack` class defines a stack for deploying a containerized Flask application using AWS Fargate. It includes the following resources:
+- A VPC with a maximum of two Availability Zones.
+- An ECS cluster.
+- An ECR repository for the container image.
+- A Fargate task definition with a single container.
+- An Application Load Balancer (ALB) with security settings that allow traffic from specific IP addresses.
+- Necessary IAM roles and security groups.
 
-```
-$ python3 -m venv .venv
-```
+### Features
+- **ECS Fargate Deployment**: Automatically deploys a Flask application in a serverless environment.
+- **Load Balancer**: Uses an Application Load Balancer to distribute incoming application traffic.
+- **Security**: Restricts access to the load balancer based on a list of allowed IP addresses.
+- **Logging**: Configures AWS Logs for the container, retaining logs for one week.
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+### How to Deploy
+1. Ensure your AWS credentials are set up.
+2. Run `cdk deploy` to deploy the stack defined in this class.
 
-```
-$ source .venv/bin/activate
-```
+## DynamodbStack
 
-If you are a Windows platform, you would activate the virtualenv like this:
+### Description
+The `DynamodbStack` class defines a stack for creating DynamoDB tables. It reads team data from a file and creates a DynamoDB table for each team, as well as a 'Ladder' table.
 
-```
-% .venv\Scripts\activate.bat
-```
+### Features
+- **Team Tables Creation**: Creates individual DynamoDB tables for each team listed in the `../data/teams` file.
+- **Ladder Table**: Creates a separate DynamoDB table named 'Ladder' for additional data management.
 
-Once the virtualenv is activated, you can install the required dependencies.
+### How to Deploy
+1. Ensure your AWS credentials are set up.
+2. Run `cdk deploy` to deploy the stack defined in this class.
 
-```
-$ pip install -r requirements.txt
-```
+## Security Considerations
+- Ensure that the list of allowed IPs for the ALB in `FlaskFargateStack` is managed and updated securely.
+- Review IAM roles and policies for least privilege access.
 
-At this point you can now synthesize the CloudFormation template for this code.
+## Additional Notes
+- Modify the application and team data as needed before deployment.
+- Monitor AWS resources for cost management.
 
-```
-$ cdk synth
-```
+---
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
-
-## Useful commands
-
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
-
-Enjoy!
+For further customization or troubleshooting, refer to the AWS CDK documentation and AWS best practices.

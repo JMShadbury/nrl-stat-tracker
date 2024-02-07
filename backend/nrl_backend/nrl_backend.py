@@ -55,7 +55,7 @@ class FlaskFargateStack(Stack):
         
         for ip in allowed_ips:
             lb.connections.allow_from(
-                ec2.Peer.ipv4(ip),
+                ec2.Peer.ipv4(ip.strip('"')),
                 ec2.Port.tcp(80)
             )
 
