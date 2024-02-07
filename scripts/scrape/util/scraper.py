@@ -3,6 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.firefox.options import Options
 from bs4 import BeautifulSoup
 from util.logger import get_logger
 
@@ -18,7 +19,10 @@ class WebScraper:
         logger.info("Initialising WebScraper")
         self.url = url
         logger.info(f"Setting URL: {self.url}")
-        self.driver = webdriver.Firefox()
+        options = Options()
+        options.headless = False
+        options.add_argument("-headless") 
+        self.driver = webdriver.Firefox(options=options)
 
     def load_page(self, xpath, delay=1):
         '''
