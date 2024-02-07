@@ -72,7 +72,8 @@ class FlaskFargateStack(cdk.Stack):
             vpc=vpc,
             allow_all_outbound=True
         )
-        lb.connections.allow_from(fargate_service_sg, cdk.aws_ec2.Port.tcp(80))
+        
+        #lb.connections.allow_from(fargate_service_sg, cdk.aws_ec2.Port.tcp(80))
 
         fargate_service = cdk.aws_ecs.FargateService(
             self, "NRL_SERVICE",
@@ -82,11 +83,11 @@ class FlaskFargateStack(cdk.Stack):
             assign_public_ip=True
         )
 
-        target_group = listener.add_targets(
-            "ECS",
-            port=80,
-            targets=[fargate_service]
-        )
+        # target_group = listener.add_targets(
+        #     "ECS",
+        #     port=80,
+        #     targets=[fargate_service]
+        # )
         
 
 
