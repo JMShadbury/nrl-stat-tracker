@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - nrl_app/*
+      - nrl_app/*/*
 
 permissions:
   id-token: write

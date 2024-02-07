@@ -11,7 +11,7 @@ on:
     branches:
       - main
     paths: 
-      - dynamodb/*
+      - dynamodb/*/*
 
 
 jobs:
