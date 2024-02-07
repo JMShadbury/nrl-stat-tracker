@@ -65,7 +65,7 @@ class FlaskFargateStack(cdk.Stack):
             zone=hosted_zone,
             record_name="nrl.tracker.shadbury.com",
             target=cdk.aws_route53.RecordTarget.from_alias(
-                cdk.aws_route53_targets.LoadBalancerTarget(lb.load_balancer_canonical_hosted_zone_name))
+                cdk.aws_route53_targets.LoadBalancerTarget(lb.load_balancer_canonical_hosted_zone_id))
         )
 
         fargate_service_sg = cdk.aws_ec2.SecurityGroup(
