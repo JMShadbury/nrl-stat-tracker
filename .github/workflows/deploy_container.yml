@@ -34,10 +34,10 @@ jobs:
         role-to-assume: ${{ secrets.AWS_ROLE }}
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
         aws-region: ${{ secrets.MY_AWS_REGION }}
-
+    
     - name: Get Latest Data
-        run: |
-          make getData
+      run: |
+        make getData
 
     - name: Login to Amazon ECR
       id: login-ecr
