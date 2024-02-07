@@ -30,4 +30,5 @@ jobs:
 
       - name: Deploy DynamoDB cdk stack
         run: |
+          npm install -g aws-cdk
           make deployDynamodb
