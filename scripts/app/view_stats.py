@@ -62,6 +62,9 @@ def view_ladder():
         logger.error("Error decoding ladder data file.")
         return "Error processing ladder data", 500
     except Exception as e:
+        logger.error(f"Unexpected error: {e}", exc_info=True)
+        return "An unexpected error occurred", 500
+
         
         
 if __name__ == '__main__':
