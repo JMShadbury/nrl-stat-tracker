@@ -98,6 +98,7 @@ class FlaskFargateStack(Stack):
             port=80,
             targets=[fargate_service]
         )
+        
 
 
 class DynamodbStack(Stack):
