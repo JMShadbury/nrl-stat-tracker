@@ -60,13 +60,13 @@ class FlaskFargateStack(cdk.Stack):
         )
 
         
-        dns_record = cdk.aws_route53.ARecord(
-            self, "NRLRecord",
-            zone=hosted_zone,
-            record_name="nrl.tracker.shadbury.com",
-            target=cdk.aws_route53.RecordTarget.from_alias(
-                cdk.aws_route53_targets.LoadBalancerTarget(lb.load_balancer_canonical_hosted_zone_id))
-        )
+        # dns_record = cdk.aws_route53.ARecord(
+        #     self, "NRLRecord",
+        #     zone=hosted_zone,
+        #     record_name="nrl.tracker.shadbury.com",
+        #     target=cdk.aws_route53.RecordTarget.from_alias(
+        #         cdk.aws_route53_targets.LoadBalancerTarget(lb.load_balancer_canonical_hosted_zone_id))
+        # )
 
         fargate_service_sg = cdk.aws_ec2.SecurityGroup(
             self, "NRLServiceSG",
