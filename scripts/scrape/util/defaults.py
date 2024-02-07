@@ -23,7 +23,6 @@ class Url(Enum):
     TEAM_TOTAL_KICK_METRES = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=32"
     TEAM_TRY_ASSISTS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=35"
     TEAM_CONVERSION_PERCENT = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000209"
-    
     TEAM_ALL_RECEIPTS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000028"
     TEAM_FIELD_GOALS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=69"
     TEAM_DECOY_RUNS = "https://www.nrl.com/stats/teams/?competition=111&season=2023&stat=1000002"

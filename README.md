@@ -1,71 +1,48 @@
+
 # NRL Stat Tracker
 
-## Introduction
+## Description
+NRL Stat Tracker is an application designed to collect, analyze, and display statistics from NRL (National Rugby League) matches. It utilizes a combination of technologies including [specific languages, frameworks, libraries, etc.], making it a robust and efficient tool for NRL enthusiasts and analysts.
 
-NRL Stat Tracker is a dynamic tool designed for tracking and analyzing statistics from the National Rugby League (NRL). It automates the process of updating team statistics, ladder standings, and other relevant data using a series of Python scripts.
+## Features
+- Real-time statistics tracking from NRL matches.
+- Data visualization tools for in-depth analysis.
+- Easy integration with DynamoDB for data storage and retrieval.
+- Customizable scripts for various analytical needs.
 
 ## Installation
-
-### Prerequisites
-
-- Python 3.x
-- Required Python libraries (listed in `requirements.txt`)
-
-### Setup
+To install NRL Stat Tracker, follow these steps:
 
 1. Clone the repository:
-   ```bash
+   ```
    git clone [repository URL]
    ```
 2. Navigate to the project directory:
-   ```bash
+   ```
    cd nrl-stat-tracker
    ```
-3. Build the project (which includes installing dependencies):
-   ```bash
-   make build
-   ```
+3. [Any additional installation steps like setting up a virtual environment, installing dependencies, etc.]
 
 ## Usage
+To use NRL Stat Tracker, follow these steps:
 
-Use the `make` command to execute various tasks:
+1. [Step-by-step instructions on how to run the application, scripts, or any other components.]
+2. [Examples of commands, scripts usage, or any interaction with the application.]
 
-- **Build the Project**:
-  ```bash
-  make build
-  ```
-
-- **Deploy the CDK Stack**:
-```bash
-make deploy
-```
-
-  ![StackBuild](img/deploy_stack.gif)
-
-- **Update Team Statistics**:
-  ```bash
-  make update-teams
-  ```
-- **Update Ladder Information**:
-  ```bash
-  make update-ladder
-  ```
-
-  ![After Updates](img/after_deploy.gif)
-
+## Directory Structure
+- `nrl_app`: Contains the main application code.
+- `dynamodb`: Scripts/configurations for DynamoDB.
+- `img`: Images used in the project.
+- `scripts`: Various utility scripts.
+- `data`: Data files used by the application.
 
 ## Contributing
+Contributions to NRL Stat Tracker are welcome. Please adhere to the following guidelines:
 
-Contributions to NRL Stat Tracker are welcome! To contribute:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -am 'Add some feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Create a new Pull Request.
+- Fork the repository and create your branch from `master`.
+- Write clear and concise commit messages.
+- Ensure code style and quality standards are maintained.
+- Create a pull request with a detailed description of changes.
 
 ## License
-
-This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
-
+This project is licensed under the [License Name]. Please see the [LICENSE](LICENSE) file for more details.
