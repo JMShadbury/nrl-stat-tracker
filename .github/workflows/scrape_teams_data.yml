@@ -28,6 +28,6 @@ jobs:
         aws-region: $AWS_REGION
 
     - name: Scrape data
-      id: Scraping NRL data
+      id: scrape-teams
       run: |
         make updateTeams
