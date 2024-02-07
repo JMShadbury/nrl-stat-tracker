@@ -8,46 +8,59 @@
             padding-top: 20px;
             background-color: #0d1117; /* Background color */
             color: #c9d1d9; /* Text color */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        }
+        .container {
+            background-color: #161b22;
+            padding: 2rem;
+            border-radius: 6px;
+            margin: 1rem auto;
+            box-shadow: 0 8px 24px rgba(0,0,0,.5);
         }
         .table-container {
             overflow-x: auto;
         }
-        table {
-            width: 100%;
-            margin-bottom: 1rem;
-        }
         .table {
-            color:white;
+            color: #c9d1d9;
+            background-color: #202428;
         }
-        th {
+        .table th {
             vertical-align: bottom;
-            border-bottom: 2px solid #dee2e6;
+            border-bottom: 2px solid #30363d;
+            background-color: #343a40; /* Header background color */
         }
-        td, th {
+        .table td {
             padding: .75rem;
             vertical-align: top;
-            border-top: 1px solid #dee2e6;
+            border-top: 1px solid #30363d;
         }
         .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(0, 0, 0, .05);
+            background-color: rgba(255, 255, 255, .05);
         }
         .table-hover tbody tr:hover {
-            color: #212529;
-            background-color: rgba(0, 0, 0, .075);
+            background-color: rgba(255, 255, 255, .1);
         }
-        /* Custom styles */
         .position-highlight {
             font-weight: bold;
         }
         .win {
-            color: green;
+            color: #28a745; /* Green */
         }
         .loss {
-            color: red;
+            color: #dc3545; /* Red */
         }
-        .header-row {
-            background-color: #343a40; /* Header background color */
+        .back-button {
+            margin: 20px;
+            background-color: #3e4b58;
             color: white;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -98,6 +111,6 @@
             });
         });
     </script>
-    <a href="/" class="btn btn-primary">Back to Original Page</a>
+    <a href="/" class="btn back-button">Back to Original Page</a>
 </body>
 </html>
