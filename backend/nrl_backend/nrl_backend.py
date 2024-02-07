@@ -11,7 +11,7 @@ from aws_cdk import (
 from constructs import Construct
 
 file = open("../application_whitelist/whitelist.txt", "r")
-allowed_ips = file.readLines()
+allowed_ips = file.readlines()
 file.close()
 
 class FlaskFargateStack(Stack):
