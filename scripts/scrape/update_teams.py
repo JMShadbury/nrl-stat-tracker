@@ -56,7 +56,7 @@ try:
                   for team in team_names}
     all_data = {stat_name: instance.get_all_data()
                 for stat_name, instance in stats_instances.items()}
-    logger.info("Processing teams data {}".format(all_data))
+    logger.info("Processing teams data")
 
     for team_name in team_names:
         try:
@@ -65,7 +65,6 @@ try:
 
             processed_data = {stat_name: instance.process_data(
                 all_data[stat_name], team_name) for stat_name, instance in stats_instances.items()}
-            logger.info(f"Processed data for {team_name}: {processed_data}")
             if all(
                 team_name.replace(" ", "") == (data['TeamName'].replace(
                     " ", "") if data and 'TeamName' in data else "")
