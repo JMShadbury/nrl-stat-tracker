@@ -48,6 +48,12 @@ class FlaskFargateStack(Stack):
             load_balancer_name="NRLApplicationLoadBalancer"
         )
         
+        lb.connections.allow_from(
+            ec2.Peer.ipv4("101.188.67.134/32"),
+            ec2.Port.tcp(80)
+        )
+        
+        
         listener = lb.add_listener(
             "Listener",
             port=80,
