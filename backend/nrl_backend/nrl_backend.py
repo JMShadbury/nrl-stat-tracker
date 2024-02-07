@@ -35,37 +35,37 @@ class FlaskFargateStack(cdk.Stack):
 
         ecr_repo.grant_pull(task_definition.execution_role)
 
-        # lb = cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
-        #     self, "NRL_LB",
-        #     vpc=vpc,
-        #     internet_facing=True,  # Set to False if you want the load balancer to be internal
-        #     load_balancer_name="NRLApplicationLoadBalancer"
-        # )
+        lb = cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
+            self, "NRL_LB",
+            vpc=vpc,
+            internet_facing=True,  # Set to False if you want the load balancer to be internal
+            load_balancer_name="NRLApplicationLoadBalancer"
+        )
 
-        # for ip in allowed_ips:
-        #     lb.connections.allow_from(
-        #         cdk.aws_ec2.Peer.ipv4(ip.replace("\n", "")),
-        #         cdk.aws_ec2.Port.tcp(80)
-        #     )
+        for ip in allowed_ips:
+            lb.connections.allow_from(
+                cdk.aws_ec2.Peer.ipv4(ip.replace("\n", "")),
+                cdk.aws_ec2.Port.tcp(80)
+            )
 
-        # listener = lb.add_listener(
-        #     "Listener",
-        #     port=80,
-        #     open=True
-        # )
+        listener = lb.add_listener(
+            "Listener",
+            port=80,
+            open=True
+        )
 
-        # hosted_zone = cdk.aws_route53.HostedZone.from_lookup(
-        #     self, "HostedZone",
-        #     domain_name="shadbury.com"
-        # )
+        hosted_zone = cdk.aws_route53.HostedZone.from_lookup(
+            self, "HostedZone",
+            domain_name="shadbury.com"
+        )
 
         
-        # dns_record = cdk.aws_route53.ARecord(
-        #     self, "NRLRecord",
-        #     zone=hosted_zone,
-        #     record_name="nrl.tracker.shadbury.com",
-        #     values=[lb.load_balancer_dns_name]
-        # )
+        dns_record = cdk.aws_route53.ARecord(
+            self, "NRLRecord",
+            zone=hosted_zone,
+            record_name="nrl.tracker.shadbury.com",
+            values=[lb.load_balancer_dns_name]
+        )
 
         fargate_service_sg = cdk.aws_ec2.SecurityGroup(
             self, "NRLServiceSG",
@@ -73,7 +73,7 @@ class FlaskFargateStack(cdk.Stack):
             allow_all_outbound=True
         )
         
-        #lb.connections.allow_from(fargate_service_sg, cdk.aws_ec2.Port.tcp(80))
+        lb.connections.allow_from(fargate_service_sg, cdk.aws_ec2.Port.tcp(80))
 
         fargate_service = cdk.aws_ecs.FargateService(
             self, "NRL_SERVICE",
@@ -83,11 +83,11 @@ class FlaskFargateStack(cdk.Stack):
             assign_public_ip=True
         )
 
-        # target_group = listener.add_targets(
-        #     "ECS",
-        #     port=80,
-        #     targets=[fargate_service]
-        # )
+        target_group = listener.add_targets(
+            "ECS",
+            port=80,
+            targets=[fargate_service]
+        )
         
 
 
