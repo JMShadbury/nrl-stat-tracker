@@ -1,4 +1,4 @@
-name: Deploy DynamoDBStack
+name: Deploy App
 
 
 permissions:
@@ -13,7 +13,7 @@ on:
 
 
 jobs:
- deploy_db_stack:
+ deploy_App_stack:
    runs-on: ubuntu-latest
    steps:
      - name: Checkout this repo
@@ -28,6 +28,6 @@ jobs:
          role-session-name: "GitHubActions-Deploy-DynamoDbStack"
 
 
-      - name: Deploy DynamoDB cdk stack
+      - name: Deploy App cdk stack
         run: |
-          make deployDynamodb
+          make deployApp
