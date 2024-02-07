@@ -9,7 +9,6 @@ from aws_cdk import (
 )
 from constructs import Construct
 
-
 class FlaskFargateStack(Stack):
 
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:

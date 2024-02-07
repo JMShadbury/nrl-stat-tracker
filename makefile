@@ -6,11 +6,11 @@ build:
 .PHONY: build
 
 deployDynamodb: build
-	cd dynamodb; cdk deploy
+	cd dynamodb; cdk deploy --require-approval never
 .PHONY: deploy
 
 deployApp: build
-	cd nrl_app; cdk deploy
+	cd nrl_app; cdk deploy --require-approval never
 .PHONY: deployApp
 
 deployAll: build deploy updateLadder updateTeams getData viewStats
