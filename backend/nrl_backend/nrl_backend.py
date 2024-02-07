@@ -69,14 +69,16 @@ class FlaskFargateStack(Stack):
             domain_name="shadbury.com"
         )
 
-        # Create a record set
-        route53.ARecord(
+        
+        dnr_record = route53.ARecord(
             self, "NRLRecord",
             zone=hosted_zone,
             record_name="nrl.tracker.shadbury.com",
             target=route53.RecordTarget.from_alias(
                 targets.LoadBalancerTarget(lb))
         )
+        
+        dns_record.node.add_dependency(lb)
 
         fargate_service_sg = ec2.SecurityGroup(
             self, "NRLServiceSG",
