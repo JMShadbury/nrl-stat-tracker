@@ -1,22 +1,25 @@
-name: Deploy DynamoDBStack
-
-
-permissions:
-  id-token: write
-  contents: read
-
+name: Deploy App
 
 on:
   push:
     branches:
       - main
-    paths: 
-      - dynamodb/*/*
+    paths:
+      - application_whitelist/*
+      - backend/*
+      - backend/*/*
+      - backend/*/*/*
 
-
+permissions:
+  id-token: write
+  contents: read 
+  
 jobs:
-  deploy_db_stack:
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+    environment: production
+    
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
@@ -30,7 +33,7 @@ jobs:
           role-session-name: "GitHubActions-Deploy-DynamoDbStack"
 
 
-      - name: Deploy DynamoDB cdk stack
+      - name: Deploy App cdk stack
         run: |
           npm install -g aws-cdk
-          make deployDynamodb
+          make deployBackend
