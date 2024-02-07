@@ -22,22 +22,22 @@ deployAll: build deploy updateLadder updateTeams getData viewStats
 
 updateLadder: build
 	. .venv/bin/activate && \
-	python3.11 scripts/update_ladder.py
+	python scripts/update_ladder.py
 .PHONY: updateLadder
 
 updateTeams: build
 	. .venv/bin/activate && \
-	python3.11 scripts/update_teams.py
+	python scripts/update_teams.py
 .PHONY: updateTeams
 
 getData: build
 	. .venv/bin/activate && \
-	python3.11 scripts/get_data.py
+	python scripts/get_data.py
 .PHONY: getData
 
 viewStats: build
 	. .venv/bin/activate && \
-	python3.11 scripts/view_stats.py
+	python scripts/view_stats.py
 
 destroy:
 	. .venv/bin/activate && \
