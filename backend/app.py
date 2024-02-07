@@ -7,8 +7,9 @@ DynamodbStack(app, "DynamodbStack",)
 
 fargate_stack = cdk.App()
 FlaskFargateStack(app, "FargateStack",
-                  env={ 
-                      'region': 'ap-southeast-2'
+                  env={
+                      'account': os.environ['CDK_DEFAULT_ACCOUNT'], 
+                      'region': os.environ['CDK_DEFAULT_REGION']
   }
     )
 app.synth()
