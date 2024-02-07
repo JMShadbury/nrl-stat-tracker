@@ -63,7 +63,7 @@ class FlaskFargateStack(Stack):
             port=80,
             open=True
         )
-        
+
         hosted_zone = route53.HostedZone.from_lookup(
             self, "HostedZone",
             domain_name="shadbury.com"
@@ -74,7 +74,8 @@ class FlaskFargateStack(Stack):
             self, "NRLRecord",
             zone=hosted_zone,
             record_name="nrl.tracker.shadbury.com",
-            target=route53.RecordTarget.from_alias(targets.LoadBalancerTarget(lb))
+            target=route53.RecordTarget.from_alias(
+                targets.LoadBalancerTarget(lb))
         )
 
         fargate_service_sg = ec2.SecurityGroup(

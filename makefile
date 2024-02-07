@@ -6,7 +6,7 @@ build:
 .PHONY: build
 
 deployBackend: build
-	cd backend; cdk deploy --all --require-approval never
+	cd backend; cdk deploy --all --require-approval never --region ap-southeast-2;
 .PHONY: deployApp
 
 updateStats: build updateTeams
