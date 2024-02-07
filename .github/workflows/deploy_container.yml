@@ -9,8 +9,10 @@ env:
   ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
   ECS_CLUSTER: ${{ secrets.ECR_CLUSTER_NAME }}              
   ECS_TASK_DEFINITION: ${{ secrets.ECR_TASK_DEFINITION }} 
-  CONTAINER_NAME: ${{ secrets.ECR_CONTAINER_NAME }}     
+  CONTAINER_NAME: ${{ secrets.ECR_CONTAINER_NAME }} 
+      
 permissions:
+  id-token: write
   contents: read
 
 jobs:

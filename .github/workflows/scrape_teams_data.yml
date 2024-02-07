@@ -5,6 +5,7 @@ on:
     branches: [ "feature/auto_build" ]
                       
 permissions:
+  id-token: write
   contents: read
 
 jobs:
