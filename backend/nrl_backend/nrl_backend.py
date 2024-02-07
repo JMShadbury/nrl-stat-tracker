@@ -43,9 +43,6 @@ class FlaskFargateStack(Stack):
 
         ecr_repo.grant_pull(task_definition.execution_role)
 
-        task_role = iam.Role(self, "NRL_TASK_ROLE", assumed_by=iam.ServicePrincipal(
-            "ecs-tasks.amazonaws.com"))
-
         lb = elbv2.ApplicationLoadBalancer(
             self, "NRL_LB",
             vpc=vpc,
