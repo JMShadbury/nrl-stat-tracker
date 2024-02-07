@@ -2,7 +2,7 @@ name: Deploy to Amazon ECS Container Image
 
 on:
   push:
-    branches: [ "feature/auto_build" ]
+    branches: [ "main" ]
     paths:
       - scripts/app/*
 
