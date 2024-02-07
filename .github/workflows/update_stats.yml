@@ -34,7 +34,7 @@ jobs:
         role-session-name: "GitHubActions-Deploy-DynamoDbStack"
 
 
-    - name: Deploy App cdk stack
+    - name: Scrape Data and Update Stats
       run: |
         make updateStats
         make getData
