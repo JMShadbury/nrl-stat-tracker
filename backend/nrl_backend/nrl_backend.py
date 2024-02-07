@@ -35,37 +35,36 @@ class FlaskFargateStack(cdk.Stack):
 
         ecr_repo.grant_pull(task_definition.execution_role)
 
-        lb = cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
-            self, "NRL_LB",
-            vpc=vpc,
-            internet_facing=True,  # Set to False if you want the load balancer to be internal
-            load_balancer_name="NRLApplicationLoadBalancer"
-        )
+        # lb = cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
+        #     self, "NRL_LB",
+        #     vpc=vpc,
+        #     internet_facing=True,  # Set to False if you want the load balancer to be internal
+        #     load_balancer_name="NRLApplicationLoadBalancer"
+        # )
 
-        for ip in allowed_ips:
-            lb.connections.allow_from(
-                cdk.aws_ec2.Peer.ipv4(ip.replace("\n", "")),
-                cdk.aws_ec2.Port.tcp(80)
-            )
+        # for ip in allowed_ips:
+        #     lb.connections.allow_from(
+        #         cdk.aws_ec2.Peer.ipv4(ip.replace("\n", "")),
+        #         cdk.aws_ec2.Port.tcp(80)
+        #     )
 
-        listener = lb.add_listener(
-            "Listener",
-            port=80,
-            open=True
-        )
+        # listener = lb.add_listener(
+        #     "Listener",
+        #     port=80,
+        #     open=True
+        # )
 
-        hosted_zone = cdk.aws_route53.HostedZone.from_lookup(
-            self, "HostedZone",
-            domain_name="shadbury.com"
-        )
+        # hosted_zone = cdk.aws_route53.HostedZone.from_lookup(
+        #     self, "HostedZone",
+        #     domain_name="shadbury.com"
+        # )
 
         
         # dns_record = cdk.aws_route53.ARecord(
         #     self, "NRLRecord",
         #     zone=hosted_zone,
         #     record_name="nrl.tracker.shadbury.com",
-        #     target=cdk.aws_route53.RecordTarget.from_alias(
-        #         cdk.aws_route53_targets.LoadBalancerTarget(lb.load_balancer_canonical_hosted_zone_id))
+        #     values=[lb.load_balancer_dns_name]
         # )
 
         fargate_service_sg = cdk.aws_ec2.SecurityGroup(
