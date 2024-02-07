@@ -13,10 +13,7 @@ deployApp: build
 	cd nrl_app; cdk deploy --require-approval never
 .PHONY: deployApp
 
-deployAll: build deploy updateLadder updateTeams getData viewStats
-.PHONY: deployAll
-
-updateLadder: build
+updateLadder: build updateTeams
 	python scripts/scrape/update_ladder.py
 .PHONY: updateLadder
 

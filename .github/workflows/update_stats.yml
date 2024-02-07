@@ -1,9 +1,10 @@
-name: Update Teams
+name: Update Ladder
 
 on:
   push:
     branches:
       - main
+
 env:          
   ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
   ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
@@ -35,7 +36,10 @@ jobs:
 
       - name: Deploy App cdk stack
         run: |
+          make updateLadder
           make updateTeams
+          make getData
+          
 
       - name: Login to Amazon ECR
       id: login-ecr
