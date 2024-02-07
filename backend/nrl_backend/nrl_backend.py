@@ -70,7 +70,7 @@ class FlaskFargateStack(Stack):
         )
 
         
-        dnr_record = route53.ARecord(
+        dns_record = route53.ARecord(
             self, "NRLRecord",
             zone=hosted_zone,
             record_name="nrl.tracker.shadbury.com",
