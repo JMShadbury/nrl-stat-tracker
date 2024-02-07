@@ -36,8 +36,7 @@ jobs:
 
     - name: Deploy App cdk stack
       run: |
-        make updateLadder
-        make updateTeams
+        make updateStats
         make getData
         
 
