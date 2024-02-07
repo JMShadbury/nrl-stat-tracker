@@ -35,7 +35,7 @@ class FlaskFargateStack(cdk.Stack):
 
         ecr_repo.grant_pull(task_definition.execution_role)
 
-        lb = cdk.aws_elbv2.ApplicationLoadBalancer(
+        lb = cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
             self, "NRL_LB",
             vpc=vpc,
             internet_facing=True,  # Set to False if you want the load balancer to be internal
