@@ -108,12 +108,6 @@
         .dropdown-custom select {
             padding: .6rem;
         }
-        .sticky-header th {
-            position: sticky;
-            top: 0;
-            background-color: #161b22; /* Match the header background color */
-            z-index: 10; 
-        }
         /* Additional custom styles */
       </style>
    </head>
@@ -151,7 +145,7 @@
          <div>
             <h3>{{ comparison_data.team1.name }} vs {{ comparison_data.team2.name }}</h3>
             <table class="table table-hover table-bordered table-custom">
-               <thead class="thead-dark sticky-header">
+               <thead class="thead-dark">
                   <tr>
                      <th>Statistic</th>
                      <th>{{ comparison_data.team1.name }}</th>
