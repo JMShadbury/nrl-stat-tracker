@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import json
 from data_manager import load_data
-import re
 from util.logger import configure_logger
 
 
