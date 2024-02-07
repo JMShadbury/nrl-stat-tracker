@@ -1,4 +1,4 @@
-name: Update Ladder
+name: Update Stats
 
 on:
   push:
@@ -45,12 +45,12 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
-        run: |
+      run: |
           cd scripts/app
           aws ecr get-login-password --region ${{ secrets.MY_AWS_REGION }} | docker login --username ${{ secrets.AWS_ECR_USERNAME }} --password-stdin ${{ secrets.AWS_ERC_PASSWD }}
           docker build --platform="linux/amd64" -t ${{ secrets.AWS_ECR_STACK_NAME }} .
