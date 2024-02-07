@@ -8,7 +8,6 @@ on:
       - application_whitelist/*
       - backend/*
       - backend/*/*
-      - backend/*/*/*
 
 permissions:
   id-token: write
