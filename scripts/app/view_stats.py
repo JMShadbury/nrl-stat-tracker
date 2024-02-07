@@ -65,7 +65,5 @@ def view_ladder():
         logger.error(f"Unexpected error: {e}", exc_info=True)
         return "An unexpected error occurred", 500
 
-        
-        
 if __name__ == '__main__':
     app.run(host="0.0.0.0",port=80, debug=True)
