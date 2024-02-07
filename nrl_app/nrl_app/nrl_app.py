@@ -10,7 +10,7 @@ from aws_cdk import (
 from constructs import Construct
 
 allowed_ips = [
-    "101.188.67.134/32"
+    "101.182.204.85/32"
 ]
 
 class FlaskFargateStack(Stack):
