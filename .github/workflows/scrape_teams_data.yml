@@ -3,10 +3,7 @@ name: Scrape Teams Data
 on:
   push:
     branches: [ "feature/auto_build" ]
-
-env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}                                  
-  ROLE_NAME: ${{ secrets.AWS_ROLE }}
+                      
 permissions:
   contents: read
 
@@ -23,9 +20,9 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        role-to-assume: $ROLE_NAME
+        role-to-assume: ${{ secrets.AWS_ROLE }}
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
-        aws-region: $AWS_REGION
+        aws-region: ${{ secrets.AWS_REGION }}  
 
     - name: Scrape data
       id: scrape-teams
