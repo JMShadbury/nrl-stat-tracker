@@ -4,6 +4,7 @@ from aws_cdk import (
     aws_iam as iam,
     aws_logs as logs,
     aws_ecr as ecr,
+    aws_elasticloadbalancingv2 as elbv2,
     Stack
 )
 from constructs import Construct
@@ -33,16 +34,44 @@ class FlaskFargateStack(Stack):
 
         container.add_environment("FLASK_ENV", "production")
         container.add_environment("FLASK_APP", "app.py") 
+        container.add_port_mappings(ecs.PortMapping(container_port=80))
 
         ecr_repo.grant_pull(task_definition.execution_role)
 
         task_role = iam.Role(self, "NRL_TASK_ROLE", assumed_by=iam.ServicePrincipal("ecs-tasks.amazonaws.com"))
+    
         
-        print(vpc.vpc_default_security_group)
-
-        ecs.FargateService(
+        lb = elbv2.ApplicationLoadBalancer(
+            self, "NRL_LB",
+            vpc=vpc,
+            internet_facing=True,  # Set to False if you want the load balancer to be internal
+            load_balancer_name="NRLApplicationLoadBalancer"
+        )
+        
+        listener = lb.add_listener(
+            "Listener",
+            port=80,
+            open=True
+        )
+        
+        fargate_service_sg = ec2.SecurityGroup(
+            self, "NRLServiceSG",
+            vpc=vpc,
+            allow_all_outbound=True
+        )
+        lb.connections.allow_from(fargate_service_sg, ec2.Port.tcp(80))
+        
+        fargate_service = ecs.FargateService(
             self, "NRL_SERVICE",
             cluster=cluster,
             task_definition=task_definition,
+            security_groups=[fargate_service_sg],
             assign_public_ip=True
+        )
+        
+        
+        target_group = listener.add_targets(
+            "ECS",
+            port=80,
+            targets=[fargate_service]
         )

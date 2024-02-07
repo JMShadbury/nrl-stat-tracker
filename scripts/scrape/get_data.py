@@ -65,7 +65,7 @@ def main():
     ladder_data = fetch_data_from_dynamodb(dynamodb_client, "Ladder")
     if ladder_data:
         transformed_ladder_data = transform_data_for_display(ladder_data)
-        save_json(transformed_ladder_data, 'ladder', 'ladder_data.json')
+        save_json(transformed_ladder_data, 'scripts/ladder', 'ladder_data.json')
 
 if __name__ == '__main__':
     main()

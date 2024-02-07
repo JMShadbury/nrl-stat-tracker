@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import json
-from teams.data_manager import load_data
+from data_manager import load_data
 import re
 from util.logger import configure_logger
 
@@ -12,6 +12,9 @@ team_data = load_data()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    '''
+    Index route for the web application
+    '''
     logger.info("Index route called")
     try:
         teams = sorted(team_data.index.unique())
@@ -35,7 +38,6 @@ def index():
             selected_team1 = ''
             selected_team2 = ''
         logger.info(f"Selected teams: {selected_team1}, {selected_team2}")
-        logger.info(f"Comparison data: {comparison_data}")
 
         return render_template('index.html', teams=teams, selected_team1=selected_team1, selected_team2=selected_team2, comparison_data=comparison_data)
     except Exception as e:
@@ -45,6 +47,10 @@ def index():
 
 @app.route('/ladder', methods=['GET'])
 def view_ladder():
+    '''
+    Route to view the ladder
+    '''
+    logger.info("View ladder route called")
     try:
         # Read ladder data from the JSON file
         with open('ladder/ladder_data.json', 'r') as file:
@@ -56,27 +62,9 @@ def view_ladder():
     except json.JSONDecodeError:
         logger.error("Error decoding ladder data file.")
         return "Error processing ladder data", 500
-
-
-def convert_to_number(value):
-    if isinstance(value, int):
-        return value
-    elif isinstance(value, str):
-        return int(re.sub(r"[^0-9]", "", value))
-    else:
-        return 0
-    
-
-def process_data_for_display(df):
-    processed_data = []
-    for team in df.index.unique():
-        team_stats = df.loc[team].to_dict()
-        max_value = max(convert_to_number(value)
-                        for key, value in team_stats.items())
-        team_data = [{'statistic': key, 'value': convert_to_number(
-            value), 'max_value': max_value} for key, value in team_stats.items()]
-        processed_data.append({'team': team, 'statistics': team_data})
-    return processed_data
+    except Exception as e:
+        
+        
     
 if __name__ == '__main__':
-    app.run(port=8000, debug=True)
+    app.run(host="0.0.0.0",port=80, debug=True)
