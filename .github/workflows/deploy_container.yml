@@ -4,7 +4,9 @@ on:
   push:
     branches: [ "main" ]
     paths:
+      - scripts/app/*
       - scripts/app/*/*
+      - scripts/app/*/*/*
 
 env:          
   ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
