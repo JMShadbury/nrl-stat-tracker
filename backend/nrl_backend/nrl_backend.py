@@ -96,15 +96,12 @@ class DynamodbStack(cdk.Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        # Get Teams from file
         f = open("../data/teams", "r")
         teams = f.read().splitlines()
         f.close()
 
-        # Create a dictionary of teams
         teams = {team.split(":")[0]: team.split(":")[1] for team in teams}
 
-        # Create a table for each team
         for team in teams:
             team_id = teams[team]
             current_team = cdk.aws_dynamodb.Table(
@@ -118,7 +115,6 @@ class DynamodbStack(cdk.Stack):
                 write_capacity=5
             )
 
-        # Ladder Table
         ladder = cdk.aws_dynamodb.Table(
             self, "LadderTable",
             table_name="Ladder",
