@@ -5,12 +5,8 @@ build:
 	pip install -r scripts/app/util/requirements.txt 
 .PHONY: build
 
-deployDynamodb: build
-	cd dynamodb; cdk deploy --require-approval never
-.PHONY: deploy
-
-deployApp: build
-	cd nrl_app; cdk deploy --require-approval never
+deployBackend: build
+	cd backend; cdk deploy --require-approval never
 .PHONY: deployApp
 
 updateStats: build updateTeams

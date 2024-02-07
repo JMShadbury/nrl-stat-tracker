@@ -1,10 +1,6 @@
 from aws_cdk import (
     aws_dynamodb as dynamodb,
-    Stack,
-    App,
-    aws_lambda as lambda_,
-    BundlingOptions,
-    Duration
+    Stack
 )
 from constructs import Construct   
 
