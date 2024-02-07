@@ -5,8 +5,7 @@ on:
     - cron: '* 0 * * 4'
   workflow_dispatch:
 
-env:          
-  ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
+env:             
   ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
   ECS_CLUSTER: ${{ secrets.ECR_CLUSTER_NAME }}              
   CONTAINER_NAME: ${{ secrets.ECR_CONTAINER_NAME }} 

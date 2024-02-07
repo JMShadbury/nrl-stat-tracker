@@ -60,7 +60,7 @@ class FlaskFargateStack(cdk.Stack):
         )
 
         
-        dns_record = cdk.aws_route53.NsRecord(
+        dns_record = cdk.aws_route53.CNAME(
             self, "NRLRecord",
             zone=hosted_zone,
             record_name="nrl.tracker.shadbury.com",
