@@ -4,14 +4,12 @@ on:
   push:
     branches: [ "feature/auto_build" ]
 
-env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}           
+env:          
   ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
   ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
   ECS_CLUSTER: ${{ secrets.ECR_CLUSTER_NAME }}              
   ECS_TASK_DEFINITION: ${{ secrets.ECR_TASK_DEFINITION }} 
   CONTAINER_NAME: ${{ secrets.ECR_CONTAINER_NAME }}     
-  ROLE_NAME: ${{ secrets.AWS_ROLE }}
 permissions:
   contents: read
 
@@ -28,9 +26,9 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        role-to-assume: $ROLE_NAME
+        role-to-assume: ${{ secrets.AWS_ROLE }}
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
-        aws-region: $AWS_REGION
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Login to Amazon ECR
       id: login-ecr
