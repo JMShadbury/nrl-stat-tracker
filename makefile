@@ -17,19 +17,19 @@ deployAll: build deploy updateLadder updateTeams getData viewStats
 .PHONY: deployAll
 
 updateLadder: build
-	python scripts/update_ladder.py
+	python scripts/scrape/update_ladder.py
 .PHONY: updateLadder
 
 updateTeams: build
-	python scripts/update_teams.py
+	python scripts/scrape/update_teams.py
 .PHONY: updateTeams
 
 getData: build
-	python scripts/get_data.py
+	python scripts/scrape/get_data.py
 .PHONY: getData
 
 viewStats: build
-	python scripts/view_stats.py
+	python scripts/app/view_stats.py
 
 destroy:
 	cd dynamodb; cdk destroy; cd .. && \

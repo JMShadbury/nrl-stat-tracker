@@ -3,8 +3,8 @@ name: Deploy to Amazon ECS Container Image
 on:
   push:
     branches: [ "feature/auto_build" ]
-    paths:
-      - scripts/app/Dockerfile
+    # paths:
+    #   - scripts/app/Dockerfile
 
 env:          
   ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
