@@ -6,8 +6,7 @@ build:
 .PHONY: build
 
 deployBackend: build
-	pwd && \
-	cd backend; cdk deploy --require-approval never
+	cd backend; cdk deploy --all --require-approval never
 .PHONY: deployApp
 
 updateStats: build updateTeams
