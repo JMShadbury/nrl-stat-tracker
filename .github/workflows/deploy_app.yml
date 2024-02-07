@@ -13,11 +13,11 @@ on:
 
 
 jobs:
- deploy_App_stack:
-   runs-on: ubuntu-latest
-   steps:
-     - name: Checkout this repo
-       uses: actions/checkout@v3
+  deploy_App_stack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v3
 
 
      - name: Configure AWS credentials
