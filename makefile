@@ -4,7 +4,7 @@ build:
 	python -m venv .venv && \
 	source .venv/bin/activate && \
 	pip install --upgrade pip && \
-	pip install -r scripts/app/requirements.txt 
+	pip install -r scripts/app/util/requirements.txt 
 .PHONY: build
 
 deploy: build
