@@ -1,7 +1,8 @@
 from aws_cdk import (
     aws_ecs as ecs,
     aws_ec2 as ec2,
-    aws_iam as iam,
+    aws_route53 as route53,
+    aws_route53_targets as targets,
     aws_logs as logs,
     aws_ecr as ecr,
     aws_dynamodb as dynamodb,
@@ -47,7 +48,7 @@ class FlaskFargateStack(Stack):
         lb = elbv2.ApplicationLoadBalancer(
             self, "NRL_LB",
             vpc=vpc,
-            internet_facing=False,  # Set to False if you want the load balancer to be internal
+            internet_facing=True,  # Set to False if you want the load balancer to be internal
             load_balancer_name="NRLApplicationLoadBalancer"
         )
 
@@ -61,6 +62,19 @@ class FlaskFargateStack(Stack):
             "Listener",
             port=80,
             open=True
+        )
+        
+        hosted_zone = route53.HostedZone.from_lookup(
+            self, "HostedZone",
+            domain_name="shadbury.com"
+        )
+
+        # Create a record set
+        route53.ARecord(
+            self, "NRLRecord",
+            zone=hosted_zone,
+            record_name="nrl.tracker.shadbury.com",
+            target=route53.RecordTarget.from_alias(targets.LoadBalancerTarget(lb))
         )
 
         fargate_service_sg = ec2.SecurityGroup(
