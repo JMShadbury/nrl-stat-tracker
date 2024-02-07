@@ -1,4 +1,4 @@
-from aws_cdk import cdk
+import aws_cdk as cdk
 from constructs import Construct
 
 file = open("../application_whitelist/whitelist.txt", "r")
