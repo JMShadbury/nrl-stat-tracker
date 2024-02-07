@@ -35,4 +35,4 @@ jobs:
       - name: Deploy App cdk stack
         run: |
           npm install -g aws-cdk
-          make deployBackend
+          make deployBackend --all --require-approval never
