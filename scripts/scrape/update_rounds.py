@@ -15,6 +15,7 @@ def append_with_comma(original, to_append):
 try:
     logger = configure_logger("UpdateRound.log")
     logger.setLevel("DEBUG")
+    
 
     def create_stat_instance(url, stat_name):
         return Stats(url, stat_name)
@@ -22,7 +23,7 @@ try:
     round_instances = {}
 
     count = 1
-    while count <= 27:
+    while count <= 2:
         try:
             round_instances[count] = create_stat_instance(
                 Url.get_draw_url(count), count)
@@ -85,14 +86,10 @@ try:
                 home_team = d['HomeTeam']
                 away_team = d['AwayTeam']
                 stadium = d['Stadium']
-                previous_home_teams = append_with_comma(
-                    merged_game_data[0]['PreviousHomeTeams'], merged_game_data[1]['PreviousHomeTeams'])
-                previous_away_teams = append_with_comma(
-                    merged_game_data[0]['PreviousAwayTeams'], merged_game_data[1]['PreviousAwayTeams'])
-                previous_home_scores = append_with_comma(
-                    merged_game_data[0]['PreviousHomeScores'], merged_game_data[1]['PreviousHomeScores'])
-                previous_away_scores = append_with_comma(
-                    merged_game_data[0]['PreviousAwayScores'], merged_game_data[1]['PreviousAwayScores'])
+                previous_home_teams = merged_game_data[0]['PreviousHomeTeams']
+                previous_away_teams = merged_game_data[0]['PreviousAwayTeams']
+                previous_home_scores = merged_game_data[0]['PreviousHomeScores']
+                previous_away_scores = merged_game_data[0]['PreviousAwayScores']
                 games_played = merged_game_data[0]['GamesPlayed']
                 home_games_won = merged_game_data[0]['HomeGamesWon']
                 away_games_won = merged_game_data[0]['AwayGamesWon']
@@ -112,39 +109,26 @@ try:
                         'PreviousAwayTeams': previous_away_teams
                     }
                 else:
-                    merged_data[round] = {
-                        'Round': round,
-                        'HomeTeams': "",
-                        'AwayTeams': "",
-                        'Stadiums': "",
-                        'HomeGamesWon': "",
-                        'AwayGamesWon': "",
-                        'PreviousHomeScores': "",
-                        'PreviousAwayScores': "",
-                        'GamesPlayed': "",
-                        'PreviousHomeTeams': "",
-                        'PreviousAwayTeams': ""
-                    }
-                    merged_data[round]["HomeTeams"] = append_with_comma(
-                        merged_data[round]["HomeTeams"], home_team)
-                    merged_data[round]["AwayTeams"] = append_with_comma(
-                        merged_data[round]["AwayTeams"], away_team)
-                    merged_data[round]["Stadiums"] = append_with_comma(
-                        merged_data[round]["Stadiums"], stadium)
-                    merged_data[round]["HomeGamesWon"] = append_with_comma(
-                        merged_data[round]["HomeGamesWon"], home_games_won)
-                    merged_data[round]["AwayGamesWon"] = append_with_comma(
-                        merged_data[round]["AwayGamesWon"], away_games_won)
-                    merged_data[round]["PreviousHomeScores"] = append_with_comma(
-                        merged_data[round]["PreviousHomeScores"], previous_home_scores)
-                    merged_data[round]["PreviousAwayScores"] = append_with_comma(
-                        merged_data[round]["PreviousAwayScores"], previous_away_scores)
-                    merged_data[round]["GamesPlayed"] = append_with_comma(
-                        merged_data[round]["GamesPlayed"], games_played)
-                    merged_data[round]["PreviousHomeTeams"] = append_with_comma(
-                        merged_data[round]["PreviousHomeTeams"], previous_home_teams)
-                    merged_data[round]["PreviousAwayTeams"] = append_with_comma(
-                        merged_data[round]["PreviousAwayTeams"], previous_away_teams)
+                    merged_data[round]['HomeTeams'] = append_with_comma(
+                        merged_data[round]['HomeTeams'], home_team)
+                    merged_data[round]['AwayTeams'] = append_with_comma(
+                        merged_data[round]['AwayTeams'], away_team)
+                    merged_data[round]['Stadiums'] = append_with_comma(
+                        merged_data[round]['Stadiums'], stadium)
+                    merged_data[round]['HomeGamesWon'] = append_with_comma(
+                        merged_data[round]['HomeGamesWon'], home_games_won)
+                    merged_data[round]['AwayGamesWon'] = append_with_comma(
+                        merged_data[round]['AwayGamesWon'], away_games_won)
+                    merged_data[round]['PreviousHomeScores'] = append_with_comma(
+                        merged_data[round]['PreviousHomeScores'], previous_home_scores)
+                    merged_data[round]['PreviousAwayScores'] = append_with_comma(
+                        merged_data[round]['PreviousAwayScores'], previous_away_scores)
+                    merged_data[round]['GamesPlayed'] = append_with_comma(
+                        merged_data[round]['GamesPlayed'], games_played)
+                    merged_data[round]['PreviousHomeTeams'] = append_with_comma(
+                        merged_data[round]['PreviousHomeTeams'], previous_home_teams)
+                    merged_data[round]['PreviousAwayTeams'] = append_with_comma(
+                        merged_data[round]['PreviousAwayTeams'], previous_away_teams)
         else:
             logger.debug(f"No data found for Round {round}")
 
@@ -157,3 +141,5 @@ try:
 except Exception as e:
     logger.error(f"An error occurred: {e}", exc_info=True)
     raise e
+
+logger.info("Scrape Successful!")

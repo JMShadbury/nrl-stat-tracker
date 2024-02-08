@@ -7,6 +7,12 @@ logger = get_logger()
 logger.setLevel("DEBUG")
 
 
+def append_with_comma(original, to_append):
+    if original:
+        return original + "," + to_append
+    else:
+        return to_append
+
 class Stats:
 
     def __init__(self, url, stat):
@@ -123,35 +129,44 @@ class Stats:
                 try:
                     home_score = get_home_score(game)
                     away_score = get_away_score(game)
-
-                    game_previous_info = {
-                        'PreviousHomeScore': home_score,
-                        'PreviousAwayScore': away_score,
-                        'PreviousHomeTeam': get_home_name(game),
-                        'PreviousAwayTeam': get_away_name(game)
-                    }
-
-                    game_previous_data.append(game_previous_info)
+                    home_name = get_home_name(game)
+                    away_name = get_away_name(game)
+                    
+                    if game_previous_data:
+                        game_previous_data['PreviousHomeScore'] = append_with_comma(
+                            game_previous_data['PreviousHomeScore'], home_score)
+                        game_previous_data['PreviousAwayScore'] = append_with_comma(
+                            game_previous_data['PreviousAwayScore'], away_score)
+                        game_previous_data['PreviousHomeTeam'] = append_with_comma(
+                            game_previous_data['PreviousHomeTeam'], home_name)
+                        game_previous_data['PreviousAwayTeam'] = append_with_comma(
+                            game_previous_data['PreviousAwayTeam'], away_name)
+                    else:
+                        game_previous_data = {
+                            'PreviousHomeScore': home_score,
+                            'PreviousAwayScore': away_score,
+                            'PreviousHomeTeam': home_name,
+                            'PreviousAwayTeam': away_name
+                        }
 
                 except Exception as e:
                     logger.error(
                         "Error processing game data: {}".format(e), exc_info=True)
-            for game in game_previous_data:
-                try:
-                    match_info = {
-                        'PreviousHomeTeams': game['PreviousHomeTeam'],
-                        'PreviousAwayTeams': game['PreviousAwayTeam'],
-                        'PreviousHomeScores': game['PreviousHomeScore'],
-                        'PreviousAwayScores': game['PreviousAwayScore'],
-                        'GamesPlayed': get_games_played(soup),
-                        'AwayGamesWon': get_away_games_won(soup),
-                        'HomeGamesWon': get_home_games_won(soup)
-                    }
+            try:
+                match_info = {
+                    'PreviousHomeTeams': game_previous_data['PreviousHomeTeam'],
+                    'PreviousAwayTeams': game_previous_data['PreviousAwayTeam'],
+                    'PreviousHomeScores': game_previous_data['PreviousHomeScore'],
+                    'PreviousAwayScores': game_previous_data['PreviousAwayScore'],
+                    'GamesPlayed': get_games_played(soup),
+                    'AwayGamesWon': get_away_games_won(soup),
+                    'HomeGamesWon': get_home_games_won(soup)
+                }
 
-                    match_data.append(match_info)
-                except Exception as e:
-                    logger.error(
-                        "Error processing match data: {}".format(e), exc_info=True)
+                match_data.append(match_info)
+            except Exception as e:
+                logger.error(
+                    "Error processing match data: {}".format(e), exc_info=True)
             logger.info("Match data: {}".format(match_data))
             return match_data
 
