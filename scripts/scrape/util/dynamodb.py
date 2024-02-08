@@ -29,25 +29,15 @@ class DynamoDBClient:
         '''
         logger.info(f"Inserting item: {item}")
         self.table.put_item(Item=item)
-
-    def get_team_names(self, team_info_table, key):
-        '''
-        Get the team names for a given key
         
-        :param team_info_table: The name of the DynamoDB table
-        :param key: The key to get the team names for
-        :return: A list of team names
+    def fetch_data_from_dynamodb(self, table_name):
         '''
-        logger.info(f"Getting team names for key: {key}")
-        team_names = []
+        Fetch data from a DynamoDB table.
+        '''
         try:
-            response = self.table.get_item(Key={'TeamName': key})
-            logger.debug(f"Response: {response}")
-            if 'Item' in response:
-                teams = response['Item']['teams']
-                logger.debug(f"Teams: {teams}")
-                team_names = [team['name'] for team in teams]
-                logger.debug(f"Team names: {team_names}")
+            client = boto3.client('dynamodb')
+            logger.info(f"Retrieving data from DynamoDB table: {table_name}")
+            return client.scan(TableName=table_name)['Items']
         except Exception as e:
-            logger.error(f"Error fetching team names: {e}")
-        return team_names
+            logger.error(f"Error fetching data from DynamoDB: {e}")
+            return None
