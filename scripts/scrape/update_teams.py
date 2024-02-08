@@ -1,12 +1,11 @@
 import json
 from util.dynamodb import DynamoDBClient
-from util.data_processing import format_team_name_for_dynamodb
 from util.defaults import Url
-from teams.stats import Stats
+from stats.get_stats import Stats
 from util.logger import configure_logger
 
 try:
-    logger = configure_logger("UpdateTeams")
+    logger = configure_logger("UpdateTeams.log")
     logger.setLevel("DEBUG")
 
     def create_stat_instance(url, stat_name):
@@ -54,7 +53,7 @@ try:
     logger.debug(f"Teams: {team_names}")
     team_names = {team.split(":")[0]: team.split(":")[1]
                   for team in team_names}
-    all_data = {stat_name: instance.get_all_data()
+    all_data = {stat_name: instance.get_all_teams_data()
                 for stat_name, instance in stats_instances.items()}
     logger.info("Processing teams data")
 
@@ -63,7 +62,7 @@ try:
             logger.info(f"Processing {team_name}")
             db_client = DynamoDBClient(team_name)
 
-            processed_data = {stat_name: instance.process_data(
+            processed_data = {stat_name: instance.process_teams_data(
                 all_data[stat_name], team_name) for stat_name, instance in stats_instances.items()}
             if all(
                 team_name.replace(" ", "") == (data['TeamName'].replace(

@@ -19,6 +19,7 @@ class DynamoDBClient:
         logger.debug(f"DynamoDB resource: {self.dynamodb}")
         self.table = self.dynamodb.Table(table_name)
         logger.debug(f"DynamoDB table: {self.table}")
+        
 
     def insert_item(self, item):
         '''
