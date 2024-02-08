@@ -22,7 +22,7 @@ try:
     round_instances = {}
 
     count = 1
-    while count <= 2:
+    while count <= 27:
         try:
             round_instances[count] = create_stat_instance(
                 Url.get_draw_url(count), count)
@@ -39,7 +39,6 @@ try:
 
     try:
         logger.info(f"Processing Round data")
-        db_client = DynamoDBClient(round)
 
         processed_data = {round: instance.process_draw_data(
             round, all_data[round]) for round, instance in round_instances.items()}
