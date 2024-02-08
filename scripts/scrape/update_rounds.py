@@ -1,93 +1,160 @@
 import json
 from util.dynamodb import DynamoDBClient
 from util.defaults import Url
-from teams.stats import Stats
+from stats.get_stats import Stats
 from util.logger import configure_logger
 
+
+def append_with_comma(original, to_append):
+    if original:
+        return original + "," + to_append
+    else:
+        return to_append
+
+
 try:
-    logger = configure_logger("UpdateTeams")
+    logger = configure_logger("UpdateRound.log")
     logger.setLevel("DEBUG")
 
     def create_stat_instance(url, stat_name):
         return Stats(url, stat_name)
-    
-    stats_instances = {}
-    
+
+    round_instances = {}
+
     count = 1
-    while count < 28:
+    while count <= 27:
         try:
-            stats_instances["Round {}".format(count)] = create_stat_instance(Url.get_draw_url(count), "Round {}".format(count))
+            round_instances[count] = create_stat_instance(
+                Url.get_draw_url(count), count)
             count += 1
         except Exception as e:
-            logger.error(f"Error creating instance for Round {count}: {e}", exc_info=True)
+            logger.error(
+                f"Error creating instance for Round {count}: {e}", exc_info=True)
             break
 
-    logger.info("Updating Round {count} data")
-    
-    all_data = {stat_name: instance.get_all_match_data()
-                for stat_name, instance in stats_instances.items()}
-    
-    print(all_data)
-    
-#     try:
-#         logger.info(f"Processing Round {count} data")
-#         #db_client = DynamoDBClient(team_name)
+    logger.info("Updating Round data")
 
-#         processed_data = {stat_name: instance.process_teams_data(
-#             all_data[stat_name], team_name) for stat_name, instance in stats_instances.items()}
-#         if all(
-#             team_name.replace(" ", "") == (data['TeamName'].replace(
-#                 " ", "") if data and 'TeamName' in data else "")
-#             for data in processed_data.values() if data and 'TeamName' in data
-#         ):
+    all_data = {round: instance.get_all_draw_data()
+                for round, instance in round_instances.items()}
 
-#             # Filter out None values from processed_data
-#             filtered_processed_data = {
-#                 k: v for k, v in processed_data.items() if v is not None}
+    try:
+        logger.info(f"Processing Round data")
+        db_client = DynamoDBClient(round)
 
-#             # Create the merged_data dictionary
-#             merged_data = {key: value for d in filtered_processed_data.values()
-#                             for key, value in d.items()}
+        processed_data = {round: instance.process_draw_data(
+            round, all_data[round]) for round, instance in round_instances.items()}
+        logger.info("Processed data: {}".format(processed_data))
 
-#             logger.info(
-#                 f"Merged data for {team_name}: {json.dumps(merged_data, indent=2)}")
-#             if merged_data:
-#                 logger.info(f"Inserting {team_name} into DynamoDB")
-#                 db_client.insert_item(merged_data)
-#             else:
-#                 logger.debug(f"No data found for {team_name}")
-#         else:
-#             logger.debug(f"Team name mismatch for {team_name}")
-#     except Exception as e:
-#         logger.error(f"Error processing {team_name}: {e}", exc_info=True)
-    
-    
-    
-#     # Define table schema
-#     table_name = 'NRLRound{count}'
-#     key_schema = [
-#         {
-#             'AttributeName': 'Round',  # Primary key name
-#             'KeyType': 'N'  # Partition key
-#         }
-#     ]
-#     attribute_definitions = [
-#         {
-#             'AttributeName': 'id',
-#             'AttributeType': 'N'  # 'S' for string, 'N' for number, 'B' for binary
-#         }
-#     ]
-#     provisioned_throughput = {
-#         'ReadCapacityUnits': 5,
-#         'WriteCapacityUnits': 5
-#     }
+    except Exception as e:
+        logger.error(f"Error processing Round {count}: {e}", exc_info=True)
 
-#     # Create the table
-#     table = DynamoDBClient.create_table(table_name, key_schema, attribute_definitions, provisioned_throughput)
+    # Define table schema
+    table_name = 'NRL2024Rounds'
 
-#     all_data = {stat_name: instance.get_all_data()
-#                 for stat_name, instance in stats_instances.items()}
+    # Create the table
+    db_client = DynamoDBClient(table_name)
+    merged_data = {}
+
+    for round, data in processed_data.items():
+        if data:
+            for d in data:
+                current_game = create_stat_instance(
+                    "https://www.nrl.com"+d['url'], "Game")
+                all_current_game_data = current_game.get_all_game_data()
+                processed_game_data = current_game.process_game_data(
+                    all_current_game_data)
+                merged_game_data = []
+                for game in processed_game_data:
+                    try:
+                        match_info = {
+                            'PreviousHomeTeams': game['PreviousHomeTeams'],
+                            'PreviousAwayTeams': game['PreviousAwayTeams'],
+                            'PreviousHomeScores': game['PreviousHomeScores'],
+                            'PreviousAwayScores': game['PreviousAwayScores'],
+                            'GamesPlayed': game['GamesPlayed'],
+                            'AwayGamesWon': game['AwayGamesWon'],
+                            'HomeGamesWon': game['HomeGamesWon']
+                        }
+                        merged_game_data.append(match_info)
+                    except Exception as e:
+                        logger.error(
+                            "Error processing match data: {}".format(e), exc_info=True)
+
+                logger.info(
+                    f"Processing {round} - {d['HomeTeam']} vs {d['AwayTeam']}")
+
+                home_team = d['HomeTeam']
+                away_team = d['AwayTeam']
+                stadium = d['Stadium']
+                previous_home_teams = append_with_comma(
+                    merged_game_data[0]['PreviousHomeTeams'], merged_game_data[1]['PreviousHomeTeams'])
+                previous_away_teams = append_with_comma(
+                    merged_game_data[0]['PreviousAwayTeams'], merged_game_data[1]['PreviousAwayTeams'])
+                previous_home_scores = append_with_comma(
+                    merged_game_data[0]['PreviousHomeScores'], merged_game_data[1]['PreviousHomeScores'])
+                previous_away_scores = append_with_comma(
+                    merged_game_data[0]['PreviousAwayScores'], merged_game_data[1]['PreviousAwayScores'])
+                games_played = merged_game_data[0]['GamesPlayed']
+                home_games_won = merged_game_data[0]['HomeGamesWon']
+                away_games_won = merged_game_data[0]['AwayGamesWon']
+
+                if round not in merged_data:
+                    merged_data[round] = {
+                        'Round': round,
+                        'HomeTeams': home_team,
+                        'AwayTeams': away_team,
+                        'Stadiums': stadium,
+                        'HomeGamesWon': home_games_won,
+                        'AwayGamesWon': away_games_won,
+                        'PreviousHomeScores': previous_home_scores,
+                        'PreviousAwayScores': previous_away_scores,
+                        'GamesPlayed': games_played,
+                        'PreviousHomeTeams': previous_home_teams,
+                        'PreviousAwayTeams': previous_away_teams
+                    }
+                else:
+                    merged_data[round] = {
+                        'Round': round,
+                        'HomeTeams': "",
+                        'AwayTeams': "",
+                        'Stadiums': "",
+                        'HomeGamesWon': "",
+                        'AwayGamesWon': "",
+                        'PreviousHomeScores': "",
+                        'PreviousAwayScores': "",
+                        'GamesPlayed': "",
+                        'PreviousHomeTeams': "",
+                        'PreviousAwayTeams': ""
+                    }
+                    merged_data[round]["HomeTeams"] = append_with_comma(
+                        merged_data[round]["HomeTeams"], home_team)
+                    merged_data[round]["AwayTeams"] = append_with_comma(
+                        merged_data[round]["AwayTeams"], away_team)
+                    merged_data[round]["Stadiums"] = append_with_comma(
+                        merged_data[round]["Stadiums"], stadium)
+                    merged_data[round]["HomeGamesWon"] = append_with_comma(
+                        merged_data[round]["HomeGamesWon"], home_games_won)
+                    merged_data[round]["AwayGamesWon"] = append_with_comma(
+                        merged_data[round]["AwayGamesWon"], away_games_won)
+                    merged_data[round]["PreviousHomeScores"] = append_with_comma(
+                        merged_data[round]["PreviousHomeScores"], previous_home_scores)
+                    merged_data[round]["PreviousAwayScores"] = append_with_comma(
+                        merged_data[round]["PreviousAwayScores"], previous_away_scores)
+                    merged_data[round]["GamesPlayed"] = append_with_comma(
+                        merged_data[round]["GamesPlayed"], games_played)
+                    merged_data[round]["PreviousHomeTeams"] = append_with_comma(
+                        merged_data[round]["PreviousHomeTeams"], previous_home_teams)
+                    merged_data[round]["PreviousAwayTeams"] = append_with_comma(
+                        merged_data[round]["PreviousAwayTeams"], previous_away_teams)
+        else:
+            logger.debug(f"No data found for Round {round}")
+
+    for round, data in merged_data.items():
+        logger.info(f"Merged data for Round {round}: {data}")
+        logger.info(f"Inserting Round {round} into DynamoDB")
+        db_client.insert_item(data)
+        logger.info(f"Round {round} inserted into DynamoDB")
 
 except Exception as e:
-    logger.error(f"An error occurred: {e}")
+    logger.error(f"An error occurred: {e}", exc_info=True)
     raise e

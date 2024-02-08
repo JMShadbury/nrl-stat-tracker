@@ -125,3 +125,14 @@ class DynamodbStack(cdk.Stack):
             read_capacity=5,
             write_capacity=5
         )
+        
+        NRL2024Rounds = cdk.aws_dynamodb.Table(
+            self, "NRL2024RoundsTable",
+            table_name="NRL2024Rounds",
+            partition_key=cdk.aws_dynamodb.Attribute(
+                name="Round",
+                type=cdk.aws_dynamodb.AttributeType.NUMBER
+            ),
+            read_capacity=5,
+            write_capacity=5
+        )

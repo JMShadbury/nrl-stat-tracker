@@ -3,7 +3,7 @@ from util.dynamodb import DynamoDBClient
 from util.defaults import Url
 from util.logger import configure_logger
 
-logger = configure_logger("UpdateLadder")
+logger = configure_logger("UpdateLadder.log")
 logger.setLevel("INFO")  # Adjusted for typical production use
 
 class UpdateLadder:

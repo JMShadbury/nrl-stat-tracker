@@ -1,11 +1,11 @@
 import json
 from util.dynamodb import DynamoDBClient
 from util.defaults import Url
-from teams.stats import Stats
+from stats.get_stats import Stats
 from util.logger import configure_logger
 
 try:
-    logger = configure_logger("UpdateTeams")
+    logger = configure_logger("UpdateTeams.log")
     logger.setLevel("DEBUG")
 
     def create_stat_instance(url, stat_name):
