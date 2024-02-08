@@ -1,7 +1,7 @@
 from util.scraper import WebScraper
 from util.data_processing import process_table_row
 from util.logger import get_logger
-from stats.defaults import TeamDefaults, RoundDefaults, GameDefaults
+from stats.constants import TeamDefaults, RoundDefaults, GameDefaults
 
 logger = get_logger()
 logger.setLevel("DEBUG")
