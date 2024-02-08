@@ -5,6 +5,16 @@ file = open("../application_whitelist/whitelist.txt", "r")
 allowed_ips = file.readlines()
 file.close()
 
+domain = "nrl.shadbury.com"
+zone = "shadbury.com"
+lb_port = 443
+ecs_port = 80
+
+environment = {
+    "FLASK_ENV": "production",
+    "FLASK_APP": "app.py"
+}
+
 
 class FlaskFargateStack(cdk.Stack):
 
@@ -17,7 +27,8 @@ class FlaskFargateStack(cdk.Stack):
 
         ecr_repo = cdk.aws_ecr.Repository(self, "NRL_ECR_REPO")
 
-        task_definition = cdk.aws_ecs.FargateTaskDefinition(self, "NRL_TASK_DEF")
+        task_definition = cdk.aws_ecs.FargateTaskDefinition(
+            self, "NRL_TASK_DEF")
 
         container = task_definition.add_container(
             "NRL_CONTAINER",
@@ -29,8 +40,8 @@ class FlaskFargateStack(cdk.Stack):
             ),
         )
 
-        container.add_environment("FLASK_ENV", "production")
-        container.add_environment("FLASK_APP", "app.py")
+        for env in environment:
+            container.add_environment(env, environment[env])
         container.add_port_mappings(cdk.aws_ecs.PortMapping(container_port=80))
 
         ecr_repo.grant_pull(task_definition.execution_role)
@@ -45,35 +56,32 @@ class FlaskFargateStack(cdk.Stack):
         for ip in allowed_ips:
             lb.connections.allow_from(
                 cdk.aws_ec2.Peer.ipv4(ip.replace("\n", "")),
-                cdk.aws_ec2.Port.tcp(80)
+                cdk.aws_ec2.Port.tcp(ecs_port)
             )
 
         listener = lb.add_listener(
             "Listener",
-            port=443,
+            port=lb_port,
             open=True
         )
-        
-        
-        
+
         hosted_zone = cdk.aws_route53.HostedZone.from_lookup(
             self, "HostedZone",
-            domain_name="shadbury.com"
+            domain_name=zone
         )
-        
-        # Request a certificate from ACM for your domain (Assuming 'nrl.shadbury.com')
+
         certificate = cdk.aws_certificatemanager.Certificate(self, "NRLCertificate",
-            domain_name="nrl.shadbury.com",
-            validation=cdk.aws_certificatemanager.CertificateValidation.from_dns(hosted_zone)
-        )
-        
+                                                             domain_name=domain,
+                                                             validation=cdk.aws_certificatemanager.CertificateValidation.from_dns(
+                                                                 hosted_zone)
+                                                             )
+
         listener.add_certificates("NRLCertificate", [certificate])
 
-        
         dns_record = cdk.aws_route53.CnameRecord(
             self, "NRLRecord",
             zone=hosted_zone,
-            record_name="nrl.shadbury.com",
+            record_name=domain,
             domain_name=lb.load_balancer_dns_name
         )
 
@@ -82,8 +90,9 @@ class FlaskFargateStack(cdk.Stack):
             vpc=vpc,
             allow_all_outbound=True
         )
-        
-        lb.connections.allow_from(fargate_service_sg, cdk.aws_ec2.Port.tcp(80))
+
+        lb.connections.allow_from(
+            fargate_service_sg, cdk.aws_ec2.Port.tcp(ecs_port))
 
         fargate_service = cdk.aws_ecs.FargateService(
             self, "NRL_SERVICE",
@@ -95,10 +104,9 @@ class FlaskFargateStack(cdk.Stack):
 
         target_group = listener.add_targets(
             "ECS",
-            port=80,
+            port=ecs_port,
             targets=[fargate_service]
         )
-        
 
 
 class DynamodbStack(cdk.Stack):
