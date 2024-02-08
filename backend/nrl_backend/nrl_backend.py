@@ -54,15 +54,20 @@ class FlaskFargateStack(cdk.Stack):
             open=True
         )
         
+        # Request a certificate from ACM for your domain (Assuming 'nrl.shadbury.com')
         certificate = cdk.aws_certificatemanager.Certificate(self, "NRLCertificate",
             domain_name="nrl.shadbury.com",
             validation=cdk.aws_certificatemanager.CertificateValidation.from_dns()
         )
 
+        # Extract validation options
+        validation_options = certificate.node.try_get_context("certificate_validation_options")
+
+        # Create the CNAME record manually
         cdk.aws_route53.CnameRecord(self, "NRLCertificateValidationRecord",
-            zone=certificate.certificate_domain_validation_options[0].hosted_zone,
-            record_name=certificate.certificate_domain_validation_options[0].resource_record_name,
-            domain_name=certificate.certificate_domain_validation_options[0].resource_record_value
+            zone=validation_options["hosted_zone"],
+            record_name=validation_options["record_name"],
+            domain_name=validation_options["record_value"]
         )
         
         listener.add_certificate_arns("NRLCertificate", [certificate.certificate_arn])
