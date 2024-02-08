@@ -5,6 +5,9 @@ from nrl_backend.nrl_backend import FlaskFargateStack, DynamodbStack
 app = cdk.App()
 DynamodbStack(app, "DynamodbStack",)
 
+cdk.Tags.of(app).add("Project", "NRL-Stat-Tracker")
+cdk.Tags.of(app).add("Env", "Production")
+
 fargate_stack = cdk.App()
 FlaskFargateStack(app, "FargateStack",
                   env={
