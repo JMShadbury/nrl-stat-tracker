@@ -9,7 +9,7 @@ deployBackend: build
 	cd backend; cdk deploy --all --require-approval never
 .PHONY: deployApp
 
-updateStats: build updateTeams
+updateStats: build updateTeams updateRounds
 	python scripts/scrape/update_ladder.py
 .PHONY: updateLadder
 
