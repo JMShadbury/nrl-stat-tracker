@@ -67,7 +67,7 @@ class FlaskFargateStack(cdk.Stack):
             validation=cdk.aws_certificatemanager.CertificateValidation.from_dns(hosted_zone)
         )
         
-        listener.add_certificates("NRLCertificate", [certificate.certificate_arn])
+        listener.add_certificates("NRLCertificate", [certificate])
 
         
         dns_record = cdk.aws_route53.CnameRecord(
