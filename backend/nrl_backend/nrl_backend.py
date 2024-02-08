@@ -54,12 +54,18 @@ class FlaskFargateStack(cdk.Stack):
             open=True
         )
         
-        certificate_arn = cdk.aws_certificatemanager.Certificate(self, "NRLCertificate",
+        certificate = cdk.aws_certificatemanager.Certificate(self, "NRLCertificate",
             domain_name="nrl.shadbury.com",
-            validation_method=cdk.aws_certificatemanager.ValidationMethod.EMAIL
-        ).certificate_arn
+            validation=cdk.aws_certificatemanager.CertificateValidation.from_dns()
+        )
+
+        cdk.aws_route53.CnameRecord(self, "NRLCertificateValidationRecord",
+            zone=certificate.certificate_domain_validation_options[0].hosted_zone,
+            record_name=certificate.certificate_domain_validation_options[0].resource_record_name,
+            domain_name=certificate.certificate_domain_validation_options[0].resource_record_value
+        )
         
-        listener.add_certificate_arns("NRLCertificate", [certificate_arn])
+        listener.add_certificate_arns("NRLCertificate", [certificate.certificate_arn])
         
         hosted_zone = cdk.aws_route53.HostedZone.from_lookup(
             self, "HostedZone",
