@@ -50,10 +50,17 @@ class FlaskFargateStack(cdk.Stack):
 
         listener = lb.add_listener(
             "Listener",
-            port=80,
+            port=443,
             open=True
         )
-
+        
+        certificate_arn = cdk.aws_certificatemanager.Certificate(self, "NRLCertificate",
+            domain_name="nrl.shadbury.com",
+            validation_method=cdk.aws_certificatemanager.ValidationMethod.EMAIL
+        ).certificate_arn
+        
+        listener.add_certificate_arns("NRLCertificate", [certificate_arn])
+        
         hosted_zone = cdk.aws_route53.HostedZone.from_lookup(
             self, "HostedZone",
             domain_name="shadbury.com"
