@@ -47,6 +47,7 @@ jobs:
         aws-region: ${{ secrets.MY_AWS_REGION }}
         role-session-name: "GitHubActions-Deploy-DynamoDbStack"
 
-    - name: Get Data
-      run: |
-        make getData
+    - name: Get Latest Data
+      uses: 
+        ./.github/workflows/_docker-build.yml
+      secrets: inherit
