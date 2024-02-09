@@ -19,20 +19,27 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
-    
     steps:
     - name: Checkout this repo
       uses: actions/checkout@v3
   
   get_credentials:
+    name: Get AWS credentials
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
         role-to-assume: ${{ secrets.AWS_ROLE }}
         aws-region: ${{ secrets.MY_AWS_REGION }}
         role-session-name: "GitHubActions-Deploy-DynamoDbStack"
-        
+
   scrape_data:
+    name: Scrape Data
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
     - name: Scrape Data
       run: |
         make updateStats
