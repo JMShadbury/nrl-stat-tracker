@@ -1,5 +1,4 @@
 name: Deploy Container
-
 on:
   push:
     branches: [ "main" ]
@@ -8,11 +7,9 @@ on:
       - scripts/app/*/*
       - scripts/app/*/*/*
   workflow_dispatch:
-
 permissions:
   id-token: write
   contents: read
-
 jobs:
   deploy:
     name: Deploy

@@ -12,14 +12,12 @@ runs:
   steps:
   - name: Checkout
     uses: actions/checkout@v3
-
   - name: Configure AWS credentials
     uses: aws-actions/configure-aws-credentials@v1.7.0
     with:
       role-to-assume: ${{ inputs.awsRole }}
       aws-region: ${{ inputs.awsRegion }}
       role-session-name: GitHub_to_AWS_via_FederatedOIDC
-    
   - name: Get Latest Data
-    run: |
-      make getData
+    run: make getData
+    shell: bash
