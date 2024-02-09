@@ -24,6 +24,13 @@ jobs:
     - name: Checkout this repo
       uses: actions/checkout@v3
 
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE }}
+        aws-region: ${{ secrets.MY_AWS_REGION }}
+        role-session-name: "GitHubActions-Deploy-DynamoDbStack"
+
     - name: Scrape Data
       run: |
         make updateStats
