@@ -16,7 +16,7 @@ jobs:
     environment: production
     steps:
     - name: scrape_data
-      uses: ./.github/actions/scrape_data/action.yml  
+      uses: ./.github/actions/scrape_data
 
   deploy_container:
     needs: scrape_data
@@ -25,6 +25,6 @@ jobs:
     environment: production
     steps:
     - name: deploy_container
-      uses: ./.github/actions/deploy_container/action.yml
+      uses: ./.github/actions/deploy_container
     - name: get_data_from_db
-      uses: ./.github/actions/get_data_from_db/action.yml
+      uses: ./.github/actions/get_data_from_db
