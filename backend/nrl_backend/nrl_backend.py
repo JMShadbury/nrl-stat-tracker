@@ -21,7 +21,7 @@ class FlaskFargateStack(cdk.Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        vpc = cdk.aws_ec2.Vpc(self, "NRL_VPC", max_azs=1)
+        vpc = cdk.aws_ec2.Vpc(self, "NRL_VPC", max_azs=2)
 
         cluster = cdk.aws_ecs.Cluster(self, "NRL_CLUSTER", vpc=vpc)
 
