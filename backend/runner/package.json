@@ -20,7 +20,7 @@
   "dependencies": {
     "@types/web": "^0.0.73",
     "@typescript/lib-dom": "npm:@types/web@^0.0.73",
-    "aws-cdk-lib": "2.41.0",
+    "aws-cdk-lib": "2.80.0",
     "constructs": "^10.0.0",
     "got": "^11.8.3",
     "node-fetch": "^2.6.1",
