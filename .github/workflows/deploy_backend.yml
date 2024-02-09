@@ -22,3 +22,4 @@ jobs:
     steps:
       - name: deploy_backend
         uses: ./.github/actions/deploy_backend
+        secrets: inherit

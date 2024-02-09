@@ -18,11 +18,12 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
-    secrets: inherit
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: get latest data
         uses: ./.github/actions/get_data_from_db
+        secrets: inherit
       - name: deploy container
         uses: ./.github/actions/deploy_container
+        secrets: inherit
