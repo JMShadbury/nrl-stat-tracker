@@ -35,7 +35,14 @@ jobs:
     steps:
     - name: Checkout this repo
       uses: actions/checkout@v3
-    steps:
     - name: Scrape Data
       run: |
         make updateStats
+
+  get_latest_data:
+    name: get_latest_data
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [scrape_data]
+    uses:
+      ./.github/workflows/deploy_container.yml
