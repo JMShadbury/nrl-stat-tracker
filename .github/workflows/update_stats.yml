@@ -5,6 +5,11 @@ on:
     - cron: '* 0 * * 4'
   workflow_dispatch:
 
+  workflow_run:
+    workflows: ["Deploy Container"]
+    type:
+      - complete
+
 env:             
   ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
   ECS_CLUSTER: ${{ secrets.ECR_CLUSTER_NAME }}              
@@ -45,20 +50,3 @@ jobs:
     - name: Get Data
       run: |
         make getData
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Build, tag, and push image to Amazon ECR
-      id: build-image
-      env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
-      run: |
-          cd scripts/app
-          aws ecr get-login-password --region ${{ secrets.MY_AWS_REGION }} | docker login --username ${{ secrets.AWS_ECR_USERNAME }} --password-stdin ${{ secrets.AWS_ERC_PASSWD }}
-          docker build --platform="linux/amd64" -t ${{ secrets.AWS_ECR_STACK_NAME }} . --no-cache
-          docker tag ${{ secrets.AWS_ECR_IMAGE }} ${{ secrets.AWS_ECR_IMAGE_TAG }}
-          docker push ${{ secrets.AWS_ECR_PUSH }}
-          aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
