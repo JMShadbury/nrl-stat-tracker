@@ -23,7 +23,7 @@ try:
     round_instances = {}
 
     count = 1
-    while count <= 27:
+    while count <= 2:
         try:
             round_instances[count] = create_stat_instance(
                 Url.get_draw_url(count), count)
