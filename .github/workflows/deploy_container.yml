@@ -9,6 +9,11 @@ on:
       - scripts/app/*/*/*
   workflow_dispatch:
 
+  workflow_run:
+    workflows: ["Update Stats"]
+    type:
+      - complete
+
 env:          
   ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
   ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               

@@ -5,11 +5,6 @@ on:
     - cron: '* 0 * * 4'
   workflow_dispatch:
 
-  workflow_run:
-    workflows: ["Deploy Container"]
-    type:
-      - complete
-
 env:             
   ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
   ECS_CLUSTER: ${{ secrets.ECR_CLUSTER_NAME }}              
