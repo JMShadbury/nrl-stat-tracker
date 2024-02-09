@@ -19,7 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: ch
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: get latest data
         uses: ./.github/actions/get_data_from_db
       - name: deploy container
