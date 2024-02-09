@@ -33,7 +33,7 @@ jobs:
           awsRole: ${{ secrets.AWS_ROLE }}
           awsRegion: ${{ secrets.MY_AWS_REGION }}
     - name: deploy_container
-      uses: ./.github/actions/deploy_container
+      uses: ./.github/actions/deploy_ecr_image
       with:          
           ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
           ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
