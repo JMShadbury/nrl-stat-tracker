@@ -45,4 +45,4 @@ jobs:
     environment: production
     needs: [scrape_data]
     uses:
-      ./.github/workflows/deploy_container.yml
+      .github/workflows/deploy_container.yml
