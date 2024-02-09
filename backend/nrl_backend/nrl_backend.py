@@ -17,7 +17,8 @@ class FlaskFargateStack(cdk.Stack):
 
         ecr_repo = cdk.aws_ecr.Repository(self, "NRL_ECR_REPO")
 
-        task_definition = cdk.aws_ecs.FargateTaskDefinition(self, "NRL_TASK_DEF")
+        task_definition = cdk.aws_ecs.FargateTaskDefinition(
+            self, "NRL_TASK_DEF")
 
         container = task_definition.add_container(
             "NRL_CONTAINER",
@@ -45,7 +46,7 @@ class FlaskFargateStack(cdk.Stack):
         for ip in allowed_ips:
             lb.connections.allow_from(
                 cdk.aws_ec2.Peer.ipv4(ip.replace("\n", "")),
-                cdk.aws_ec2.Port.tcp(80)
+                cdk.aws_ec2.Port.tcp(443)
             )
 
         listener = lb.add_listener(
@@ -59,7 +60,6 @@ class FlaskFargateStack(cdk.Stack):
             domain_name="shadbury.com"
         )
 
-        
         dns_record = cdk.aws_route53.CnameRecord(
             self, "NRLRecord",
             zone=hosted_zone,
@@ -72,7 +72,7 @@ class FlaskFargateStack(cdk.Stack):
             vpc=vpc,
             allow_all_outbound=True
         )
-        
+
         lb.connections.allow_from(fargate_service_sg, cdk.aws_ec2.Port.tcp(80))
 
         fargate_service = cdk.aws_ecs.FargateService(
@@ -88,7 +88,6 @@ class FlaskFargateStack(cdk.Stack):
             port=80,
             targets=[fargate_service]
         )
-        
 
 
 class DynamodbStack(cdk.Stack):
@@ -125,7 +124,7 @@ class DynamodbStack(cdk.Stack):
             read_capacity=5,
             write_capacity=5
         )
-        
+
         NRL2024Rounds = cdk.aws_dynamodb.Table(
             self, "NRL2024RoundsTable",
             table_name="NRL2024Rounds",
