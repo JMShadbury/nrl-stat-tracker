@@ -19,7 +19,9 @@ jobs:
       uses: actions/checkout@v3
     - name: scrape_data
       uses: ./.github/actions/scrape_data
-      secrets: inherit
+      with:
+          awsRole: ${{ secrets.AWS_ROLE }}
+          awsRegion: ${{ secrets.MY_AWS_REGION }}
       
 
   deploy_container:
@@ -28,10 +30,18 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-    - name: deploy_container
-      uses: ./.github/actions/deploy_container
-      secrets: inherit
     - name: get_data_from_db
       uses: ./.github/actions/get_data_from_db
-      secrets: inherit
+      with:
+          awsRole: ${{ secrets.AWS_ROLE }}
+          awsRegion: ${{ secrets.MY_AWS_REGION }}
+    - name: deploy_container
+      uses: ./.github/actions/deploy_container
+      with:          
+          ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
+          ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
+          ECS_CLUSTER: ${{ secrets.ECR_CLUSTER_NAME }}              
+          CONTAINER_NAME: ${{ secrets.ECR_CONTAINER_NAME }} 
+          awsRole: ${{ secrets.AWS_ROLE }}
+          awsRegion: ${{ secrets.MY_AWS_REGION }}
     

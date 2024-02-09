@@ -23,3 +23,6 @@ jobs:
       - name: deploy_backend
         uses: ./.github/actions/deploy_backend
         secrets: inherit
+        with:
+          awsRole: ${{ secrets.AWS_ROLE }}
+          awsRegion: ${{ secrets.MY_AWS_REGION }}

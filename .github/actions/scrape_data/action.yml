@@ -1,14 +1,21 @@
-name: 'Deploy Container'
+name: 'Scrape Data'
 description: 'Deploy to AWS ECS'
+inputs:
+  awsRole:
+    description: 'AWS IAM role'
+    required: true
+  awsRegion:
+    description: 'AWS region'
+    required: true
 runs:
   using: 'composite'
   steps:
   - name: Configure AWS credentials
     uses: aws-actions/configure-aws-credentials@v1.7.0
     with:
-      role-to-assume: ${{ secrets.AWS_ROLE }}
+      role-to-assume: ${{ inputs.awsRole }}
+      aws-region: ${{ inputs.awsRegion }}
       role-session-name: GitHub_to_AWS_via_FederatedOIDC
-      aws-region: ${{ secrets.MY_AWS_REGION }}
   - name: Checkout this repo
     uses: actions/checkout@v3
   - name: Scrape Data
