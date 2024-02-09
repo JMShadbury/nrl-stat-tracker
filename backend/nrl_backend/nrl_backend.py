@@ -56,7 +56,7 @@ class FlaskFargateStack(cdk.Stack):
         for ip in allowed_ips:
             lb.connections.allow_from(
                 cdk.aws_ec2.Peer.ipv4(ip.replace("\n", "")),
-                cdk.aws_ec2.Port.tcp(ecs_port)
+                cdk.aws_ec2.Port.tcp(lb_port)
             )
 
         listener = lb.add_listener(
