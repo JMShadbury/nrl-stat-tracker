@@ -16,6 +16,7 @@ runs:
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
+        shell: bash
         with:
           awsRole: ${{ secrets.AWS_ROLE }}
           awsRegion: ${{ secrets.MY_AWS_REGION }}
@@ -23,6 +24,7 @@ runs:
 
 
       - name: Deploy App cdk stack
+        shell: bash
         run: |
           npm install -g aws-cdk
           make deployBackend
