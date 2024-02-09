@@ -9,7 +9,7 @@ permissions:
 jobs:
   scrape_data:
     name: scrape
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: production
     steps:
     - name: Checkout
@@ -22,7 +22,7 @@ jobs:
   deploy_container:
     needs: scrape_data
     name: Deploy
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: production
     steps:
     - name: Checkout
