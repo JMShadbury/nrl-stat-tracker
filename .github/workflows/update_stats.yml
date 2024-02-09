@@ -15,19 +15,10 @@ permissions:
   contents: read 
   
 jobs:
-  checkout:
-    name: checkout
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-    - name: Checkout this repo
-      uses: actions/checkout@v3
-  
   get_credentials:
     name: get_credentials
     runs-on: ubuntu-latest
     environment: production
-    needs: [checkout]
     steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -41,6 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     needs: [get_credentials]
+    steps:
+    - name: Checkout this repo
+      uses: actions/checkout@v3
     steps:
     - name: Scrape Data
       run: |
