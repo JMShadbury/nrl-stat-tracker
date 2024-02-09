@@ -16,7 +16,7 @@ permissions:
   
 jobs:
   checkout:
-    name: Deploy
+    name: Checkout
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -27,6 +27,7 @@ jobs:
     name: Get AWS credentials
     runs-on: ubuntu-latest
     environment: production
+    needs: [Checkout]
     steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -39,6 +40,7 @@ jobs:
     name: Scrape Data
     runs-on: ubuntu-latest
     environment: production
+    needs: [Get AWS credentials]
     steps:
     - name: Scrape Data
       run: |
