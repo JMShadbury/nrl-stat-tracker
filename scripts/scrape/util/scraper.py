@@ -23,11 +23,11 @@ class WebScraper:
         self.url = url
         logger.info(f"Setting URL: {self.url}")
         options = Options()
-        options.headless = False
+        options.headless = True
         options.add_argument("-headless") 
         self.driver = webdriver.Firefox(options=options)
 
-    def load_page(self, xpath, delay=1):
+    def load_page(self, xpath, delay=0):
         '''
         Load the page and return the source
         :param xpath: The xpath to find
@@ -43,12 +43,14 @@ class WebScraper:
                 WebDriverWait(self.driver, delay).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))
                 source = BeautifulSoup(self.driver.page_source, 'html.parser')
-                logger.info("Page data found, closing driver")
-                self.close()
                 self.source = source
                 return source
             except TimeoutException:
                 logger.error("Couldn't load page")
+                self.close()
+                return None
+            except Exception as e:
+                logger.error(f"An error occurred: {e}")
                 self.close()
                 return None
 
