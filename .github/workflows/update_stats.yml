@@ -39,7 +39,3 @@ jobs:
     - name: Scrape Data
       run: |
         make updateStats
-
-    - name: Get Latest Data
-      uses: 
-        ./.github/workflows/deploy_container.yml
