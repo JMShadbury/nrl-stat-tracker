@@ -1,14 +1,11 @@
 name: Update Stats
-
 on:
   schedule:
     - cron: '* 0 * * 4'
   workflow_dispatch:
-
 permissions:
   id-token: write
   contents: read 
-  
 jobs:
   scrape_data:
     name: scrape
@@ -22,14 +19,14 @@ jobs:
       with:
           awsRole: ${{ secrets.AWS_ROLE }}
           awsRegion: ${{ secrets.MY_AWS_REGION }}
-      
-
   deploy_container:
     needs: scrape_data
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: get_data_from_db
       uses: ./.github/actions/get_data_from_db
       with:
@@ -44,4 +41,3 @@ jobs:
           CONTAINER_NAME: ${{ secrets.ECR_CONTAINER_NAME }} 
           awsRole: ${{ secrets.AWS_ROLE }}
           awsRegion: ${{ secrets.MY_AWS_REGION }}
-    
