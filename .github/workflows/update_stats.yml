@@ -33,7 +33,7 @@ jobs:
         make updateStats
 
   get_latest_data:
-    name: get_latest_data
+    name: deploy_container
     runs-on: ubuntu-latest
     environment: production
     needs: [scrape_data]
