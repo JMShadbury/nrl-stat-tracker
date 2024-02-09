@@ -21,6 +21,6 @@ jobs:
 
     steps:
       - name: get latest data
-        uses: ./.github/actions/get_data_from_db.yml
+        uses: ./.github/actions/get_data_from_db/action.yml
       - name: deploy container
-        uses: ./.github/actions/deploy_container.yml
+        uses: ./.github/actions/deploy_container/action.yml

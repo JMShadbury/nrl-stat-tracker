@@ -16,14 +16,15 @@ jobs:
     environment: production
     steps:
     - name: scrape_data
-      uses: ./.github/actions/scrape_data.yml    
+      uses: ./.github/actions/scrape_data/action.yml  
 
   deploy_container:
+  needs: scrape_data
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
     steps:
     - name: deploy_container
-      uses: ./.github/actions/deploy_container.yml
+      uses: ./.github/actions/deploy_container/action.yml
     - name: get_data_from_db
-      uses: ./.github/actions/get_data_from_db.yml
+      uses: ./.github/actions/get_data_from_db/action.yml
