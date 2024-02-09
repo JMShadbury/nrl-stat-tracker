@@ -50,4 +50,3 @@ jobs:
     - name: Get Latest Data
       uses: 
         ./.github/workflows/_docker-build.yml
-      secrets: inherit
