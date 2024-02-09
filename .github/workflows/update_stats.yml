@@ -44,5 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     needs: [scrape_data]
-    uses:
-      .github/workflows/deploy_container.yml
+    steps:
+      - uses: actions/checkout@v3 
+      - name: Local Action Call
+        uses: ./.github/workflows/deploy_container.yml 
