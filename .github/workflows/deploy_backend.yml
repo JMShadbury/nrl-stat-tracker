@@ -21,4 +21,4 @@ jobs:
     
     steps:
       - name: deploy_backend
-        uses: ./.github/actions/deploy_backend/action.yml
+        uses: ./.github/actions/deploy_backend
