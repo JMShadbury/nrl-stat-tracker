@@ -5,10 +5,7 @@ build:
 	pip3 install -r scripts/app/util/requirements.txt 
 .PHONY: build
 
-deployRunner: build
-	cd backend/runner; npm install ; cdk deploy --require-approval never
-
-deployBackend: build deployRunner
+deployBackend: build
 	cd backend; cdk deploy --all --require-approval never
 .PHONY: deployApp
 
