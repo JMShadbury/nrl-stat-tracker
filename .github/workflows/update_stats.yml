@@ -19,7 +19,6 @@ jobs:
     name: scrape
     runs-on: ubuntu-latest
     environment: production
-    needs: [get_credentials]
     steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1.7.0
