@@ -15,8 +15,8 @@ runs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          awsRole: ${{ inputs.awsRole }}
-          awsRegion: ${{ inputs.awsRegion }}
+          role-to-assume: ${{ inputs.awsRole }}
+          aws-region: ${{ inputs.awsRegion }}
           role-session-name: "GitHubActions-Deploy-DynamoDbStack"
       - name: Deploy App cdk stack
         shell: bash
