@@ -44,6 +44,7 @@ class WebScraper:
                     EC.presence_of_element_located((By.XPATH, xpath)))
                 source = BeautifulSoup(self.driver.page_source, 'html.parser')
                 self.source = source
+                self.close()
                 return source
             except TimeoutException:
                 logger.error("Couldn't load page")
