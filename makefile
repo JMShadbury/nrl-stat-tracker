@@ -1,8 +1,8 @@
 # Targets
 
 build:
-	pip install --upgrade pip && \
-	pip install -r scripts/app/util/requirements.txt 
+	pip3 install --upgrade pip && \
+	pip3 install -r scripts/app/util/requirements.txt 
 .PHONY: build
 
 deployRunner: build
