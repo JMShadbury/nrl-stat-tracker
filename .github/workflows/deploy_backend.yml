@@ -18,6 +18,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
+    secrets: inherit
     steps:
       - name: deploy_backend
         uses: ./.github/actions/deploy_backend
