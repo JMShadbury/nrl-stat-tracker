@@ -1,0 +1,39 @@
+env:          
+  ECR_REPOSITORY: ${{ secrets.ECR_NAME }}      
+  ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
+  ECS_CLUSTER: ${{ secrets.ECR_CLUSTER_NAME }}              
+  CONTAINER_NAME: ${{ secrets.ECR_CONTAINER_NAME }} 
+
+name: 'Deploy Backend'
+description: 'Deploy to AWS DynamoDB/Fargate Stacks'
+runs:
+  using: 'composite'
+  steps:
+  - name: Checkout
+    uses: actions/checkout@v3
+  - name: Configure AWS credentials
+    uses: aws-actions/configure-aws-credentials@v1.7.0
+    with:
+      role-to-assume: ${{ secrets.AWS_ROLE }}
+      role-session-name: GitHub_to_AWS_via_FederatedOIDC
+      aws-region: ${{ secrets.MY_AWS_REGION }}
+  - name: Get Latest Data
+      run: |
+        make getData
+  - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+  - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        cd scripts/app
+        aws ecr get-login-password --region ${{ secrets.MY_AWS_REGION }} | docker login --username ${{ secrets.AWS_ECR_USERNAME }} --password-stdin ${{ secrets.AWS_ERC_PASSWD }}
+        docker build --platform="linux/amd64" -t ${{ secrets.AWS_ECR_STACK_NAME }} .
+        docker tag ${{ secrets.AWS_ECR_IMAGE }} ${{ secrets.AWS_ECR_IMAGE_TAG }}
+        docker push ${{ secrets.AWS_ECR_PUSH }}
+        aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
+
+  

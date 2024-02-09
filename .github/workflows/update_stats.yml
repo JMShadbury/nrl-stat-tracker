@@ -5,11 +5,6 @@ on:
     - cron: '* 0 * * 4'
   workflow_dispatch:
 
-env:             
-  ECS_SERVICE: ${{ secrets.ECR_SERVICE_NAME }}               
-  ECS_CLUSTER: ${{ secrets.ECR_CLUSTER_NAME }}              
-  CONTAINER_NAME: ${{ secrets.ECR_CONTAINER_NAME }} 
-
 permissions:
   id-token: write
   contents: read 
@@ -20,25 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1.7.0
-      with:
-        role-to-assume: ${{ secrets.AWS_ROLE }}
-        role-session-name: GitHub_to_AWS_via_FederatedOIDC
-        aws-region: ${{ secrets.MY_AWS_REGION }}
-    - name: Checkout this repo
-      uses: actions/checkout@v3
-    - name: Scrape Data
-      run: |
-        make updateStats
+    - name: scrape_data
+      uses: ./.github/actions/scrape_data.yml    
 
   deploy_container:
-    name: deploy_container
+    name: Deploy
     runs-on: ubuntu-latest
     environment: production
-    needs: [scrape_data]
     steps:
-    - name: Checkout this repo
-      uses: actions/checkout@v3
-    - name: Local Action Call
-      uses: ./.github/workflows/deploy_container.yml 
+    - name: deploy_container
+      uses: ./.github/actions/deploy_container.yml
+    - name: get_data_from_db
+      uses: ./.github/actions/get_data_from_db.yml
