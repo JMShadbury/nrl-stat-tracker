@@ -1,0 +1,16 @@
+name: 'Deploy Container'
+description: 'Deploy to AWS ECS'
+runs:
+  using: 'composite'
+  steps:
+  - name: Configure AWS credentials
+    uses: aws-actions/configure-aws-credentials@v1.7.0
+    with:
+      role-to-assume: ${{ secrets.AWS_ROLE }}
+      role-session-name: GitHub_to_AWS_via_FederatedOIDC
+      aws-region: ${{ secrets.MY_AWS_REGION }}
+  - name: Checkout this repo
+    uses: actions/checkout@v3
+  - name: Scrape Data
+    run: |
+      make updateStats
