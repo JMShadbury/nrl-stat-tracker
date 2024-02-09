@@ -1,5 +1,12 @@
 name: 'Deploy Container'
 description: 'Deploy to AWS ECS'
+inputs:
+  awsRole:
+    description: 'AWS IAM role'
+    required: true
+  awsRegion:
+    description: 'AWS region'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -10,8 +17,8 @@ runs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
-          aws-region: ${{ secrets.MY_AWS_REGION }}
+          awsRole: ${{ secrets.AWS_ROLE }}
+          awsRegion: ${{ secrets.MY_AWS_REGION }}
           role-session-name: "GitHubActions-Deploy-DynamoDbStack"
 
 
