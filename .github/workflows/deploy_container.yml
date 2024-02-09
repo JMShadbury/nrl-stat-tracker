@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
   workflow_run:
-    workflows: ["Scrape Data"]
+    workflows: ["scrape"]
     type:
       - complete
 
