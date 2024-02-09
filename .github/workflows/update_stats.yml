@@ -32,7 +32,7 @@ jobs:
       run: |
         make updateStats
 
-  get_latest_data:
+  deploy_container:
     name: deploy_container
     runs-on: ubuntu-latest
     environment: production
@@ -41,4 +41,4 @@ jobs:
     - name: Checkout this repo
       uses: actions/checkout@v3
     - name: Local Action Call
-      uses: ./.github/workflows/deploy_container.yml 
+      uses: .github/workflows/deploy_container.yml 
