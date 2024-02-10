@@ -46,24 +46,24 @@ class FlaskFargateStack(cdk.Stack):
 
         ecr_repo.grant_pull(task_definition.execution_role)
 
-        lb = cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
-            self, "NRL_LB",
-            vpc=vpc,
-            internet_facing=True,  # Set to False if you want the load balancer to be internal
-            load_balancer_name="NRLApplicationLoadBalancer"
-        )
+        # lb = cdk.aws_elasticloadbalancingv2.ApplicationLoadBalancer(
+        #     self, "NRL_LB",
+        #     vpc=vpc,
+        #     internet_facing=True,  # Set to False if you want the load balancer to be internal
+        #     load_balancer_name="NRLApplicationLoadBalancer"
+        # )
 
-        for ip in allowed_ips:
-            lb.connections.allow_from(
-                cdk.aws_ec2.Peer.ipv4(ip.replace("\n", "")),
-                cdk.aws_ec2.Port.tcp(lb_port)
-            )
+        # for ip in allowed_ips:
+        #     lb.connections.allow_from(
+        #         cdk.aws_ec2.Peer.ipv4(ip.replace("\n", "")),
+        #         cdk.aws_ec2.Port.tcp(lb_port)
+        #     )
 
-        listener = lb.add_listener(
-            "Listener",
-            port=lb_port,
-            open=True
-        )
+        # listener = lb.add_listener(
+        #     "Listener",
+        #     port=lb_port,
+        #     open=True
+        # )
 
         hosted_zone = cdk.aws_route53.HostedZone.from_lookup(
             self, "HostedZone",
@@ -76,14 +76,14 @@ class FlaskFargateStack(cdk.Stack):
                                                                  hosted_zone)
                                                              )
 
-        listener.add_certificates("NRLCertificate", [certificate])
+        # listener.add_certificates("NRLCertificate", [certificate])
 
-        dns_record = cdk.aws_route53.CnameRecord(
-            self, "NRLRecord",
-            zone=hosted_zone,
-            record_name=domain,
-            domain_name=lb.load_balancer_dns_name
-        )
+        # dns_record = cdk.aws_route53.CnameRecord(
+        #     self, "NRLRecord",
+        #     zone=hosted_zone,
+        #     record_name=domain,
+        #     domain_name=lb.load_balancer_dns_name
+        # )
 
         fargate_service_sg = cdk.aws_ec2.SecurityGroup(
             self, "NRLServiceSG",
@@ -91,22 +91,22 @@ class FlaskFargateStack(cdk.Stack):
             allow_all_outbound=True
         )
 
-        lb.connections.allow_from(
-            fargate_service_sg, cdk.aws_ec2.Port.tcp(ecs_port))
+        # lb.connections.allow_from(
+        #     fargate_service_sg, cdk.aws_ec2.Port.tcp(ecs_port))
 
         fargate_service = cdk.aws_ecs.FargateService(
             self, "NRL_SERVICE",
             cluster=cluster,
             task_definition=task_definition,
             security_groups=[fargate_service_sg],
-            assign_public_ip=False
+            assign_public_ip=True
         )
 
-        target_group = listener.add_targets(
-            "ECS",
-            port=ecs_port,
-            targets=[fargate_service]
-        )
+        # target_group = listener.add_targets(
+        #     "ECS",
+        #     port=ecs_port,
+        #     targets=[fargate_service]
+        # )
 
 
 class DynamodbStack(cdk.Stack):
