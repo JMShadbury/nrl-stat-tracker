@@ -1,5 +1,5 @@
 import json
-from util.dynamodb import DynamoDBClient
+from util.json_client import JSONClient
 from util.defaults import Url
 from stats.get_stats import Stats
 from util.logger import configure_logger
@@ -52,7 +52,7 @@ try:
     table_name = 'NRL2024Rounds'
 
     # Create the table
-    db_client = DynamoDBClient(table_name)
+    db_client = JSONClient(table_name)
     merged_data = {}
 
     for round, data in processed_data.items():

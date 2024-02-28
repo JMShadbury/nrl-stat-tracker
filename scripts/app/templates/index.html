@@ -121,9 +121,12 @@
       <nav class="navbar navbar-expand-lg navbar-custom mb-4">
          <a class="navbar-brand" href="#">NRL Statistics Tracker</a>
          <div class="ml-auto">
-                  <form action="/ladder" method="get" style="margin-top: 20px;">
-            <button type="submit" class="btn-custom">View Ladder</button>
+            <form action="/ladder" method="get" style="margin-top: 20px;">
+                <button type="submit" class="btn-custom">View Ladder</button>
          </form>
+         <form action="/rounds" method="get" style="display: inline-block;">
+            <button type="submit" class="btn-custom">View Rounds</button>
+        </form>
          </div>
       </nav>
       <div class="container">
@@ -159,14 +162,14 @@
                   </tr>
                </thead>
                <tbody>
-                  {% for stat, value1 in comparison_data.team1.data.items() %}
-                  <tr>
-                     <td>{{ stat }}</td>
-                     <td>{{ value1 }}</td>
-                     <td>{{ comparison_data.team2.data[stat] }}</td>
-                  </tr>
-                  {% endfor %}
-               </tbody>
+                {% for stat, values in comparison_data.team1.data.items() %}
+                <tr>
+                   <td>{{ stat }}</td>
+                   <td>{{ values[comparison_data.team1.name] }}</td>
+                   <td>{{ comparison_data.team2.data[stat][comparison_data.team2.name] }}</td>
+                </tr>
+                {% endfor %}
+             </tbody>
             </table>
          </div>
          {% endif %}

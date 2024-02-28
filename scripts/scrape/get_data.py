@@ -1,19 +1,12 @@
 import os
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
-from util.dynamodb import DynamoDBClient
+from util.json_client import JSONClient
 from util.logger import configure_logger
 import json
 
 # Configure logger
-logger = configure_logger("GetDataFromDynamoDB.log")
-
-def get_dynamodb_client():
-    try:
-        return boto3.client('dynamodb')
-    except NoCredentialsError as e:
-        logger.error(f"Credentials not available: {e}")
-        return None
+logger = configure_logger("get_data.log")
 
 def transform_data_for_display(items):
     """Transform DynamoDB items for display."""
@@ -36,30 +29,29 @@ def save_json(data, directory, filename):
     except IOError as e:
         logger.error(f"Failed to save data: {e}")
 
-def process_team_data(client, team_names):
+def process_team_data(team_names):
     """Process and save team data."""
     for team_name in team_names:
-        client = DynamoDBClient(team_name)
-        raw_data = client.fetch_data_from_dynamodb(team_name)
+        client = JSONClient(team_name)
+        raw_data = client.read_data()
         if raw_data:
-            transformed_data = transform_data_for_display(raw_data)
-            save_json(transformed_data, 'scripts/app/data', f'{team_name}.json')
+            save_json(raw_data, 'scripts/app/data', f'{team_name}.json')
 
 def main():
-    dynamodb_client = get_dynamodb_client()
-    if not dynamodb_client:
-        return
-
     with open("scripts/app/data/teams", "r") as f:
         team_names = [team.split(":")[0] for team in f.read().splitlines()]
+    process_team_data(team_names)
     
-    process_team_data(dynamodb_client, team_names)
-    client = DynamoDBClient("Ladder")
-
-    ladder_data = client.fetch_data_from_dynamodb("Ladder")
+    
+    client = JSONClient("Ladder")
+    ladder_data = client.read_data()
     if ladder_data:
-        transformed_ladder_data = transform_data_for_display(ladder_data)
-        save_json(transformed_ladder_data, 'scripts/app/ladder', 'ladder_data.json')
+        save_json(ladder_data, 'scripts/app/ladder', 'ladder_data.json')
+        
+    client = JSONClient("NRL2024Rounds")
+    rounds_data = client.read_data()
+    if rounds_data:
+        save_json(rounds_data, 'scripts/app/rounds', 'rounds_data.json')
 
 if __name__ == '__main__':
     main()

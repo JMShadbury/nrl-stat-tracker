@@ -1,13 +1,11 @@
 # Targets
 
 build:
+	python -m venv venv && \
+	. venv/bin/activate && \
 	pip install --upgrade pip && \
 	pip install -r scripts/app/util/requirements.txt 
 .PHONY: build
-
-deployBackend: build
-	cd backend; cdk deploy --all --require-approval never
-.PHONY: deployApp
 
 updateStats: build updateTeams updateRounds
 	python scripts/scrape/update_ladder.py
@@ -26,11 +24,6 @@ getData: build
 
 viewStats: build
 	python scripts/app/view_stats.py
-
-destroy:
-	cd dynamodb; cdk destroy; cd .. && \
-	rm -rf .venv
-.PHONY: destroy
 
 clean:
 	rm -rf .venv

@@ -1,5 +1,5 @@
 import json
-from util.dynamodb import DynamoDBClient
+from util.json_client import JSONClient
 from util.defaults import Url
 from stats.get_stats import Stats
 from util.logger import configure_logger
@@ -60,7 +60,7 @@ try:
     for team_name in team_names:
         try:
             logger.info(f"Processing {team_name}")
-            db_client = DynamoDBClient(team_name)
+            db_client = JSONClient(team_name)
 
             processed_data = {stat_name: instance.process_teams_data(
                 all_data[stat_name], team_name) for stat_name, instance in stats_instances.items()}

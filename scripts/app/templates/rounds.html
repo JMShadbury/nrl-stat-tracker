@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... (head elements and styles) ... -->
+</head>
+<body>
+    <!-- ... (navigation and other layout elements) ... -->
+    <div class="container">
+        <h2>Rounds</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Round</th>
+                    <th>Home Teams</th>
+                    <th>Away Teams</th>
+                    <th>Stadiums</th>
+                    <!-- ... (other headers as needed) ... -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for round in rounds %}
+                <tr>
+                    <td>{{ round.Round }}</td>
+                    <td>{{ round.HomeTeams }}</td>
+                    <td>{{ round.AwayTeams }}</td>
+                    <td>{{ round.Stadiums }}</td>
+                    <!-- ... (other data columns as needed) ... -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- ... (footer and other layout elements) ... -->
+</body>
+</html>

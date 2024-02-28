@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import json
-from data_manager import load_data
+from data_manager import load_data, load_rounds_data
 from util.logger import configure_logger
 
 
@@ -64,6 +64,12 @@ def view_ladder():
     except Exception as e:
         logger.error(f"Unexpected error: {e}", exc_info=True)
         return "An unexpected error occurred", 500
+    
+@app.route('/rounds')
+def rounds():
+    rounds_data = load_rounds_data()
+    return render_template('rounds.html', rounds=rounds_data)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=80, debug=True)
+    # app.run(host="0.0.0.0",port=80, debug=True)
+    app.run()
