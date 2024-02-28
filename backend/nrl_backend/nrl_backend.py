@@ -15,7 +15,6 @@ environment = {
     "FLASK_APP": "app.py"
 }
 
-
 class FlaskFargateStack(cdk.Stack):
 
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
