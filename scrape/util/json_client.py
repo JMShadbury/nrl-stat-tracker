@@ -5,7 +5,7 @@ from util.logger import get_logger
 
 logger = get_logger()
 
-path = "scripts/scrape/all_data/"
+path = "scrape/all_data/"
 
 class JSONClient:
     def __init__(self, file_name):

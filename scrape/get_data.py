@@ -38,7 +38,7 @@ def process_team_data(team_names):
             save_json(raw_data, 'scripts/app/data', f'{team_name}.json')
 
 def main():
-    with open("scripts/app/data/teams", "r") as f:
+    with open("app/teams/teams", "r") as f:
         team_names = [team.split(":")[0] for team in f.read().splitlines()]
     process_team_data(team_names)
     
@@ -46,12 +46,12 @@ def main():
     client = JSONClient("Ladder")
     ladder_data = client.read_data()
     if ladder_data:
-        save_json(ladder_data, 'scripts/app/ladder', 'ladder_data.json')
+        save_json(ladder_data, 'app/ladder', 'ladder_data.json')
         
     client = JSONClient("NRL2024Rounds")
     rounds_data = client.read_data()
     if rounds_data:
-        save_json(rounds_data, 'scripts/app/rounds', 'rounds_data.json')
+        save_json(rounds_data, 'app/rounds', 'rounds_data.json')
 
 if __name__ == '__main__':
     main()
