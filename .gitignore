@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
+.DS_Store
+__pycache__
 *.py[cod]
 *$py.class
 
@@ -8,6 +9,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+all_data/
+ladder/
+rounds/
 build/
 develop-eggs/
 dist/

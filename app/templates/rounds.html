@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NRL Rounds</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .details {
+            max-height: 0; /* Start with 0 max-height */
+            overflow: hidden;
+            transition: max-height 0.5s ease; /* Smooth transition for max-height */
+            background-color: #0d1117;
+            padding: 0 10px; /* Start with 0 padding */
+        }
+        
+        .details-content {
+            padding: 10px 0; /* Apply padding to the content instead */
+        }
+        
+        .detail-toggle.active + .details {
+            max-height: 1000px; /* Adjust as needed for content */
+            padding: 10px; /* Restore padding when active */
+        }
+        
+        .detail-toggle:after {
+            content: '\25BC'; /* Downward arrow when inactive */
+            display: inline-block;
+            transition: transform 0.5s ease; /* Smooth transform transition */
+        }
+        
+        .detail-toggle.active:after {
+            transform: rotate(-180deg); /* Flip arrow when active */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Rounds</h2>
+        <!-- Loop through your rounds data here -->
+        {% for round in rounds_data %}
+            <div class="round-container">
+                <h3>Round {{ round.Round }}</h3>
+                {% set home_teams = round.HomeTeams.split(',') %}
+                {% set away_teams = round.AwayTeams.split(',') %}
+                {% set stadiums = round.Stadiums.split(',') %}
+                {% set home_games_won = round.HomeGamesWon.split(',') %}
+                {% set away_games_won = round.AwayGamesWon.split(',') %}
+                {% set previous_home_scores = round.PreviousHomeScores.split(',') %}
+                {% set previous_away_scores = round.PreviousAwayScores.split(',') %}
+                {% set games_played = round.GamesPlayed.split(',') %}
+                {% set previous_home_teams = round.PreviousHomeTeams.split(',') %}
+                {% set previous_away_teams = round.PreviousAwayTeams.split(',') %}
+
+                {% for i in range(home_teams|length) %}
+                    <div class="game-container mb-3">
+                        <div class="game-header">
+                            {{ home_teams[i] }} VS {{ away_teams[i] }}
+                        </div>
+                        <div class="game-statistics">
+                            <div>Stadium: {{ stadiums[i].strip('Venue:\n            ') }}</div>
+                            <!-- Add other main stats you want to always show -->
+                        </div>
+                        <div class="detail-toggle" onclick="toggleDetails(this)">More Details</div>
+                        <div class="details">
+                            <div class="details-content">
+                                <div>Home Games Won: {{ home_games_won[i] }}</div>
+                                <div>Away Games Won: {{ away_games_won[i] }}</div>
+                                <!-- Add more additional stats here -->
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        function toggleDetails(element) {
+            var details = element.nextElementSibling;
+            if (element.classList.contains('active')) {
+                details.style.maxHeight = '0';
+                details.style.paddingTop = '0';
+                details.style.paddingBottom = '0';
+                element.classList.remove('active');
+            } else {
+                details.style.maxHeight = details.scrollHeight + "px"; // Auto height for content
+                details.style.paddingTop = '10px';
+                details.style.paddingBottom = '10px';
+                element.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

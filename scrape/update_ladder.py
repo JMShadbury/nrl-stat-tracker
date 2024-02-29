@@ -1,5 +1,5 @@
 from util.scraper import WebScraper
-from util.dynamodb import DynamoDBClient
+from util.json_client import JSONClient
 from util.defaults import Url
 from util.logger import configure_logger
 
@@ -10,7 +10,7 @@ class UpdateLadder:
     def __init__(self):
         logger.info("Initializing UpdateLadder")
         self.scraper = WebScraper(Url.LADDER.value)
-        self.db_client = DynamoDBClient("Ladder")
+        self.db_client = JSONClient("Ladder")
         logger.info("UpdateLadder Initialized")
 
     def get_text(self, row, selector):
