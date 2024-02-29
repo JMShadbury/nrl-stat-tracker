@@ -68,8 +68,11 @@ def view_ladder():
 @app.route('/rounds')
 def rounds():
     rounds_data = load_rounds_data()
+    logger.debug("Rounds Data: {}".format(rounds_data))
+    print(rounds_data)  # Use print to see the output directly in the console.
     return render_template('rounds.html', rounds=rounds_data)
 
+
+
 if __name__ == '__main__':
-    # app.run(host="0.0.0.0",port=80, debug=True)
-    app.run()
+    app.run(debug=True)

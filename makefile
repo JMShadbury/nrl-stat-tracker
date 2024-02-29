@@ -8,22 +8,28 @@ build:
 .PHONY: build
 
 updateStats: build updateTeams updateRounds
+	. venv/bin/activate && \
 	python scripts/scrape/update_ladder.py
 .PHONY: updateLadder
 
 updateTeams: build
+	. venv/bin/activate && \
 	python scripts/scrape/update_teams.py
 .PHONY: updateTeams
 
 updateRounds: build
+	. venv/bin/activate && \
 	python scripts/scrape/update_rounds.py
 
 getData: build
+	. venv/bin/activate && \
 	python scripts/scrape/get_data.py
 .PHONY: getData
 
 viewStats: build
-	python scripts/app/view_stats.py
+	. venv/bin/activate && \
+	cd scripts/app && \
+	python view_stats.py
 
 clean:
 	rm -rf .venv

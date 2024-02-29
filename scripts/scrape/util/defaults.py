@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class Url(Enum):
     '''Enum class for URLs'''
     
