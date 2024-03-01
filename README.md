@@ -36,12 +36,12 @@ The list of commands are:
 - `make clean` - This will remove the virtual environment and logs.
 
 
-**_NOTE:_** Running make getData will run all required commands to get the data from the NRL website. After this is done, you can run make viewStats to view the stats.
+**_NOTE:_** Running `make getData` will run all required commands to get the data from the NRL website. After this is done, you can run `make viewStats` to view the stats.
 
 ## Contributing
 Contributions to NRL Stat Tracker are welcome. Please adhere to the following guidelines:
 
-- Fork the repository and create your branch from `master`.
+- Fork the repository and create your branch from `main`.
 - Write clear and concise commit messages.
 - Ensure code style and quality standards are maintained.
 - Create a pull request with a detailed description of changes.
