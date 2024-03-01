@@ -6,15 +6,20 @@ import json
 
 logger = get_logger()
 
+
 def load_rounds_data():
+    '''
+    Load data from JSON files and create a DataFrame
+    '''
     with open('rounds/rounds_data.json', 'r') as file:
         rounds_data = json.load(file)
     return rounds_data
 
+
 def load_data():
     '''
     Load data from JSON files and create a DataFrame
-    
+
     Returns:
         pd.DataFrame: DataFrame containing the data
     '''
@@ -40,5 +45,6 @@ def load_data():
     logger.info("DataFrame Created")
 
     return df
+
 
 team_data = load_data()

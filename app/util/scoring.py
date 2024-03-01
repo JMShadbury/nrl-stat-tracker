@@ -38,6 +38,9 @@ class ScoringRules(Enum):
     
     
 def calculate_score(team_stats):
+    '''
+    Calculate the score for a team based on their statistics
+    '''
     score = 0
     total_games_played = team_stats.get("PLAYED", 0)
     completion_rate = team_stats.get("COMPLETION_RATE", 0)
@@ -81,7 +84,3 @@ def calculate_score(team_stats):
 
 
     return score
-
-
-
-
