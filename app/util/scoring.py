@@ -34,7 +34,7 @@ class ScoringRules(Enum):
     KICK_RETURN_METRES = 1
     FIELD_GOALS = 20
     RUNS = 0.001
-    KICKS = 0.001
+    KICKS = 0.1
     
     
 def calculate_score(team_stats):
