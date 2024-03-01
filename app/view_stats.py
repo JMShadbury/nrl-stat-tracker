@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
+from util.scoring import calculate_score
 import json
 from data_manager import load_data, load_rounds_data
 from util.logger import configure_logger
@@ -11,9 +12,6 @@ team_data = load_data()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    '''
-    Index route for the web application
-    '''
     logger.info("Index route called")
     try:
         teams = sorted(team_data.index.unique())
@@ -26,22 +24,22 @@ def index():
             selected_team2 = request.form.get('team2', '')
 
             if selected_team1 in teams and selected_team2 in teams:
-                # Extract data for the selected teams
                 team1_data = team_data.loc[selected_team1].to_dict()
                 team2_data = team_data.loc[selected_team2].to_dict()
-                comparison_data = {'team1': {'name': selected_team1, 'data': team1_data},
-                                   'team2': {'name': selected_team2, 'data': team2_data}}
-            else:
-                return "One or both teams not found.", 404
-        else:
-            selected_team1 = ''
-            selected_team2 = ''
-        logger.info(f"Selected teams: {selected_team1}, {selected_team2}")
+
+                team1_score = calculate_score(team1_data)
+                team2_score = calculate_score(team2_data)
+
+                comparison_data = {
+                    'team1': {'name': selected_team1, 'data': team1_data, 'score': team1_score},
+                    'team2': {'name': selected_team2, 'data': team2_data, 'score': team2_score}
+                }
 
         return render_template('index.html', teams=teams, selected_team1=selected_team1, selected_team2=selected_team2, comparison_data=comparison_data)
     except Exception as e:
         logger.error(f"Error processing request: {e}", exc_info=True)
         return "An error occurred", 500
+
     
 
 @app.route('/ladder', methods=['GET'])
