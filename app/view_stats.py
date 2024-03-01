@@ -5,14 +5,22 @@ from data_manager import load_data, load_rounds_data
 from util.logger import configure_logger
 import os
 
-
+# Configure logger
 logger = configure_logger("flask.log")
 
-app = Flask(__name__, static_folder=os.path.dirname(os.path.abspath(__file__)) + '/static')
+# Create Flask app
+app = Flask(__name__, static_folder=os.path.dirname(
+    os.path.abspath(__file__)) + '/static')
+
+# Load team data
 team_data = load_data()
 
+# Index route
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    '''
+    Route to compare teams
+    '''
     logger.info("Index route called")
     try:
         teams = sorted(team_data.index.unique())
@@ -41,8 +49,7 @@ def index():
         logger.error(f"Error processing request: {e}", exc_info=True)
         return "An error occurred", 500
 
-    
-
+# Ladder route
 @app.route('/ladder', methods=['GET'])
 def view_ladder():
     '''
@@ -63,15 +70,18 @@ def view_ladder():
     except Exception as e:
         logger.error(f"Unexpected error: {e}", exc_info=True)
         return "An unexpected error occurred", 500
-    
+
+# Rounds route
 @app.route('/rounds')
 def rounds():
+    '''
+    Route to view the rounds
+    '''
     rounds_data = load_rounds_data()
     logger.debug("Rounds Data: {}".format(rounds_data))
     print(rounds_data)  # Use print to see the output directly in the console.
     return render_template('rounds.html', rounds=rounds_data)
 
-
-
+# Run the app
 if __name__ == '__main__':
     app.run(debug=True)
