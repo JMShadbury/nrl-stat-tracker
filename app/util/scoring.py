@@ -33,10 +33,10 @@ class ScoringRules(Enum):
     INTERCEPTS = 0.8
     FORTY_TWENTY_KICKS = 0.6
     SHORT_DROPOUTS = -0.01
-    ERRORS = -0.05
-    INEFFECTIVE_TACKLES = -0.04
-    PENALTIES_CONCEDED = -0.06
-    HANDLING_ERRORS = -0.05
+    ERRORS = -0.15
+    INEFFECTIVE_TACKLES = -0.02
+    PENALTIES_CONCEDED = -0.1
+    HANDLING_ERRORS = -0.1
     
     
 def calculate_score(team_stats):

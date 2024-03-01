@@ -3,11 +3,12 @@ from util.scoring import calculate_score
 import json
 from data_manager import load_data, load_rounds_data
 from util.logger import configure_logger
+import os
 
 
 logger = configure_logger("flask.log")
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=os.path.dirname(os.path.abspath(__file__)) + '/static')
 team_data = load_data()
 
 @app.route('/', methods=['GET', 'POST'])
