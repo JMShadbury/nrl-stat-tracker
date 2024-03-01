@@ -58,7 +58,7 @@ function updateScoreBar(team1Name, team1Score, team2Name, team2Score, team1IconU
     const winningTeamIconElement = document.getElementById('winning-team-icon');
     winningTeamIconElement.src = winningIcon;
     winningTeamIconElement.style.display = 'block';
-    document.getElementById('winning-percentage').textContent = `Winning Probability: ${winningPercentage}%`;
+    document.getElementById('winning-percentage').textContent = `${winningPercentage}%`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
