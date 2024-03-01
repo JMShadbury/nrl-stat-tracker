@@ -91,13 +91,13 @@ def configure_logger(log_filename):
 
     # Create a logger
     logger = logging.getLogger("application_log")
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     file_handler = FileHandler(log_filepath)
-    file_handler.setLevel(logging.INFO)
+    file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 

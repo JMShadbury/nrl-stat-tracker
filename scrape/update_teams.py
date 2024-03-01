@@ -81,7 +81,7 @@ try:
                 logger.info(
                     f"Merged data for {team_name}: {json.dumps(merged_data, indent=2)}")
                 if merged_data:
-                    logger.info(f"Inserting {team_name} into DynamoDB")
+                    logger.info(f"Inserting {team_name} into JSON")
                     db_client.insert_item(merged_data)
                 else:
                     logger.debug(f"No data found for {team_name}")
