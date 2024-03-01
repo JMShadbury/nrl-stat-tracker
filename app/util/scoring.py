@@ -5,36 +5,36 @@ logger = get_logger()
 from enum import Enum
 
 class ScoringRules(Enum):
-    PLAYED = -5
-    TRIES = 10
+    PLAYED = -2500
+    TRIES = 40
     POINTS = 5
     GOALS = 2
     LINE_ENGAGED = 3
     COMPLETION = 20
     SUPPORT = 3
     LINE_BREAKS = 20
-    POST_CONTACT_METRES = 0.8
+    POST_CONTACT_METRES = 2
     TACKLE_BREAKS = 3
-    RUN_METRES = 0.01
-    OFFLOAD = 15
+    RUN_METRES = 0.001
+    OFFLOAD = 20
     LINE_BREAK_ASSISTS = 2
-    KICK_METRES = 0.2
+    KICK_METRES = 0.01
     TRY_ASSISTS = 8
-    DECOY_RUNS = 3
-    DUMMY_HALF_RUNS = 4
-    MISSED_TACKLES = -5
+    DECOY_RUNS = 15
+    DUMMY_HALF_RUNS = 10
+    MISSED_TACKLES = -10
     CHARGE_DOWNS = 20
-    INTERCEPTS = 9
-    ERRORS = -10
-    INEFFECTIVE_TACKLES = 8
-    PENALTIES_CONCEDED = -10
-    HANDLING_ERRORS = -5
-    SHORT_DROPOUTS = 5
-    FOURTY_TWENTY_KICKS = 5
-    KICK_RETURN_METRES = 3
-    FIELD_GOALS = 5
-    RUNS = 0.2
-    KICKS = 2
+    INTERCEPTS = 25
+    ERRORS = -20
+    INEFFECTIVE_TACKLES = -20
+    PENALTIES_CONCEDED = -20
+    HANDLING_ERRORS = -10
+    SHORT_DROPOUTS = 0
+    FOURTY_TWENTY_KICKS = 30
+    KICK_RETURN_METRES = 1
+    FIELD_GOALS = 20
+    RUNS = 0.001
+    KICKS = 0.001
     
     
 def calculate_score(team_stats):
@@ -76,8 +76,7 @@ def calculate_score(team_stats):
 
     # Dynamic adjustment for PLAYED statistic
     if total_games_played > 0:
-        played_weight_adjustment = (total_games_played / 24) ** 0.5 
-        score += ScoringRules.PLAYED.value * played_weight_adjustment
+        score += total_games_played * ScoringRules.PLAYED.value
         
     if completion_rate > completion_rate_threshold:
         score += ScoringRules.COMPLETION_RATE.value * (completion_rate - completion_rate_threshold)
