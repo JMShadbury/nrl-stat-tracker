@@ -26,44 +26,6 @@ To install NRL Stat Tracker, follow these steps:
 ## Usage
 Everything is setup using makefile.
 
-# Targets
-
-build:
-	python -m venv venv && \
-	. venv/bin/activate && \
-	pip install --upgrade pip && \
-	pip install -r app/util/requirements.txt 
-.PHONY: build
-
-updateStats: build updateTeams updateRounds
-	. venv/bin/activate && \
-	python scrape/update_ladder.py
-.PHONY: updateLadder
-
-updateTeams: build
-	. venv/bin/activate && \
-	python scrape/update_teams.py
-.PHONY: updateTeams
-
-updateRounds: build
-	. venv/bin/activate && \
-	python scrape/update_rounds.py
-
-getData: build updateStats
-	. venv/bin/activate && \
-	python scrape/get_data.py
-.PHONY: getData
-
-viewStats: build
-	. venv/bin/activate && \
-	cd app && \
-	python view_stats.py
-
-clean:
-	rm -rf venv
-	rm -rf logs
-.PHONY: clean
-
 The list of commands are:
 - `make build` - This will create a virtual environment and install all the dependencies.
 - `make updateStats` - This will update the ladder, teams and rounds.
