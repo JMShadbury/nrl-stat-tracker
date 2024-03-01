@@ -54,6 +54,12 @@ def calculate_score(team_stats):
             if ',' in value_str:
                 value_str = value_str.replace(",", "")
 
+            # Check if the value is NaN (not a number)
+            if value_str == 'nan':
+                # Optionally log or handle NaN value
+                logger.warning(f"NaN value encountered for statistic: {stat}")
+                continue  # Skip this statistic
+
             try:
                 # Convert the (possibly modified) value back to float
                 score += weight * float(value_str)
@@ -64,5 +70,6 @@ def calculate_score(team_stats):
             logger.warning(f"Ignoring unmapped statistic: {stat}")
 
     return score
+
 
 

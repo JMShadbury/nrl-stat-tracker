@@ -112,6 +112,67 @@
           background-color: #161b22;
           z-index: 10; 
       }
+      #score-bar-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 80%;
+        margin: 20px auto;
+        margin-top: 20px;
+        overflow: hidden;
+      }
+      .score-bar {
+            width: 0;
+            border-radius: 10px;
+            flex-grow: 0;
+            height: 20px;
+            transition: width 1.5s ease-in-out;
+        }
+        
+        #team1-bar {
+            background-color: blue;
+        }
+        
+        #team2-bar {
+            background-color: red;
+        }
+        
+        #score-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+        }
+        
+        #winning-team {
+            font-weight: bold;
+            font-size: 1.2em;
+            padding-bottom: 0.2em;
+        }
+        
+        #winning-percentage {
+            font-size: smaller;
+            font-size: 1em;
+        }
+
+        .score-value {
+            display: inline-block;
+            position: relative;
+            right: 100%; 
+            margin-right: 10px;
+            color: #fff;
+            z-index: 1;
+            
+        }
+        
+        #team2-bar .score-value {
+            right: auto;
+            left: 100%; /* Flip for the right side */
+            margin-right: 0;
+            margin-left: 10px;
+        }
+    
       /* Additional custom styles */
     </style>
  </head>
@@ -152,7 +213,18 @@
        {% if comparison_data %}
        <div>
           <h3>{{ comparison_data.team1.name }} vs {{ comparison_data.team2.name }}</h3>
-          <p>Score: {{ comparison_data.team1.score }} vs {{ comparison_data.team2.score }}</p>
+          <div id="score-bar-container">
+            <div id="team1-bar" class="score-bar">
+                <span class="score-value" id="team1-score">0</span> 
+            </div>
+            <div id="score-info">
+                <span id="winning-team"></span>
+                <span id="winning-percentage"></span>
+            </div>
+            <div id="team2-bar" class="score-bar">
+                <span class="score-value" id="team2-score">0</span>
+            </div>
+        </div>
           
               {% for stat, values in comparison_data.team1.data.items() %}
               
@@ -233,5 +305,58 @@
             }
         }
     }
+
+    var comparison_data = {{ comparison_data | tojson }};
+
+    function updateScoreBar(team1Name, team1Score, team2Name, team2Score) {
+        const totalScore = team1Score + team2Score;
+        const team1Percentage = (team1Score / totalScore) * 100;
+        const team2Percentage = (team2Score / totalScore) * 100;
+        const winningTeam = team1Score > team2Score ? team1Name : team2Name;
+        const winningPercentage = Math.max(team1Percentage, team2Percentage).toFixed(2);
+    
+        document.getElementById('team1-bar').style.width = `${team1Percentage}%`;
+        document.getElementById('team2-bar').style.width = `${team2Percentage}%`;
+        document.getElementById('winning-team').textContent = `${winningTeam} is likely to win`;
+        document.getElementById('winning-percentage').textContent = `Winning Probability: ${winningPercentage}%`;
+        document.getElementById('team1-score').textContent = team1Score.toFixed(2); 
+        document.getElementById('team2-score').textContent = team2Score.toFixed(2); 
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const team1Select = document.querySelector('select[name="team1"]');
+        const team2Select = document.querySelector('select[name="team2"]');
+    
+        function handleTeamSelect() {
+            const selectedTeam1 = team1Select.value;
+            const selectedTeam2 = team2Select.value;
+    
+            if (selectedTeam1 && selectedTeam2) {
+                const team1Data = comparison_data.team1;
+                const team2Data = comparison_data.team2;
+    
+                // Get the score values
+                const team1Score = parseFloat(team1Data.score);
+                const team2Score = parseFloat(team2Data.score);
+    
+                // Check if the score values are NaN
+                const team1ScoreDisplay = isNaN(team1Score) ? 0 : team1Score.toFixed(2);
+                const team2ScoreDisplay = isNaN(team2Score) ? 0 : team2Score.toFixed(2);
+    
+                updateScoreBar(team1Data.name, team1Score, team2Data.name, team2Score);
+                // Display score values
+                document.getElementById('team1-score').textContent = team1ScoreDisplay;
+                document.getElementById('team2-score').textContent = team2ScoreDisplay;
+            }
+        }
+    
+        // Add event listeners
+        team1Select.addEventListener('change', handleTeamSelect);
+        team2Select.addEventListener('change', handleTeamSelect);
+    
+        // Initial call to set the correct disabled state and update the score bar
+        handleTeamSelect();
+    });
+    
  </script>
 </body></html>
