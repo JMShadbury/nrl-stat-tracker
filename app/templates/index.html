@@ -1,233 +1,237 @@
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>NRL Statistics</title>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-      <!-- Optional Bootstrap JavaScript -->
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-      <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            color: #c9d1d9;
-            background-color: #0d1117;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-        }
-        .navbar-custom {
-            background-color: #161b22;
-            padding: 0.5rem 1rem;
-        }
-        .navbar-brand {
-            color: #c9d1d9;
-            font-weight: bold;
-        }
-        .container-custom {
-            background-color: #161b22;
-            padding: 2rem;
-            border-radius: 6px;
-            margin: 2rem auto;
-            box-shadow: 0 8px 24px rgba(0,0,0,.5);
-        }
-        .dropdown-custom select {
-            width: 100%;
-            height: 2.5rem;
-            padding: 0.5rem;
-            background: #0d1117;
-            font-size: 14px;
-            color: #c9d1d9;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            text-align: center;
-        }
-        .dropdown-custom select:focus {
-            outline: none;
-            border-color: #238636;
-            background-color: transparent;
-        }
-        .dropdown-custom select::-ms-expand {
-            display: none;
-        }
-        .btn-custom {
-            background-color: #3e4b58;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 0.8rem 1.6rem;
-            font-size: 1rem;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-        .btn-custom:hover {
-            background-color: #0056b3;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .table-custom {
-            width: 100%;
-            background-color: #161b22;
-            border-collapse: collapse;
-            border-spacing: 0;
-            color: white;
-        }
-        .table-custom th, .table-custom td {
-            padding: .8rem;
-            border-bottom: 1px solid #30363d;
-        }
-        .table-custom th {
-            text-align: left;
-            border-bottom: 2px solid #30363d;
-        }
-        .table-custom tbody tr:hover {
-            background-color: #0d1117;
-        }
-        .footer-custom {
-            background-color: #161b22;
-            color: #c9d1d9;
-            padding: 1rem;
-            text-align: center;
-            border-top: 1px solid #30363d;
-        }
-        .mb-2 {
-            margin-bottom: 2rem;
-        }
-        .container-custom {
-            margin: 1rem;
-            padding: 1rem;
-        }
-        .btn-custom {
-            padding: .8rem;
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-        .dropdown-custom select {
-            padding: .6rem;
-        }
-        .sticky-header th {
-            position: sticky;
-            top: 0;
-            background-color: #161b22;
-            z-index: 10; 
-        }
-        /* Additional custom styles */
-      </style>
-   </head>
-   <body>
-      <nav class="navbar navbar-expand-lg navbar-custom mb-4">
-         <a class="navbar-brand" href="#">NRL Statistics Tracker</a>
-         <div class="ml-auto">
-            <form action="/ladder" method="get" style="margin-top: 20px;">
-                <button type="submit" class="btn-custom">View Ladder</button>
-         </form>
-         <form action="/rounds" method="get" style="display: inline-block;">
-            <button type="submit" class="btn-custom">View Rounds</button>
-        </form>
-         </div>
-      </nav>
-      <div class="container">
-         <h1 class="text-center">Statistics Comparison</h1>
-         <form method="post" action="/">
-            <div class="dropdown-custom">
-               <select name="team1" class="form-control">
-                  <option value="" selected>Select Team 1</option>
-                  {% for team in teams %}
-                  <option value="{{ team }}" {% if team == selected_team1 %}selected="selected"{% endif %}>{{ team }}</option>
-                  {% endfor %}
-               </select>
-            </div>
-            <div class="dropdown-custom">
-               <select name="team2" class="form-control">
-                  <option value="" selected>Select Team 2</option>
-                  {% for team in teams %}
-                  <option value="{{ team }}" {% if team == selected_team2 %}selected="selected"{% endif %}>{{ team }}</option>
-                  {% endfor %}
-               </select>
-            </div>
-            <input type="submit" value="Compare" class="btn-custom">
-         </form>
-         {% if comparison_data %}
-         <div>
-            <h3>{{ comparison_data.team1.name }} vs {{ comparison_data.team2.name }}</h3>
-            <table class="table table-hover table-bordered table-custom">
-               <thead class="thead-dark sticky-header">
-                  <tr>
-                     <th>Statistic</th>
-                     <th>{{ comparison_data.team1.name }}</th>
-                     <th>{{ comparison_data.team2.name }}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                {% for stat, values in comparison_data.team1.data.items() %}
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NRL Statistics</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Optional Bootstrap JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+      body, html {
+          height: 100%;
+          margin: 0;
+          color: #c9d1d9;
+          background-color: #0d1117;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      }
+      .navbar-custom {
+          background-color: #161b22;
+          padding: 0.5rem 1rem;
+      }
+      .navbar-brand {
+          color: #c9d1d9;
+          font-weight: bold;
+      }
+      .container-custom {
+          background-color: #161b22;
+          padding: 2rem;
+          border-radius: 6px;
+          margin: 2rem auto;
+          box-shadow: 0 8px 24px rgba(0,0,0,.5);
+      }
+      .dropdown-custom select {
+          width: 100%;
+          height: 2.5rem;
+          padding: 0.5rem;
+          background: #0d1117;
+          font-size: 14px;
+          color: #c9d1d9;
+          border: 1px solid #30363d;
+          border-radius: 6px;
+          margin-bottom: 1rem;
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          text-align: center;
+      }
+      .dropdown-custom select:focus {
+          outline: none;
+          border-color: #238636;
+          background-color: transparent;
+      }
+      .dropdown-custom select::-ms-expand {
+          display: none;
+      }
+      .btn-custom {
+          background-color: #3e4b58;
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+          padding: 0.8rem 1.6rem;
+          font-size: 1rem;
+          transition: background-color 0.3s, box-shadow 0.3s;
+      }
+      .btn-custom:hover {
+          background-color: #0056b3;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .table-custom {
+          width: 100%;
+          background-color: #161b22;
+          border-collapse: collapse;
+          border-spacing: 0;
+          color: white;
+      }
+      .table-custom th, .table-custom td {
+          padding: .8rem;
+          border-bottom: 1px solid #30363d;
+      }
+      .table-custom th {
+          text-align: left;
+          border-bottom: 2px solid #30363d;
+      }
+      .table-custom tbody tr:hover {
+          background-color: #0d1117;
+      }
+      .footer-custom {
+          background-color: #161b22;
+          color: #c9d1d9;
+          padding: 1rem;
+          text-align: center;
+          border-top: 1px solid #30363d;
+      }
+      .mb-2 {
+          margin-bottom: 2rem;
+      }
+      .container-custom {
+          margin: 1rem;
+          padding: 1rem;
+      }
+      .btn-custom {
+          padding: .8rem;
+          width: 100%;
+          margin-bottom: 1rem;
+      }
+      .dropdown-custom select {
+          padding: .6rem;
+      }
+      .sticky-header th {
+          position: sticky;
+          top: 0;
+          background-color: #161b22;
+          z-index: 10; 
+      }
+      /* Additional custom styles */
+    </style>
+ </head>
+ <body style="overscroll-behavior-x: auto;">
+    <nav class="navbar navbar-expand-lg navbar-custom mb-4">
+       <a class="navbar-brand" href="#">NRL Statistics Tracker</a>
+       <div class="ml-auto">
+          <form action="/ladder" method="get" style="margin-top: 20px;">
+              <button type="submit" class="btn-custom">View Ladder</button>
+       </form>
+       <form action="/rounds" method="get" style="display: inline-block;">
+          <button type="submit" class="btn-custom">View Rounds</button>
+      </form>
+       </div>
+    </nav>
+    <div class="container">
+       <h1 class="text-center">Statistics Comparison</h1>
+       <form method="post" action="/">
+        <div class="dropdown-custom">
+            <select name="team1" class="form-control">
+                <option value="" selected>Select Team 1</option>
+                {% for team in teams %}
+                <option value="{{ team }}" {% if selected_team1 and team == selected_team1 %}selected="selected"{% endif %}>{{ team }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="dropdown-custom">
+            <select name="team2" class="form-control">
+                <option value="" selected>Select Team 2</option>
+                {% for team in teams %}
+                <option value="{{ team }}" {% if selected_team2 and team == selected_team2 %}selected="selected"{% endif %}>{{ team }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+          <input type="submit" value="Compare" class="btn-custom">
+       </form>
+       {% if comparison_data %}
+       <div>
+          <h3>{{ comparison_data.team1.name }} vs {{ comparison_data.team2.name }}</h3>
+          <p>Score: {{ comparison_data.team1.score }} vs {{ comparison_data.team2.score }}</p>
+          
+              {% for stat, values in comparison_data.team1.data.items() %}
+              
+              {% endfor %}
+           <table class="table table-hover table-bordered table-custom">
+             <thead class="thead-dark sticky-header">
                 <tr>
-                   <td>{{ stat }}</td>
-                   <td>{{ values[comparison_data.team1.name] }}</td>
-                   <td>{{ comparison_data.team2.data[stat][comparison_data.team2.name] }}</td>
+                   <th>Statistic</th>
+                   <th>{{ comparison_data.team1.name }}</th>
+                   <th>{{ comparison_data.team2.name }}</th>
+                </tr>
+             </thead>
+             <tbody>
+                {% for stat, value in comparison_data.team1.data.items() %}
+                <tr>
+                    <td>{{ stat }}</td>
+                    <td>{{ value }}</td>
+                    <td>{{ comparison_data.team2.data[stat] }}</td>
                 </tr>
                 {% endfor %}
-             </tbody>
-            </table>
-         </div>
-         {% endif %}
-         {% if images_data %}
-         <div class="image-container">
-            <h2>Stats:</h2>
-            {% for image_data in images_data %}
-            <img src="data:image/png;base64, {{ image_data }}" alt="Comparison Plot" class="img-fluid">
-            {% endfor %}
-         </div>
-         {% endif %}
-      </div>
-   </body>
-   <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-          const team1Select = document.querySelector('select[name="team1"]');
-          const team2Select = document.querySelector('select[name="team2"]');
-      
-          function handleTeamSelect(event) {
-              // Get the selected values
-              const selectedTeam1 = team1Select.value;
-              const selectedTeam2 = team2Select.value;
-      
-              // Enable all options
-              Array.from(team1Select.options).forEach(option => option.disabled = false);
-              Array.from(team2Select.options).forEach(option => option.disabled = false);
-      
-              // Disable the selected options in the opposite select
-              if (selectedTeam1) team2Select.querySelector(`option[value="${selectedTeam1}"]`).disabled = true;
-              if (selectedTeam2) team1Select.querySelector(`option[value="${selectedTeam2}"]`).disabled = true;
-          }
-      
-          // Add event listeners
-          team1Select.addEventListener('change', handleTeamSelect);
-          team2Select.addEventListener('change', handleTeamSelect);
-      
-          // Initial call to set the correct disabled state
-          handleTeamSelect();
-      });
-      
-      function searchStats() {
-          var input, filter, table, tr, td, i, txtValue;
-          input = document.getElementById("statsSearch");
-          filter = input.value.toUpperCase();
-          table = document.getElementById("statsTable");
-          tr = table.getElementsByTagName("tr");
-      
-          for (i = 0; i < tr.length; i++) {
-              td = tr[i].getElementsByTagName("td")[0];
-              if (td) {
-                  txtValue = td.textContent || td.innerText;
-                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                      tr[i].style.display = "";
-                  } else {
-                      tr[i].style.display = "none";
-                  }
-              }
-          }
-      }
-   </script>
-</html>
+            </tbody>
+          </table>
+       </div>
+       {% endif %}
+       {% if images_data %}
+       <div class="image-container">
+          <h2>Stats:</h2>
+          {% for image_data in images_data %}
+          <img src="data:image/png;base64, {{ image_data }}" alt="Comparison Plot" class="img-fluid">
+          {% endfor %}
+       </div>
+       {% endif %}
+    </div>
+ 
+ <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const team1Select = document.querySelector('select[name="team1"]');
+        const team2Select = document.querySelector('select[name="team2"]');
+    
+        function handleTeamSelect(event) {
+            // Get the selected values
+            const selectedTeam1 = team1Select.value;
+            const selectedTeam2 = team2Select.value;
+    
+            // Enable all options
+            Array.from(team1Select.options).forEach(option => option.disabled = false);
+            Array.from(team2Select.options).forEach(option => option.disabled = false);
+    
+            // Disable the selected options in the opposite select
+            if (selectedTeam1) team2Select.querySelector(`option[value="${selectedTeam1}"]`).disabled = true;
+            if (selectedTeam2) team1Select.querySelector(`option[value="${selectedTeam2}"]`).disabled = true;
+        }
+    
+        // Add event listeners
+        team1Select.addEventListener('change', handleTeamSelect);
+        team2Select.addEventListener('change', handleTeamSelect);
+    
+        // Initial call to set the correct disabled state
+        handleTeamSelect();
+    });
+    
+    function searchStats() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("statsSearch");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("statsTable");
+        tr = table.getElementsByTagName("tr");
+    
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+ </script>
+</body></html>
