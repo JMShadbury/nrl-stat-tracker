@@ -5,34 +5,33 @@ logger = get_logger()
 from enum import Enum
 
 class ScoringRules(Enum):
-    PLAYED = -2500
-    TRIES = 40
-    POINTS = 5
+    PLAYED = 7500
+    TRIES = 10
     GOALS = 2
     LINE_ENGAGED = 3
     COMPLETION = 20
     SUPPORT = 3
-    LINE_BREAKS = 20
-    POST_CONTACT_METRES = 2
-    TACKLE_BREAKS = 3
+    LINE_BREAKS = 8
+    POST_CONTACT_METRES = 5
+    TACKLE_BREAKS = 5
     RUN_METRES = 0.001
-    OFFLOAD = 20
-    LINE_BREAK_ASSISTS = 2
+    OFFLOAD = 8
+    LINE_BREAK_ASSISTS = 8
     KICK_METRES = 0.01
     TRY_ASSISTS = 8
-    DECOY_RUNS = 15
-    DUMMY_HALF_RUNS = 10
+    DECOY_RUNS = 3
+    DUMMY_HALF_RUNS = 7
     MISSED_TACKLES = -10
-    CHARGE_DOWNS = 20
-    INTERCEPTS = 25
-    ERRORS = -20
-    INEFFECTIVE_TACKLES = -20
-    PENALTIES_CONCEDED = -20
+    CHARGE_DOWNS = 10
+    INTERCEPTS = 9
+    ERRORS = -10
+    INEFFECTIVE_TACKLES = -10
+    PENALTIES_CONCEDED = -10
     HANDLING_ERRORS = -10
     SHORT_DROPOUTS = 0
-    FOURTY_TWENTY_KICKS = 30
+    FOURTY_TWENTY_KICKS = 10
     KICK_RETURN_METRES = 1
-    FIELD_GOALS = 20
+    FIELD_GOALS = 10
     RUNS = 0.001
     KICKS = 0.1
     
@@ -44,7 +43,7 @@ def calculate_score(team_stats):
     score = 0
     total_games_played = team_stats.get("PLAYED", 0)
     completion_rate = team_stats.get("COMPLETION_RATE", 0)
-    completion_rate_threshold = 75 
+    completion_rate_threshold = 70 
 
     for stat, value in team_stats.items():
         if "40/20 Kicks" in stat:
