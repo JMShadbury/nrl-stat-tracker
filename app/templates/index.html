@@ -7,174 +7,10 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <style>
-      body, html {
-          height: 100%;
-          margin: 0;
-          color: #c9d1d9;
-          background-color: #0d1117;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-      }
-      .navbar-custom {
-          background-color: #161b22;
-          padding: 0.5rem 1rem;
-      }
-      .navbar-brand {
-          color: #c9d1d9;
-          font-weight: bold;
-      }
-      .container-custom {
-          background-color: #161b22;
-          padding: 2rem;
-          border-radius: 6px;
-          margin: 2rem auto;
-          box-shadow: 0 8px 24px rgba(0,0,0,.5);
-      }
-      .dropdown-custom select {
-          width: 100%;
-          height: 2.5rem;
-          padding: 0.5rem;
-          background: #0d1117;
-          font-size: 14px;
-          color: #c9d1d9;
-          border: 1px solid #30363d;
-          border-radius: 6px;
-          margin-bottom: 1rem;
-          appearance: none;
-          -webkit-appearance: none;
-          -moz-appearance: none;
-          text-align: center;
-      }
-      .dropdown-custom select:focus {
-          outline: none;
-          border-color: #238636;
-          background-color: transparent;
-      }
-      .dropdown-custom select::-ms-expand {
-          display: none;
-      }
-      .btn-custom {
-          background-color: #3e4b58;
-          color: #fff;
-          border: none;
-          border-radius: 4px;
-          padding: 0.8rem 1.6rem;
-          font-size: 1rem;
-          transition: background-color 0.3s, box-shadow 0.3s;
-      }
-      .btn-custom:hover {
-          background-color: #0056b3;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-      .table-custom {
-          width: 100%;
-          background-color: #161b22;
-          border-collapse: collapse;
-          border-spacing: 0;
-          color: white;
-      }
-      .table-custom th, .table-custom td {
-          padding: .8rem;
-          border-bottom: 1px solid #30363d;
-      }
-      .table-custom th {
-          text-align: left;
-          border-bottom: 2px solid #30363d;
-      }
-      .table-custom tbody tr:hover {
-          background-color: #0d1117;
-      }
-      .footer-custom {
-          background-color: #161b22;
-          color: #c9d1d9;
-          padding: 1rem;
-          text-align: center;
-          border-top: 1px solid #30363d;
-      }
-      .mb-2 {
-          margin-bottom: 2rem;
-      }
-      .container-custom {
-          margin: 1rem;
-          padding: 1rem;
-      }
-      .btn-custom {
-          padding: .8rem;
-          width: 100%;
-          margin-bottom: 1rem;
-      }
-      .dropdown-custom select {
-          padding: .6rem;
-      }
-      .sticky-header th {
-          position: sticky;
-          top: 0;
-          background-color: #161b22;
-          z-index: 10; 
-      }
-      #score-bar-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 80%;
-        margin: 20px auto;
-        margin-top: 20px;
-        overflow: hidden;
-      }
-      .score-bar {
-            width: 0;
-            border-radius: 10px;
-            flex-grow: 0;
-            height: 20px;
-            transition: width 1.5s ease-in-out;
-        }
-        
-        #team1-bar {
-            background-color: blue;
-        }
-        
-        #team2-bar {
-            background-color: red;
-        }
-        
-        #score-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 0 10px;
-        }
-        
-        #winning-team {
-            font-weight: bold;
-            font-size: 1.2em;
-            padding-bottom: 0.2em;
-        }
-        
-        #winning-percentage {
-            font-size: smaller;
-            font-size: 1em;
-        }
-
-        .score-value {
-            display: inline-block;
-            position: relative;
-            right: 100%; 
-            margin-right: 10px;
-            color: #fff;
-            z-index: 1;
-            
-        }
-        
-        #team2-bar .score-value {
-            right: auto;
-            left: 100%; /* Flip for the right side */
-            margin-right: 0;
-            margin-left: 10px;
-        }
-    
-      /* Additional custom styles */
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script type="text/javascript">
+        var comparison_data = {{ comparison_data | tojson | safe }};
+    </script>
  </head>
  <body style="overscroll-behavior-x: auto;">
     <nav class="navbar navbar-expand-lg navbar-custom mb-4">
@@ -183,9 +19,9 @@
           <form action="/ladder" method="get" style="margin-top: 20px;">
               <button type="submit" class="btn-custom">View Ladder</button>
        </form>
-       <form action="/rounds" method="get" style="display: inline-block;">
+       <!--<form action="/rounds" method="get" style="display: inline-block;">
           <button type="submit" class="btn-custom">View Rounds</button>
-      </form>
+      </form>-->
        </div>
     </nav>
     <div class="container">
@@ -207,25 +43,23 @@
                 {% endfor %}
             </select>
         </div>
-        
           <input type="submit" value="Compare" class="btn-custom">
        </form>
        {% if comparison_data %}
        <div>
-          <h3>{{ comparison_data.team1.name }} vs {{ comparison_data.team2.name }}</h3>
-          <div id="score-bar-container">
+        <div id="score-bar-container">
             <div id="team1-bar" class="score-bar">
-                <span class="score-value" id="team1-score">0</span> 
+                <span class="score-value" id="team1-score">0</span>
             </div>
             <div id="score-info">
-                <span id="winning-team"></span>
+                <img id="winning-team-icon" src="" alt="Winning Team" class="team-icon" style="display: none;">
                 <span id="winning-percentage"></span>
             </div>
+        
             <div id="team2-bar" class="score-bar">
                 <span class="score-value" id="team2-score">0</span>
             </div>
         </div>
-          
               {% for stat, values in comparison_data.team1.data.items() %}
               
               {% endfor %}
@@ -233,8 +67,8 @@
              <thead class="thead-dark sticky-header">
                 <tr>
                    <th>Statistic</th>
-                   <th>{{ comparison_data.team1.name }}</th>
-                   <th>{{ comparison_data.team2.name }}</th>
+                   <th><img src="{{ url_for('static', filename='img/' + comparison_data.team1.name.lower() + '.svg') }}" alt="{{ comparison_data.team1.name }}" class="team-icon"></th>
+                   <th><img src="{{ url_for('static', filename='img/' + comparison_data.team2.name.lower() + '.svg') }}" alt="{{ comparison_data.team2.name }}" class="team-icon"></th>
                 </tr>
              </thead>
              <tbody>
@@ -249,114 +83,6 @@
           </table>
        </div>
        {% endif %}
-       {% if images_data %}
-       <div class="image-container">
-          <h2>Stats:</h2>
-          {% for image_data in images_data %}
-          <img src="data:image/png;base64, {{ image_data }}" alt="Comparison Plot" class="img-fluid">
-          {% endfor %}
-       </div>
-       {% endif %}
     </div>
- 
- <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const team1Select = document.querySelector('select[name="team1"]');
-        const team2Select = document.querySelector('select[name="team2"]');
-    
-        function handleTeamSelect(event) {
-            // Get the selected values
-            const selectedTeam1 = team1Select.value;
-            const selectedTeam2 = team2Select.value;
-    
-            // Enable all options
-            Array.from(team1Select.options).forEach(option => option.disabled = false);
-            Array.from(team2Select.options).forEach(option => option.disabled = false);
-    
-            // Disable the selected options in the opposite select
-            if (selectedTeam1) team2Select.querySelector(`option[value="${selectedTeam1}"]`).disabled = true;
-            if (selectedTeam2) team1Select.querySelector(`option[value="${selectedTeam2}"]`).disabled = true;
-        }
-    
-        // Add event listeners
-        team1Select.addEventListener('change', handleTeamSelect);
-        team2Select.addEventListener('change', handleTeamSelect);
-    
-        // Initial call to set the correct disabled state
-        handleTeamSelect();
-    });
-    
-    function searchStats() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("statsSearch");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("statsTable");
-        tr = table.getElementsByTagName("tr");
-    
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-
-    var comparison_data = {{ comparison_data | tojson }};
-
-    function updateScoreBar(team1Name, team1Score, team2Name, team2Score) {
-        const totalScore = team1Score + team2Score;
-        const team1Percentage = (team1Score / totalScore) * 100;
-        const team2Percentage = (team2Score / totalScore) * 100;
-        const winningTeam = team1Score > team2Score ? team1Name : team2Name;
-        const winningPercentage = Math.max(team1Percentage, team2Percentage).toFixed(2);
-    
-        document.getElementById('team1-bar').style.width = `${team1Percentage}%`;
-        document.getElementById('team2-bar').style.width = `${team2Percentage}%`;
-        document.getElementById('winning-team').textContent = `${winningTeam} is likely to win`;
-        document.getElementById('winning-percentage').textContent = `Winning Probability: ${winningPercentage}%`;
-        document.getElementById('team1-score').textContent = team1Score.toFixed(2); 
-        document.getElementById('team2-score').textContent = team2Score.toFixed(2); 
-    }
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        const team1Select = document.querySelector('select[name="team1"]');
-        const team2Select = document.querySelector('select[name="team2"]');
-    
-        function handleTeamSelect() {
-            const selectedTeam1 = team1Select.value;
-            const selectedTeam2 = team2Select.value;
-    
-            if (selectedTeam1 && selectedTeam2) {
-                const team1Data = comparison_data.team1;
-                const team2Data = comparison_data.team2;
-    
-                // Get the score values
-                const team1Score = parseFloat(team1Data.score);
-                const team2Score = parseFloat(team2Data.score);
-    
-                // Check if the score values are NaN
-                const team1ScoreDisplay = isNaN(team1Score) ? 0 : team1Score.toFixed(2);
-                const team2ScoreDisplay = isNaN(team2Score) ? 0 : team2Score.toFixed(2);
-    
-                updateScoreBar(team1Data.name, team1Score, team2Data.name, team2Score);
-                // Display score values
-                document.getElementById('team1-score').textContent = team1ScoreDisplay;
-                document.getElementById('team2-score').textContent = team2ScoreDisplay;
-            }
-        }
-    
-        // Add event listeners
-        team1Select.addEventListener('change', handleTeamSelect);
-        team2Select.addEventListener('change', handleTeamSelect);
-    
-        // Initial call to set the correct disabled state and update the score bar
-        handleTeamSelect();
-    });
-    
- </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body></html>

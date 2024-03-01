@@ -86,7 +86,7 @@
                     {% for team in ladder_data %}
                     <tr>
                         <td class="position-highlight">{{ team.Pos }}</td>
-                        <td>{{ team.TeamName }}</td>
+                        <td><img src="{{ url_for('static', filename='img/' + team.TeamName.lower() + '.svg') }}" alt="{{ team.TeamName }}" class="team-icon"></td>
                         <td>{{ team.Points }}</td>
                         <td class="win">{{ team.Wins }}</td>
                         <td class="loss">{{ team.Lost }}</td>
