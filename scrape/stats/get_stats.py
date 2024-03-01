@@ -32,7 +32,7 @@ class Stats:
         Get all the data from the URL
         :return: The data from the URL
         '''
-        logger.info("Getting all data")
+        logger.info("Getting data for {}".format(self.stat))
         return self.scraper.load_page(GameDefaults.GAME_PATH.value)
 
     def get_all_draw_data(self):
@@ -40,7 +40,7 @@ class Stats:
         Get all the data from the URL
         :return: The data from the URL
         '''
-        logger.info("Getting all data")
+        logger.info("Getting data for {}".format(self.stat))
         return self.scraper.load_page(RoundDefaults.MATCH_PATH.value)
 
     def get_all_teams_data(self):
@@ -48,7 +48,6 @@ class Stats:
         Get all the data from the URL
         :return: The data from the URL
         '''
-        logger.info("Getting all data")
         return self.scraper.load_page(TeamDefaults.TEAMS_PATH.value)
 
     def process_game_data(self, soup):
@@ -153,6 +152,7 @@ class Stats:
                     logger.error(
                         "Error processing game data: {}".format(e), exc_info=True)
             try:
+                logger.info("Preparing match data")
                 match_info = {
                     'PreviousHomeTeams': game_previous_data['PreviousHomeTeam'],
                     'PreviousAwayTeams': game_previous_data['PreviousAwayTeam'],
@@ -162,12 +162,12 @@ class Stats:
                     'AwayGamesWon': get_away_games_won(soup),
                     'HomeGamesWon': get_home_games_won(soup)
                 }
-
+                logger.info("transformed match data")
                 match_data.append(match_info)
             except Exception as e:
                 logger.error(
                     "Error processing match data: {}".format(e), exc_info=True)
-            logger.info("Match data: {}".format(match_data))
+            logger.debug("Match data: {}".format(match_data))
             return match_data
 
     def process_draw_data(self, round, soup):
@@ -177,15 +177,18 @@ class Stats:
             match_data = []
 
             for match in match_containers:
+                logger.info("Processing match data")
                 try:
                     home_team = match.find(
                         RoundDefaults.MATCH_CLASS_TAG.value, class_=RoundDefaults.HOME_TEAM_CLASS.value).text.strip()
+                    logger.info("Home team: {}".format(home_team))
                     away_team = match.find(
                         RoundDefaults.MATCH_CLASS_TAG.value, class_=RoundDefaults.AWAY_TEAM_CLASS.value).text.strip()
+                    logger.info("Away team: {}".format(away_team))
                     match_url = match.find(
                         RoundDefaults.MATCH_URL_TAG.value,   class_=RoundDefaults.MATCH_URL_CLASS.value)[RoundDefaults.MATCH_HREF.value]
                     stadium = match.find(
-                        RoundDefaults.MATCH_CLASS_TAG.value, class_=RoundDefaults.STADIUM_CLASS.value).text.strip()
+                        RoundDefaults.MATCH_CLASS_TAG.value, class_=RoundDefaults.STADIUM_CLASS.value).text.strip().strip("\n            ")
 
                     match_info = {
                         'HomeTeam': home_team,
@@ -195,6 +198,7 @@ class Stats:
                     }
 
                     match_data.append(match_info)
+                    logger.debug("Match Info: {}".format(match_info))
                 except Exception as e:
                     logger.error(f"Error processing match data: {e}")
 
@@ -211,6 +215,7 @@ class Stats:
         :return: The processed data
         '''
         if soup:
+            logger.info("Processing {} data...".format(self.stat))
             table_element = soup.find(
                 TeamDefaults.TEAMS_CONTAINER_TAG.value, class_=TeamDefaults.TEAMS_CONTAINER_CLASS.value)
             logger.debug("Table element: {}".format(table_element))

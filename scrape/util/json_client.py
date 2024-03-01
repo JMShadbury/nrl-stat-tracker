@@ -33,7 +33,7 @@ class JSONClient:
                 data.append(item)
                 file.seek(0)
                 json.dump(data, file)
-            logger.info(f"Item inserted into JSON file: {item}")
+            logger.debug(f"Item inserted into JSON file: {item}")
         except Exception as e:
             logger.error(f"Error inserting item into JSON file: {e}")
 

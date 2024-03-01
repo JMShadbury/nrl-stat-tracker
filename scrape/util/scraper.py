@@ -19,9 +19,9 @@ class WebScraper:
         Initialise the WebScraper
         :param url: The URL to scrape
         '''
-        logger.info("Initialising WebScraper")
+        logger.debug("Initialising WebScraper")
         self.url = url
-        logger.info(f"Setting URL: {self.url}")
+        logger.debug(f"Setting URL: {self.url}")
         options = Options()
         options.headless = True
         options.add_argument("-headless") 
@@ -36,9 +36,9 @@ class WebScraper:
         '''
         
         if not self.source:
-            logger.info(f"Loading page with xpath: {xpath}")
+            logger.debug(f"Loading page with xpath: {xpath}")
             self.driver.get(self.url)
-            logger.debug(f"URL: {self.url}")
+            logger.info(f"Getting all data from webpage: {self.url}")
             try:
                 WebDriverWait(self.driver, delay).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))

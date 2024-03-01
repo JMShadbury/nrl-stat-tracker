@@ -23,27 +23,27 @@ try:
     round_instances = {}
 
     count = 1
-    while count <= 27:
+    while count <= 1:
         try:
             round_instances[count] = create_stat_instance(
-                Url.get_draw_url(count), count)
+                Url.get_draw_url(count), "Round: " + str(count))
             count += 1
         except Exception as e:
             logger.error(
                 f"Error creating instance for Round {count}: {e}", exc_info=True)
             break
 
-    logger.info("Updating Round data")
+    logger.info("Initialization complete!")
 
     all_data = {round: instance.get_all_draw_data()
                 for round, instance in round_instances.items()}
 
     try:
-        logger.info(f"Processing Round data")
+        logger.info(f"Processing All Round data")
 
         processed_data = {round: instance.process_draw_data(
             round, all_data[round]) for round, instance in round_instances.items()}
-        logger.info("Processed data: {}".format(processed_data))
+        logger.debug("Processed data: {}".format(processed_data))
 
     except Exception as e:
         logger.error(f"Error processing Round {count}: {e}", exc_info=True)
@@ -52,7 +52,7 @@ try:
     table_name = 'NRL2024Rounds'
 
     # Create the table
-    db_client = JSONClient(table_name)
+    json_client = JSONClient(table_name)
     merged_data = {}
 
     for round, data in processed_data.items():
@@ -134,9 +134,9 @@ try:
 
     for round, data in merged_data.items():
         logger.info(f"Merged data for Round {round}: {data}")
-        logger.info(f"Inserting Round {round} into DynamoDB")
-        db_client.insert_item(data)
-        logger.info(f"Round {round} inserted into DynamoDB")
+        logger.info(f"Inserting Round {round} into JSON")
+        json_client.insert_item(data)
+        logger.info(f"Round {round} inserted into JSON")
 
 except Exception as e:
     logger.error(f"An error occurred: {e}", exc_info=True)

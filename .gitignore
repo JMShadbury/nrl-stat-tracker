@@ -9,7 +9,7 @@ __pycache__
 
 # Distribution / packaging
 .Python
-all_data/
+all_data/*
 ladder/
 rounds/
 build/

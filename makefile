@@ -21,7 +21,7 @@ updateRounds: build
 	. venv/bin/activate && \
 	python scrape/update_rounds.py
 
-getData: build
+getData: build updateStats
 	. venv/bin/activate && \
 	python scrape/get_data.py
 .PHONY: getData
@@ -32,5 +32,6 @@ viewStats: build
 	python view_stats.py
 
 clean:
-	rm -rf .venv
+	rm -rf venv
+	rm -rf logs
 .PHONY: clean

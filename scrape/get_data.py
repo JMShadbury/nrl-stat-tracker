@@ -9,7 +9,7 @@ import json
 logger = configure_logger("get_data.log")
 
 def transform_data_for_display(items):
-    """Transform DynamoDB items for display."""
+    """Transform data for display."""
     return [{key: int(value['N']) if 'N' in value else value['S']
              for key, value in item.items()} for item in items]
 
@@ -35,7 +35,7 @@ def process_team_data(team_names):
         client = JSONClient(team_name)
         raw_data = client.read_data()
         if raw_data:
-            save_json(raw_data, 'scripts/app/data', f'{team_name}.json')
+            save_json(raw_data, 'app/teams', f'{team_name}.json')
 
 def main():
     with open("app/teams/teams", "r") as f:
