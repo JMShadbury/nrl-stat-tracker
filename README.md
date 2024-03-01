@@ -24,17 +24,56 @@ To install NRL Stat Tracker, follow these steps:
 3. [Any additional installation steps like setting up a virtual environment, installing dependencies, etc.]
 
 ## Usage
-To use NRL Stat Tracker, follow these steps:
+Everything is setup using makefile.
 
-1. [Step-by-step instructions on how to run the application, scripts, or any other components.]
-2. [Examples of commands, scripts usage, or any interaction with the application.]
+# Targets
 
-## Directory Structure
-- `nrl_app`: Contains the main application code.
-- `dynamodb`: Scripts/configurations for DynamoDB.
-- `img`: Images used in the project.
-- `scripts`: Various utility scripts.
-- `data`: Data files used by the application.
+build:
+	python -m venv venv && \
+	. venv/bin/activate && \
+	pip install --upgrade pip && \
+	pip install -r app/util/requirements.txt 
+.PHONY: build
+
+updateStats: build updateTeams updateRounds
+	. venv/bin/activate && \
+	python scrape/update_ladder.py
+.PHONY: updateLadder
+
+updateTeams: build
+	. venv/bin/activate && \
+	python scrape/update_teams.py
+.PHONY: updateTeams
+
+updateRounds: build
+	. venv/bin/activate && \
+	python scrape/update_rounds.py
+
+getData: build updateStats
+	. venv/bin/activate && \
+	python scrape/get_data.py
+.PHONY: getData
+
+viewStats: build
+	. venv/bin/activate && \
+	cd app && \
+	python view_stats.py
+
+clean:
+	rm -rf venv
+	rm -rf logs
+.PHONY: clean
+
+The list of commands are:
+- `make build` - This will create a virtual environment and install all the dependencies.
+- `make updateStats` - This will update the ladder, teams and rounds.
+- `make updateTeams` - This will update the teams.
+- `make updateRounds` - This will update the rounds.
+- `make getData` - This will get the data from the NRL website.
+- `make viewStats` - This will display the stats.
+- `make clean` - This will remove the virtual environment and logs.
+
+#! Note: Running make getData will run all required commands to get the data from the NRL website. After this is done, you can run make viewStats to view the stats.
 
 ## Contributing
 Contributions to NRL Stat Tracker are welcome. Please adhere to the following guidelines:
