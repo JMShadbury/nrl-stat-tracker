@@ -15,7 +15,7 @@ class ScoringRules(Enum):
     POST_CONTACT_METRES = 5
     TACKLE_BREAKS = 5
     RUN_METRES = 0.001
-    OFFLOAD = 8
+    OFFLOADS = 8
     LINE_BREAK_ASSISTS = 8
     KICK_METRES = 0.01
     TRY_ASSISTS = 8
