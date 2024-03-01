@@ -47,24 +47,18 @@ def calculate_score(team_stats):
         if formatted_stat in ScoringRules.__members__:
             weight = ScoringRules[formatted_stat].value
 
-            # Convert value to a string for processing, if necessary
             value_str = str(value)
 
-            # Check if the value contains commas and remove them
             if ',' in value_str:
                 value_str = value_str.replace(",", "")
 
-            # Check if the value is NaN (not a number)
             if value_str == 'nan':
-                # Optionally log or handle NaN value
                 logger.warning(f"NaN value encountered for statistic: {stat}")
-                continue  # Skip this statistic
+                continue 
 
             try:
-                # Convert the (possibly modified) value back to float
                 score += weight * float(value_str)
             except ValueError:
-                # Optionally log or print a message that the value could not be converted
                 logger.warning(f"Could not convert value: {value} for statistic: {stat}")
         else:
             logger.warning(f"Ignoring unmapped statistic: {stat}")
