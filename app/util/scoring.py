@@ -5,7 +5,6 @@ logger = get_logger()
 from enum import Enum
 
 class ScoringRules(Enum):
-    PLAYED = 7500
     TRIES = 10
     GOALS = 2
     LINE_ENGAGED = 3
@@ -34,14 +33,19 @@ class ScoringRules(Enum):
     FIELD_GOALS = 10
     RUNS = 0.001
     KICKS = 0.1
-    
+  
+  
+def set_games_played(stats):
+    Played = stats.get("PLAYED", 0)
+    Played_nerf = (Played - Played * 2)
+    return Played_nerf
     
 def calculate_score(team_stats):
     '''
     Calculate the score for a team based on their statistics
     '''
     score = 0
-    total_games_played = team_stats.get("PLAYED", 0)
+    total_games_played = team_stats.get("PLAYED", 0) 
     completion_rate = team_stats.get("COMPLETION_RATE", 0)
     completion_rate_threshold = 70 
 
@@ -62,20 +66,16 @@ def calculate_score(team_stats):
             try:
                 value_float = float(value_str)
 
-                if formatted_stat != "PLAYED":
-                    # Normalize other stats based on games played
-                    if total_games_played > 0:
-                        value_float /= total_games_played
-
-                score += weight * value_float
+                score += value_float * weight
             except ValueError:
                 logger.warning(f"Could not convert value: {value} for statistic: {stat}")
         else:
             logger.warning(f"Ignoring unmapped statistic: {stat}")
 
     # Dynamic adjustment for PLAYED statistic
+    set_games_played(team_stats) 
     if total_games_played > 0:
-        score += total_games_played * ScoringRules.PLAYED.value
+        score += 7000 * ScoringRules.PLAYED.value
         
     if completion_rate > completion_rate_threshold:
         score += ScoringRules.COMPLETION_RATE.value * (completion_rate - completion_rate_threshold)
