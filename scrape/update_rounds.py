@@ -4,19 +4,18 @@ from util.defaults import Url
 from stats.get_stats import Stats
 from util.logger import configure_logger
 
-
+# Function to append a string with a comma
 def append_with_comma(original, to_append):
     if original:
         return original + "," + to_append
     else:
         return to_append
 
-
 try:
     logger = configure_logger("UpdateRound.log")
     logger.setLevel("DEBUG")
     
-
+    # Function to create an instance of the Stats class
     def create_stat_instance(url, stat_name):
         return Stats(url, stat_name)
 

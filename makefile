@@ -52,3 +52,11 @@ cleanAll: clean
 	rm -rf app/rounds
 	rm -rf app/ladder
 .PHONY: cleanAll
+
+tryCleanAll: 
+	@$(MAKE) cleanAll 2>/dev/null || true
+.PHONY: tryCleanAll
+
+fresh: tryCleanAll build getData
+	make viewStats
+.PHONY: fresh

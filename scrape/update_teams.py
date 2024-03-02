@@ -11,6 +11,7 @@ try:
     def create_stat_instance(url, stat_name):
         return Stats(url.value, stat_name)
 
+    # Create instances of Stats class for each stat
     stats_instances = {
         "Tries": create_stat_instance(Url.TEAM_TRIES, "Tries"),
         "Points": create_stat_instance(Url.TEAM_POINTS, "Points"),
@@ -47,29 +48,39 @@ try:
     }
 
     logger.info("Updating teams data")
+
+    # Read team names from file
     with open("app/teams/teams", "r") as f:
         team_names = f.read().splitlines()
 
     logger.debug(f"Teams: {team_names}")
+
+    # Create a dictionary of team names and abbreviations
     team_names = {team.split(":")[0]: team.split(":")[1]
                   for team in team_names}
+
+    # Get all teams data for each stat
     all_data = {stat_name: instance.get_all_teams_data()
                 for stat_name, instance in stats_instances.items()}
+
     logger.info("Processing teams data")
 
+    # Process data for each team
     for team_name in team_names:
         try:
             logger.info(f"Processing {team_name}")
             db_client = JSONClient(team_name)
 
+            # Process teams data for each stat
             processed_data = {stat_name: instance.process_teams_data(
                 all_data[stat_name], team_name) for stat_name, instance in stats_instances.items()}
+
+            # Check if team name matches in all processed data
             if all(
                 team_name.replace(" ", "") == (data['TeamName'].replace(
                     " ", "") if data and 'TeamName' in data else "")
                 for data in processed_data.values() if data and 'TeamName' in data
             ):
-
                 # Filter out None values from processed_data
                 filtered_processed_data = {
                     k: v for k, v in processed_data.items() if v is not None}
@@ -80,6 +91,7 @@ try:
 
                 logger.info(
                     f"Merged data for {team_name}: {json.dumps(merged_data, indent=2)}")
+
                 if merged_data:
                     logger.info(f"Inserting {team_name} into JSON")
                     db_client.insert_item(merged_data)
