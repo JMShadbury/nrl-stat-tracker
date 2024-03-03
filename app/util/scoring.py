@@ -6,15 +6,15 @@ from enum import Enum
 
 class ScoringRules(Enum):
     TRIES = 10
-    GOALS = 2
+    GOALS = 5
     LINE_ENGAGED = 3
-    COMPLETION = 20
+    COMPLETION = 80
     SUPPORT = 3
-    LINE_BREAKS = 8
+    LINE_BREAKS = 20
     POST_CONTACT_METRES = 5
-    TACKLE_BREAKS = 5
+    TACKLE_BREAKS = 9
     RUN_METRES = 0.001
-    OFFLOADS = 8
+    OFFLOADS = 50
     LINE_BREAK_ASSISTS = 8
     KICK_METRES = 0.01
     TRY_ASSISTS = 8
@@ -28,7 +28,7 @@ class ScoringRules(Enum):
     PENALTIES_CONCEDED = -10
     HANDLING_ERRORS = -10
     SHORT_DROPOUTS = 0
-    FOURTY_TWENTY_KICKS = 10
+    FOURTY_TWENTY_KICKS = 20
     KICK_RETURN_METRES = 1
     FIELD_GOALS = 10
     RUNS = 0.001
