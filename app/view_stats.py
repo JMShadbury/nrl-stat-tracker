@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from util.scoring import calculate_score
+from util.scoring import calculate_score, compare_teams
 import json
 from data_manager import load_data, load_rounds_data
 from util.logger import configure_logger
@@ -82,6 +82,38 @@ def rounds():
     print(rounds_data)  # Use print to see the output directly in the console.
     return render_template('rounds.html', rounds=rounds_data)
 
-# Run the app
+
+@app.route('/power_list')
+def power_list():
+    teams = sorted(team_data.index.unique())
+    power_rankings = calculate_power_rankings(team_data, teams)
+    return render_template('power_list.html', power_rankings=power_rankings)
+
+def calculate_power_rankings(team_data, teams):
+    rankings = []
+    predicted_wins = {team: [] for team in teams}  # Tracks predicted wins against specific teams
+
+    for team in teams:
+        wins = 0
+        for opponent in teams:
+            if team != opponent:
+                winner = compare_teams(team_data, team, opponent)
+                if winner == team:
+                    wins += 1
+                    predicted_wins[team].append(opponent)
+        rankings.append({'team': team, 'wins': wins, 'predicted_wins': predicted_wins[team]})
+    
+    # Sort by wins, then add additional logic to handle the tags
+    sorted_rankings = sorted(rankings, key=lambda x: x['wins'], reverse=True)
+    
+    for i, team_rank in enumerate(sorted_rankings):
+        team_rank['defeats_higher_ranked'] = []
+        for j, higher_team in enumerate(sorted_rankings[:i]):
+            if higher_team['team'] in team_rank['predicted_wins']:
+                team_rank['defeats_higher_ranked'].append(higher_team['team'])
+
+    return sorted_rankings
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NRL Statistics - AI Predicted Power List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body style="overscroll-behavior-x: auto;">
+    <nav class="navbar navbar-expand-lg navbar-custom mb-4">
+       <a class="navbar-brand" href="/">NRL Statistics Tracker</a>
+       <div class="ml-auto">
+          <form action="/ladder" method="get" style="margin-top: 20px;">
+              <button type="submit" class="btn-custom">View Ladder</button>
+          </form>
+          <form action="/" method="get" style="margin-top: 20px;">
+              <button type="submit" class="btn-custom">Compare Teams</button>
+       </div>
+    </nav>
+    <div class="container">
+       <h1 class="text-center">AI Predicted Power List</h1>
+       <table class="table table-hover table-bordered table-custom">
+         <thead class="thead-dark sticky-header">
+            <tr>
+               <th>Rank</th>
+               <th>Team</th>
+               <th>Wins</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for ranking in power_rankings %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    <img src="{{ url_for('static', filename='img/' + ranking.team.lower() + '.svg') }}" alt="{{ ranking.team }}" class="team-icon">
+                    {{ ranking.team }}
+                    <!-- Displaying tags for defeating higher-ranked teams -->
+                    {% for defeated_team in ranking.defeats_higher_ranked %}
+                        <img src="{{ url_for('static', filename='path/to/tag_icon.svg') }}" alt="Defeats {{ defeated_team }}">
+                    {% endfor %}
+                </td>
+                <td>{{ ranking.wins }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
