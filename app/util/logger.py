@@ -13,9 +13,9 @@ class ColoredFormatter(logging.Formatter):
         None
     '''
     COLORS = {
-        "INFO": "37",      # White
-        "WARNING": "33",   # Yellow
-        "ERROR": "31",     # Red
+        "INFO": "37",
+        "WARNING": "33",
+        "ERROR": "31",
     }
 
     def format(self, record):
