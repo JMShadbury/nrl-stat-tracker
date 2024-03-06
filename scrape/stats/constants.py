@@ -1,3 +1,9 @@
+""" This module contains default values for the web scraping process. """
+
+# pylint: disable=C0303
+# pylint: disable=C0301
+# pylint: disable=C0304
+# pylint: disable=C0115
 
 from enum import Enum
 

@@ -1,3 +1,8 @@
+"""Module containing URL enumeration."""
+
+# pylint: disable=C0303
+# pylint: disable=C0301
+
 from enum import Enum
 
 class Url(Enum):
@@ -46,4 +51,5 @@ class Url(Enum):
     
     @staticmethod
     def get_draw_url(round_number):
+        """Get the URL for the draw for a specific round."""
         return Url.DRAW.value.format(round=round_number)

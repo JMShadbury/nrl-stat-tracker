@@ -1,9 +1,18 @@
+"""Module to retrieve and process data."""
+
+# pylint: disable=C0303
+# pylint: disable=E0401
+# pylint: disable=C0413
+# pylint: disable=W1514
+# pylint: disable=C0411
+
+
 import os
-import boto3
-from botocore.exceptions import NoCredentialsError, ClientError
-from util.json_client import JSONClient
-from util.logger import configure_logger
 import json
+from util.json_client import JSONClient
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from common.logger import configure_logger
 
 # Configure logger
 logger = configure_logger("get_data.log")
@@ -25,9 +34,9 @@ def save_json(data, directory, filename):
     try:
         with open(filepath, 'w') as file:
             json.dump(data, file, indent=4)
-        logger.info(f"Data saved to {filepath}")
+        logger.info("Data saved to %s", filepath)
     except IOError as e:
-        logger.error(f"Failed to save data: {e}")
+        logger.error("Failed to save data: %s", e)
 
 def process_team_data(team_names):
     """Process and save team data."""
@@ -38,10 +47,10 @@ def process_team_data(team_names):
             save_json(raw_data, 'app/teams', f'{team_name}.json')
 
 def main():
+    """Main function."""
     with open("app/teams/teams", "r") as f:
         team_names = [team.split(":")[0] for team in f.read().splitlines()]
     process_team_data(team_names)
-    
     
     client = JSONClient("Ladder")
     ladder_data = client.read_data()
