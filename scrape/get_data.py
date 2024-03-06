@@ -2,6 +2,9 @@
 
 # pylint: disable=C0303
 # pylint: disable=E0401
+# pylint: disable=C0413
+# pylint: disable=W1514
+# pylint: disable=C0411
 
 
 import os

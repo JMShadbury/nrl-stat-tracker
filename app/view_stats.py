@@ -1,5 +1,5 @@
 """
-Flask application for comparing sports teams, viewing ladders and rounds, and analyzing power rankings.
+Flask application
 """
 
 # pylint: disable=C0301
@@ -7,6 +7,8 @@ Flask application for comparing sports teams, viewing ladders and rounds, and an
 # pylint: disable=E0401
 # pylint: disable=W0718
 # pylint: disable=W0621
+# pylint: disable=C0413
+# pylint: disable=C0411
 
 
 import os
@@ -15,6 +17,7 @@ import json
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from common.logger import configure_logger
+
 from flask import Flask, render_template, request
 from util.scoring import calculate_score, compare_teams
 from data_manager import load_data, load_rounds_data

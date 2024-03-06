@@ -1,14 +1,16 @@
 """
 This module handles loading and aggregating team data from JSON files into a pandas DataFrame.
 """
+
+# pylint: disable=E0401
+
 import os
 import glob
 import json
 import sys
-import pandas as pd
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# pylint: disable=E0401
 from common.logger import get_logger
+import pandas as pd
 
 
 logger = get_logger()
