@@ -9,7 +9,6 @@ Flask application
 # pylint: disable=W0621
 # pylint: disable=C0413
 # pylint: disable=C0411
-h
 
 from data_manager import load_data, load_rounds_data
 from util.scoring import calculate_score, compare_teams
