@@ -7,6 +7,7 @@ from stats.get_stats import Stats
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# pylint: disable=E0401
 from common.logger import configure_logger
 
 try:

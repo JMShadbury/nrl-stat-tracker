@@ -5,6 +5,7 @@ from stats.constants import TeamDefaults, RoundDefaults, GameDefaults
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+# pylint: disable=E0401
 from common.logger import get_logger
 
 logger = get_logger()
