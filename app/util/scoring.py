@@ -2,14 +2,17 @@
 This module contains functionality for scoring and comparing teams 
 based on various statistics.
 """
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
 # pylint: disable=E0401
 # pylint: disable=C0325
 # pylint: disable=E1101
-from common.logger import get_logger
-from enum import Enum
+
+
 import sys
 import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from common.logger import get_logger
+from enum import Enum
 
 
 logger = get_logger()

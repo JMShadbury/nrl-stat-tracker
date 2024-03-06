@@ -44,6 +44,7 @@ def process_team_data(team_names):
             save_json(raw_data, 'app/teams', f'{team_name}.json')
 
 def main():
+    """Main function."""
     with open("app/teams/teams", "r") as f:
         team_names = [team.split(":")[0] for team in f.read().splitlines()]
     process_team_data(team_names)
