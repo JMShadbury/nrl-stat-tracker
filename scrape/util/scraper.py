@@ -1,3 +1,5 @@
+"""Module for web scraping."""
+
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -5,13 +7,17 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.firefox.options import Options
 from bs4 import BeautifulSoup
-from util.logger import get_logger
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from common.logger import get_logger
 
 logger = get_logger()
 
 
 class WebScraper:
-    
+    """Class to perform web scraping."""
+
     source = None
     
     def __init__(self, url):
@@ -21,7 +27,7 @@ class WebScraper:
         '''
         logger.debug("Initialising WebScraper")
         self.url = url
-        logger.debug(f"Setting URL: {self.url}")
+        logger.debug("Setting URL: %s", self.url)
         options = Options()
         options.headless = True
         options.add_argument("-headless") 
@@ -34,11 +40,10 @@ class WebScraper:
         :param delay: The delay to wait for
         :return: The source of the page
         '''
-        
         if not self.source:
-            logger.debug(f"Loading page with xpath: {xpath}")
+            logger.debug("Loading page with xpath: %s", xpath)
             self.driver.get(self.url)
-            logger.info(f"Getting all data from webpage: {self.url}")
+            logger.info("Getting all data from webpage: %s", self.url)
             try:
                 WebDriverWait(self.driver, delay).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))
@@ -51,7 +56,7 @@ class WebScraper:
                 self.close()
                 return None
             except Exception as e:
-                logger.error(f"An error occurred: {e}")
+                logger.error("An error occurred: %s", e)
                 self.close()
                 return None
 

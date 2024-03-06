@@ -1,12 +1,16 @@
+""" This module updates the teams data in the JSON database """
+
 import json
 from util.json_client import JSONClient
 from util.defaults import Url
 from stats.get_stats import Stats
-from util.logger import configure_logger
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from common.logger import configure_logger
 
 try:
     logger = configure_logger("UpdateTeams.log")
-    logger.setLevel("DEBUG")
 
     def create_stat_instance(url, stat_name):
         return Stats(url.value, stat_name)

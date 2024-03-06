@@ -1,10 +1,31 @@
+""" This module contains functionality for scraping statistics from the NRL website. """
+
 from util.scraper import WebScraper
-from util.data_processing import process_table_row
-from util.logger import get_logger
 from stats.constants import TeamDefaults, RoundDefaults, GameDefaults
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from common.logger import get_logger
 
 logger = get_logger()
-logger.setLevel("DEBUG")
+
+
+def process_table_row(row, stat):
+    """
+    Process a table row
+    :param row: The table row to process
+    :param stat: The statistic to process
+    :return: The processed data
+    """
+    played = row.select_one('td:nth-of-type(4)').get_text(strip=True)
+    goals = row.select_one('td:nth-of-type(5)').get_text(strip=True)
+
+    data = {
+        'TeamName': row.select_one('span.u-font-weight-600').get_text(strip=True),
+        'Played': played,
+        stat: goals
+    }
+    return data
 
 
 def append_with_comma(original, to_append):
@@ -12,6 +33,7 @@ def append_with_comma(original, to_append):
         return original + "," + to_append
     else:
         return to_append
+
 
 class Stats:
 
@@ -130,7 +152,7 @@ class Stats:
                     away_score = get_away_score(game)
                     home_name = get_home_name(game)
                     away_name = get_away_name(game)
-                    
+
                     if game_previous_data:
                         game_previous_data['PreviousHomeScore'] = append_with_comma(
                             game_previous_data['PreviousHomeScore'], home_score)

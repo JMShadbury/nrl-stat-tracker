@@ -1,49 +1,53 @@
+"""
+This module handles loading and aggregating team data from JSON files into a pandas DataFrame.
+"""
+
 import pandas as pd
 import os
 import glob
-from util.logger import get_logger
 import json
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from common.logger import get_logger
+
 
 logger = get_logger()
 
 
 def load_rounds_data():
-    '''
-    Load data from JSON files and create a DataFrame
-    '''
-    with open('rounds/rounds_data.json', 'r') as file:
+    """
+    Load data from a JSON file into a dictionary.
+
+    Returns:
+        dict: Data loaded from the rounds_data.json file.
+    """
+    with open('rounds/rounds_data.json', 'r', encoding='utf-8') as file:
         rounds_data = json.load(file)
     return rounds_data
 
 
 def load_data():
-    '''
-    Load data from JSON files and create a DataFrame
+    """
+    Load data from JSON files in the 'teams' directory and create a DataFrame.
 
     Returns:
-        pd.DataFrame: DataFrame containing the data
-    '''
+        pd.DataFrame: DataFrame containing the aggregated data from all team files.
+    """
     logger.info("Loading data")
     data_dir = 'teams'
     json_files = glob.glob(os.path.join(data_dir, '*.json'))
-    logger.debug(f"JSON files: {json_files}")
+    logger.debug("JSON files found: %s", json_files)
 
     data_frames = [pd.read_json(file) for file in json_files]
-    logger.debug(f"Data frames: {data_frames}")
     all_teams_data = pd.concat(data_frames)
-    logger.debug(f"All teams data: {all_teams_data}")
     all_teams_data['TeamName'] = all_teams_data['TeamName'].astype(str)
-    logger.debug(f"All teams data: {all_teams_data}")
 
-    logger.info("Data loaded")
-
-    logger.info("Creating DataFrame")
-
+    logger.info("Data loaded and DataFrame creation started")
     df = pd.DataFrame(all_teams_data)
     df.set_index('TeamName', inplace=True)
-    logger.debug("DataFrame created -: {}".format(df))
-    logger.info("DataFrame Created")
 
+    logger.info("DataFrame created")
     return df
 
 

@@ -1,9 +1,10 @@
+"""Module for configuring and creating a logger."""
+
 import logging
 import os
 
-
 class ColoredFormatter(logging.Formatter):
-    '''
+    """
     Custom formatter class to handle color formatting
 
     Args:
@@ -11,15 +12,15 @@ class ColoredFormatter(logging.Formatter):
 
     Returns:
         None
-    '''
+    """
     COLORS = {
-        "INFO": "37",
-        "WARNING": "33",
-        "ERROR": "31",
+        "INFO": "32",     # Green
+        "WARNING": "33",   # Yellow
+        "ERROR": "31",     # Red
     }
 
     def format(self, record):
-        '''
+        """
         Format the log message with color
 
         Args:
@@ -27,15 +28,14 @@ class ColoredFormatter(logging.Formatter):
 
         Returns:
             str: Formatted log message
-        '''
+        """
         levelname = record.levelname
         color_code = self.COLORS.get(levelname, "0")
         log_message = super().format(record)
         return f"\x1b[{color_code}m{log_message}\x1b[0m"
 
-
 class FileHandler(logging.Handler):
-    '''
+    """
     Custom logging handler that forwards INFO messages to a file
 
     Args:
@@ -43,7 +43,7 @@ class FileHandler(logging.Handler):
 
     Returns:
         None
-    '''
+    """
 
     def __init__(self, filename):
         super().__init__()
@@ -51,12 +51,11 @@ class FileHandler(logging.Handler):
 
     def emit(self, record):
         log_message = self.format(record)
-        with open(self.filename, "a") as file:
+        with open(self.filename, "a", encoding="utf-8") as file:
             file.write(log_message + "\n")
 
-
 class ConsoleHandler(logging.Handler):
-    '''
+    """
     Custom logging handler that forwards WARNING and ERROR messages to the console
 
     Args:
@@ -64,16 +63,15 @@ class ConsoleHandler(logging.Handler):
 
     Returns:
         None
-    '''
+    """
 
     def emit(self, record):
         log_message = self.format(record)
         if record.levelname in ("INFO", "WARNING", "ERROR"):
             print(log_message)
 
-
 def configure_logger(log_filename):
-    '''
+    """
     Configure the logger to send logs to the logger.py file
 
     Args:
@@ -81,7 +79,7 @@ def configure_logger(log_filename):
 
     Returns:
         logging.Logger: Logger object
-    '''
+    """
     logs_folder = "logs"
     if not os.path.exists(logs_folder):
         os.makedirs(logs_folder)
@@ -94,13 +92,13 @@ def configure_logger(log_filename):
 
     # Create a logger
     logger = logging.getLogger("application_log")
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     file_handler = FileHandler(log_filepath)
-    file_handler.setLevel(logging.INFO)
+    file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 
@@ -115,9 +113,8 @@ def configure_logger(log_filename):
 
     return logger
 
-
 def get_logger():
-    '''
+    """
     Get the logger object
 
     Args:
@@ -125,5 +122,5 @@ def get_logger():
 
     Returns:
         logging.Logger: Logger object
-    '''
+    """
     return logging.getLogger("application_log")

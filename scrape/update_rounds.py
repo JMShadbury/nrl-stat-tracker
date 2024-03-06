@@ -1,22 +1,26 @@
-import json
+"""Module to update round data."""
+
 from util.json_client import JSONClient
 from util.defaults import Url
 from stats.get_stats import Stats
-from util.logger import configure_logger
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from common.logger import configure_logger
 
-# Function to append a string with a comma
 def append_with_comma(original, to_append):
+    """Append a string with a comma."""
     if original:
         return original + "," + to_append
     else:
         return to_append
 
 try:
+    # Configure logger
     logger = configure_logger("UpdateRound.log")
-    logger.setLevel("DEBUG")
     
-    # Function to create an instance of the Stats class
     def create_stat_instance(url, stat_name):
+        """Create an instance of the Stats class."""
         return Stats(url, stat_name)
 
     round_instances = {}
@@ -38,14 +42,13 @@ try:
                 for round, instance in round_instances.items()}
 
     try:
-        logger.info(f"Processing All Round data")
-
+        logger.info("Processing All Round data")
         processed_data = {round: instance.process_draw_data(
             round, all_data[round]) for round, instance in round_instances.items()}
-        logger.debug("Processed data: {}".format(processed_data))
+        logger.debug("Processed data: %s", processed_data)
 
     except Exception as e:
-        logger.error(f"Error processing Round {count}: {e}", exc_info=True)
+        logger.error("Error processing Round %s: %s", count, e, exc_info=True)
 
     # Define table schema
     table_name = 'NRL2024Rounds'
@@ -77,10 +80,10 @@ try:
                         merged_game_data.append(match_info)
                     except Exception as e:
                         logger.error(
-                            "Error processing match data: {}".format(e), exc_info=True)
+                            "Error processing match data: %s", e, exc_info=True)
 
                 logger.info(
-                    f"Processing {round} - {d['HomeTeam']} vs {d['AwayTeam']}")
+                    "Processing %s - %s vs %s", round, d['HomeTeam'], d['AwayTeam'])
 
                 home_team = d['HomeTeam']
                 away_team = d['AwayTeam']
@@ -129,16 +132,16 @@ try:
                     merged_data[round]['PreviousAwayTeams'] = append_with_comma(
                         merged_data[round]['PreviousAwayTeams'], previous_away_teams)
         else:
-            logger.debug(f"No data found for Round {round}")
+            logger.debug("No data found for Round %s", round)
 
     for round, data in merged_data.items():
-        logger.info(f"Merged data for Round {round}: {data}")
-        logger.info(f"Inserting Round {round} into JSON")
+        logger.info("Merged data for Round %s: %s", round, data)
+        logger.info("Inserting Round %s into JSON", round)
         json_client.insert_item(data)
-        logger.info(f"Round {round} inserted into JSON")
+        logger.info("Round %s inserted into JSON", round)
 
 except Exception as e:
-    logger.error(f"An error occurred: {e}", exc_info=True)
+    logger.error("An error occurred: %s", e, exc_info=True)
     raise e
 
 logger.info("Scrape Successful!")

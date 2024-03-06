@@ -1,26 +1,38 @@
+"""Module to update ladder data."""
+
 from util.scraper import WebScraper
 from util.json_client import JSONClient
 from util.defaults import Url
-from util.logger import configure_logger
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from common.logger import configure_logger
 
+# Configure logger
 logger = configure_logger("UpdateLadder.log")
-logger.setLevel("INFO")  # Adjusted for typical production use
+
 
 class UpdateLadder:
+    """Class to update ladder data."""
+
     def __init__(self):
+        """Initialize UpdateLadder."""
         logger.info("Initializing UpdateLadder")
         self.scraper = WebScraper(Url.LADDER.value)
         self.db_client = JSONClient("Ladder")
         logger.info("UpdateLadder Initialized")
 
     def get_text(self, row, selector):
+        """Get text from HTML element."""
         element = row.select_one(selector)
         return element.get_text(strip=True) if element else None
 
     def update_ladder(self):
+        """Update ladder data."""
         logger.info("Updating ladder data")
         try:
-            soup = self.scraper.load_page('//tr[@q-component="ladder-body-row"]')
+            soup = self.scraper.load_page(
+                '//tr[@q-component="ladder-body-row"]')
             if soup:
                 table_element = soup.find('table', {"id": "ladder-table"})
                 if table_element:
@@ -43,10 +55,12 @@ class UpdateLadder:
                         }
                         self.db_client.insert_item(data)
         except Exception as e:
-            logger.error(f"Error updating ladder: {e}", exc_info=True)
+            logger.error("Error updating ladder: %s", e, exc_info=True)
         finally:
             self.scraper.close()
             logger.info("Ladder update process completed")
 
-update_ladder = UpdateLadder()
-update_ladder.update_ladder()
+
+if __name__ == '__main__':
+    update_ladder = UpdateLadder()
+    update_ladder.update_ladder()

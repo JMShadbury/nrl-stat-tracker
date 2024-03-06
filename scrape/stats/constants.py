@@ -1,3 +1,4 @@
+""" This module contains default values for the web scraping process. """
 
 from enum import Enum
 

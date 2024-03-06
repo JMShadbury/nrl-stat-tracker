@@ -1,26 +1,31 @@
+"""
+Flask application for comparing sports teams, viewing ladders and rounds, and analyzing power rankings.
+"""
+
 from flask import Flask, render_template, request
 from util.scoring import calculate_score, compare_teams
 import json
 from data_manager import load_data, load_rounds_data
-from util.logger import configure_logger
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from common.logger import configure_logger
+
 
 # Configure logger
 logger = configure_logger("flask.log")
 
 # Create Flask app
-app = Flask(__name__, static_folder=os.path.dirname(
-    os.path.abspath(__file__)) + '/static')
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'))
 
 # Load team data
 team_data = load_data()
 
-# Index route
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    '''
-    Route to compare teams
-    '''
+    """
+    Route to compare teams.
+    """
     logger.info("Index route called")
     try:
         teams = sorted(team_data.index.unique())
@@ -46,19 +51,17 @@ def index():
 
         return render_template('index.html', teams=teams, selected_team1=selected_team1, selected_team2=selected_team2, comparison_data=comparison_data)
     except Exception as e:
-        logger.error(f"Error processing request: {e}", exc_info=True)
+        logger.error("Error processing request: %s", e, exc_info=True)
         return "An error occurred", 500
 
-# Ladder route
 @app.route('/ladder', methods=['GET'])
 def view_ladder():
-    '''
-    Route to view the ladder
-    '''
+    """
+    Route to view the ladder.
+    """
     logger.info("View ladder route called")
     try:
-        # Read ladder data from the JSON file
-        with open('ladder/ladder_data.json', 'r') as file:
+        with open('ladder/ladder_data.json', 'r', encoding='utf-8') as file:
             ladder_data = json.load(file)
         return render_template('ladder.html', ladder_data=ladder_data)
     except FileNotFoundError:
@@ -68,20 +71,18 @@ def view_ladder():
         logger.error("Error decoding ladder data file.")
         return "Error processing ladder data", 500
     except Exception as e:
-        logger.error(f"Unexpected error: {e}", exc_info=True)
+        logger.error("Unexpected error: %s", e, exc_info=True)
         return "An unexpected error occurred", 500
 
-# Rounds route
 @app.route('/rounds')
 def rounds():
-    '''
-    Route to view the rounds
-    '''
+    """
+    Route to view the rounds.
+    """
     rounds_data = load_rounds_data()
-    logger.debug("Rounds Data: {}".format(rounds_data))
+    logger.debug("Rounds Data: %s", rounds_data)
     print(rounds_data)  # Use print to see the output directly in the console.
     return render_template('rounds.html', rounds=rounds_data)
-
 
 @app.route('/power_list')
 def power_list():
@@ -103,17 +104,15 @@ def calculate_power_rankings(team_data, teams):
                     predicted_wins[team].append(opponent)
         rankings.append({'team': team, 'wins': wins, 'predicted_wins': predicted_wins[team]})
     
-    # Sort by wins, then add additional logic to handle the tags
     sorted_rankings = sorted(rankings, key=lambda x: x['wins'], reverse=True)
     
     for i, team_rank in enumerate(sorted_rankings):
         team_rank['defeats_higher_ranked'] = []
-        for j, higher_team in enumerate(sorted_rankings[:i]):
+        for higher_team in sorted_rankings[:i]:
             if higher_team['team'] in team_rank['predicted_wins']:
                 team_rank['defeats_higher_ranked'].append(higher_team['team'])
 
     return sorted_rankings
-
 
 if __name__ == '__main__':
     app.run(debug=True)
