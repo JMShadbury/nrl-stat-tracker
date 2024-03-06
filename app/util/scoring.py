@@ -5,6 +5,7 @@ logger = get_logger()
 from enum import Enum
 
 class ScoringRules(Enum):
+    PLAYED = -9800
     LINE_ENGAGED = 3
     COMPLETION = 80
     SUPPORT = 3
@@ -80,7 +81,7 @@ def calculate_score(team_stats):
         
     if completion_rate > completion_rate_threshold:
         score += ScoringRules.COMPLETION_RATE.value * (completion_rate - completion_rate_threshold)
-
+    logger.warning(f"Calculated score: {score}")
     return score
 
 def compare_teams(team_data, team1_name, team2_name):
