@@ -5,7 +5,7 @@ logger = get_logger()
 from enum import Enum
 
 class ScoringRules(Enum):
-    PLAYED = -9800
+    PLAYED = -10000
     LINE_ENGAGED = 3
     COMPLETION = 80
     SUPPORT = 3
