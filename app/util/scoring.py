@@ -6,13 +6,15 @@ based on various statistics.
 # pylint: disable=E0401
 # pylint: disable=C0325
 # pylint: disable=E1101
+# pylint: disable=C0413
+# pylint: disable=R1705
 
-
+from enum import Enum
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 from common.logger import get_logger
-from enum import Enum
+
 
 
 logger = get_logger()
@@ -114,5 +116,7 @@ def compare_teams(team_data, team1_name, team2_name):
 
     if team1_score > team2_score:
         return team1_name
-    else:
+    elif team2_score > team1_score:
         return team2_name
+    else:
+        return "Tie"
