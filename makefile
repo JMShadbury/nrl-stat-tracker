@@ -7,7 +7,7 @@ build:
 	pip install -r app/util/requirements.txt 
 .PHONY: build
 
-updateStats: build updateTeams updateRounds
+updateStats: build updateTeams
 	. venv/bin/activate && \
 	python scrape/update_ladder.py
 .PHONY: updateLadder
@@ -70,7 +70,6 @@ pre-backup:
 	cp -r scrape/all_data "backup/$(round)"
 .PHONY: backup
 
-
 encryptBackup:
 	@if [ -z "$(round)" ]; then echo "Error: No round specified for backup"; exit 1; fi
 	tar -czvf "backup/$(round).tar.gz" -C "backup/" "$(round)" && \
@@ -84,13 +83,9 @@ decryptBackup:
 	rm "backup/$(round)/$(round).tar.gz" "backup/$(round)/$(round).tar.gz.encrypted"
 .PHONY: decryptBackup
 
-
-
 uploadBackup:
 	aws s3 cp "backup/$(round).tar.gz.encrypted" s3://2024-nrl-data/$(round)/$(round).tar.gz.encrypted --profile joeladmin
 .PHONY: uploadBackup
-
-
 
 downloadBackup:
 	aws s3 cp s3://2024-nrl-data/$(round) backup/$(round) --recursive --profile joeladmin
@@ -102,8 +97,6 @@ restoreBackup:
     cp -r "backup/$(round)/$(round)/ladder" app/ && \
     cp -r "backup/$(round)/$(round)/all_data" scrape/
 .PHONY: restoreBackup
-
-
 
 cleanBackup:
 	rm -rf backup/*

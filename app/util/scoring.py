@@ -5,40 +5,41 @@ logger = get_logger()
 from enum import Enum
 
 class ScoringRules(Enum):
-    TRIES = 10
-    GOALS = 5
     LINE_ENGAGED = 3
     COMPLETION = 80
     SUPPORT = 3
     LINE_BREAKS = 20
-    POST_CONTACT_METRES = 5
+    POST_CONTACT_METRES = 0.9
     TACKLE_BREAKS = 9
-    RUN_METRES = 0.001
-    OFFLOADS = 50
-    LINE_BREAK_ASSISTS = 8
-    KICK_METRES = 0.01
+    RUN_METRES = 0.9
+    OFFLOADS = 100
+    LINE_BREAK_ASSISTS = 10
+    KICK_METRES = 0.05
     TRY_ASSISTS = 8
-    DECOY_RUNS = 3
-    DUMMY_HALF_RUNS = 7
+    DECOY_RUNS = 20
+    DUMMY_HALF_RUNS = 10
     MISSED_TACKLES = -10
-    CHARGE_DOWNS = 10
-    INTERCEPTS = 9
+    CHARGE_DOWNS = 100
+    INTERCEPTS = 100
     ERRORS = -10
     INEFFECTIVE_TACKLES = -10
     PENALTIES_CONCEDED = -10
     HANDLING_ERRORS = -10
-    SHORT_DROPOUTS = 0
+    SHORT_DROPOUTS = -10
     FOURTY_TWENTY_KICKS = 20
-    KICK_RETURN_METRES = 1
-    FIELD_GOALS = 10
-    RUNS = 0.001
-    KICKS = 0.1
+    KICK_RETURN_METRES = 0.10
+    TACKLES = 0.02
+    FIELD_GOALS = 60
+    RUNS = 0.010
+    KICKS = 5
+    CONVERSION_PERCENT = 2
   
   
 def set_games_played(stats):
     Played = stats.get("PLAYED", 0)
     Played_nerf = (Played - Played * 2)
     return Played_nerf
+
     
 def calculate_score(team_stats):
     '''
@@ -80,5 +81,13 @@ def calculate_score(team_stats):
     if completion_rate > completion_rate_threshold:
         score += ScoringRules.COMPLETION_RATE.value * (completion_rate - completion_rate_threshold)
 
-
     return score
+
+def compare_teams(team_data, team1_name, team2_name):
+    team1_data = team_data.loc[team1_name].to_dict()
+    team2_data = team_data.loc[team2_name].to_dict()
+
+    team1_score = calculate_score(team1_data)
+    team2_score = calculate_score(team2_data)
+
+    return team1_name if team1_score > team2_score else team2_name if team2_score > team1_score else "Tie"
