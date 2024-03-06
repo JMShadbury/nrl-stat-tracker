@@ -10,17 +10,15 @@ Flask application
 # pylint: disable=C0413
 # pylint: disable=C0411
 
-
+from data_manager import load_data, load_rounds_data
+from util.scoring import calculate_score, compare_teams
+from flask import Flask, render_template, request
+from common.logger import configure_logger
 import os
 import sys
 import json
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from common.logger import configure_logger
-
-from flask import Flask, render_template, request
-from util.scoring import calculate_score, compare_teams
-from data_manager import load_data, load_rounds_data
 
 
 # Configure logger
@@ -29,7 +27,8 @@ logger = configure_logger("flask.log")
 # Create Flask app
 app = Flask(
     __name__,
-    static_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), "static"),
+    static_folder=os.path.join(os.path.dirname(
+        os.path.abspath(__file__)), "static"),
 )
 
 # Load team data
@@ -151,7 +150,8 @@ def calculate_power_rankings(team_data, teams):
                     wins += 1
                     predicted_wins[team].append(opponent)
         rankings.append(
-            {"team": team, "wins": wins, "predicted_wins": predicted_wins[team]}
+            {"team": team, "wins": wins,
+                "predicted_wins": predicted_wins[team]}
         )
 
     sorted_rankings = sorted(rankings, key=lambda x: x["wins"], reverse=True)
