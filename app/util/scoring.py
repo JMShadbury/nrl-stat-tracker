@@ -2,18 +2,23 @@
 This module contains functionality for scoring and comparing teams 
 based on various statistics.
 """
-
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+# pylint: disable=E0401
+# pylint: disable=C0325
+# pylint: disable=E1101
+from common.logger import get_logger
 from enum import Enum
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-# pylint: disable=E0401
-from common.logger import get_logger
+
 
 logger = get_logger()
 
 
 class ScoringRules(Enum):
+    """
+    Enum for scoring rules.
+    """
     PLAYED = -10000
     LINE_ENGAGED = 3
     COMPLETION = 80
@@ -59,7 +64,6 @@ def calculate_score(team_stats):
     Calculate the score for a team based on their statistics.
     """
     score = 0
-    total_games_played = team_stats.get("PLAYED", 0)
     completion_rate = team_stats.get("COMPLETION_RATE", 0)
     completion_rate_threshold = 70
 
@@ -107,7 +111,5 @@ def compare_teams(team_data, team1_name, team2_name):
 
     if team1_score > team2_score:
         return team1_name
-    elif team2_score > team1_score:
-        return team2_name
     else:
-        return "Tie"
+        return team2_name

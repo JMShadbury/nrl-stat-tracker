@@ -2,15 +2,23 @@
 Flask application for comparing sports teams, viewing ladders and rounds, and analyzing power rankings.
 """
 
-from flask import Flask, render_template, request
-from util.scoring import calculate_score, compare_teams
-import json
-from data_manager import load_data, load_rounds_data
+# pylint: disable=C0301
+# pylint: disable=C0303
+# pylint: disable=E0401
+# pylint: disable=W0718
+# pylint: disable=W0621
+
+
 import os
 import sys
+import json
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# pylint: disable=E0401
 from common.logger import configure_logger
+from flask import Flask, render_template, request
+from util.scoring import calculate_score, compare_teams
+from data_manager import load_data, load_rounds_data
+
+
 
 
 # Configure logger
@@ -87,11 +95,24 @@ def rounds():
 
 @app.route('/power_list')
 def power_list():
+    """
+    Route to view the power list.
+    """
     teams = sorted(team_data.index.unique())
     power_rankings = calculate_power_rankings(team_data, teams)
     return render_template('power_list.html', power_rankings=power_rankings)
 
 def calculate_power_rankings(team_data, teams):
+    """
+    Calculate power rankings for the teams.
+    
+    Args:
+        team_data (pd.DataFrame): DataFrame containing team data.
+        teams (list): List of team names.
+        
+    Returns:
+        list: List of dictionaries containing team rankings.
+    """
     rankings = []
     predicted_wins = {team: [] for team in teams}  # Tracks predicted wins against specific teams
 

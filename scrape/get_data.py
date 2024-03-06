@@ -1,12 +1,14 @@
 """Module to retrieve and process data."""
 
+# pylint: disable=C0303
+# pylint: disable=E0401
+
+
 import os
 import json
 from util.json_client import JSONClient
-import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# pylint: disable=E0401
 from common.logger import configure_logger
 
 # Configure logger
