@@ -1,12 +1,16 @@
 """Module to update ladder data."""
 
+# pylint: disable=E0401
+# pylint: disable=C0413
+# pylint: disable=W0718
+# pylint: disable=C0411
+
 from util.scraper import WebScraper
 from util.json_client import JSONClient
 from util.defaults import Url
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# pylint: disable=E0401
 from common.logger import configure_logger
 
 # Configure logger

@@ -13,6 +13,10 @@
 # pylint: disable=W0718
 # pylint: disable=C0209
 # pylint: disable=E1126
+# pylint: disable=R0915
+# pylint: disable=W0622
+# pylint: disable=W0613
+# pylint: disable=C0411
 
 from util.scraper import WebScraper
 from stats.constants import TeamDefaults, RoundDefaults, GameDefaults
