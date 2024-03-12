@@ -95,4 +95,3 @@ class Stats:
                     if team_name_element and team_name_element.get_text(strip=True).replace(" ", "") == team_name:
                         return process_table_row(row, self.stat)
         return None
-
