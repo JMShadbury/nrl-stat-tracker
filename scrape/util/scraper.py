@@ -1,11 +1,6 @@
 """Module for web scraping."""
 
-# pylint: disable=E0401
-# pylint: disable=C0303
-# pylint: disable=C0413
-# pylint: disable=W0718
-# pylint: disable=R1710
-# pylint: disable=C0411
+# pylint: disable=R0801
 
 import sys
 import os
@@ -38,7 +33,7 @@ class WebScraper:
         '''
         logger.debug("Initialising WebScraper")
         self.url = url
-        logger.debug("Setting URL: {}".format(self.url))
+        logger.debug(f"Setting URL: {self.url}")
         options = Options()
         options.headless = True
         options.add_argument("-headless") 
@@ -52,9 +47,9 @@ class WebScraper:
         :return: The source of the page
         '''
         if not self.source:
-            logger.debug("Loading page with xpath: {}".format(xpath))
+            logger.debug(f"Loading page with xpath: {xpath}")
             self.driver.get(self.url)
-            logger.info("Getting all data from webpage: {}".format(self.url))
+            logger.info(f"Getting all data from webpage: {self.url}")
             try:
                 WebDriverWait(self.driver, delay).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))
@@ -67,7 +62,7 @@ class WebScraper:
                 self.close()
                 return None
             except Exception as e:
-                logger.error("An error occurred: {}".format(e))
+                logger.error(f"An error occurred: {e}", exc_info=True)
                 self.close()
                 return None
 
