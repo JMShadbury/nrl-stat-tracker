@@ -6,14 +6,13 @@
 # pylint: disable=C0411
 
 
+from util.defaults import Url
+from util.json_client import JSONClient
+from util.scraper import WebScraper
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.logger import configure_logger
-from util.scraper import WebScraper
-from util.json_client import JSONClient
-from util.defaults import Url
-
 
 # Configure logger
 logger = configure_logger("UpdateLadder.log")
@@ -62,7 +61,7 @@ class UpdateLadder:
                         }
                         self.db_client.insert_item(data)
         except Exception as e:
-            logger.error("Error updating ladder: %s", e, exc_info=True)
+            logger.error(f"Error updating ladder: {e}", exc_info=True)
         finally:
             self.scraper.close()
             logger.info("Ladder update process completed")
