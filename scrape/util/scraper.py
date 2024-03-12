@@ -52,9 +52,9 @@ class WebScraper:
         :return: The source of the page
         '''
         if not self.source:
-            logger.debug("Loading page with xpath: %s", xpath)
+            logger.debug("Loading page with xpath: {}".format(xpath))
             self.driver.get(self.url)
-            logger.info("Getting all data from webpage: %s", self.url)
+            logger.info("Getting all data from webpage: {}".format(self.url))
             try:
                 WebDriverWait(self.driver, delay).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))
@@ -67,7 +67,7 @@ class WebScraper:
                 self.close()
                 return None
             except Exception as e:
-                logger.error("An error occurred: %s", e)
+                logger.error("An error occurred: {}".format(e))
                 self.close()
                 return None
 
