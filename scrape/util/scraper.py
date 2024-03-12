@@ -2,6 +2,9 @@
 
 # pylint: disable=R0801
 # pylint: disable=C0413
+# pylint: disable=C0411
+# pylint: disable=E0401
+# pylint: disable=C0103
 
 import sys
 import os
@@ -67,6 +70,8 @@ class WebScraper:
                 logger.error(f"An error occurred: {e}", exc_info=True)
                 self.close()
                 return None
+        else:
+            return None
 
     def close(self):
         '''
