@@ -40,45 +40,27 @@ try:
         "Tackle Breaks": create_stat_instance(Url.TEAM_TACKLE_BREAKS, "Tackle Breaks"),
         "Run Metres": create_stat_instance(Url.TEAM_ALL_RUN_METRES, "Run Metres"),
         "Runs": create_stat_instance(Url.TEAM_ALL_RUNS, "Runs"),
-        "Kick Return Metres": create_stat_instance(
-            Url.TEAM_KICK_RETURN_METRES, "Kick Return Metres"
-        ),
+        "Kick Return Metres": create_stat_instance(Url.TEAM_KICK_RETURN_METRES, "Kick Return Metres"),
         "Offloads": create_stat_instance(Url.TEAM_OFFLOADS, "Offloads"),
-        "Line Break Assists": create_stat_instance(
-            Url.TEAM_LINE_BREAK_ASSISTS, "Line Break Assists"
-        ),
+        "Line Break Assists": create_stat_instance(Url.TEAM_LINE_BREAK_ASSISTS, "Line Break Assists"),
         "Kicks": create_stat_instance(Url.TEAM_TOTAL_KICKS, "Kicks"),
         "Kick Metres": create_stat_instance(Url.TEAM_TOTAL_KICK_METRES, "Kick Metres"),
         "Try Assists": create_stat_instance(Url.TEAM_TRY_ASSISTS, "Try Assists"),
-        "Conversion Percentage": create_stat_instance(
-            Url.TEAM_CONVERSION_PERCENT, "Conversion Percentage"
-        ),
+        "Conversion Percentage": create_stat_instance(Url.TEAM_CONVERSION_PERCENT, "Conversion Percentage"),
         "All Receipts": create_stat_instance(Url.TEAM_ALL_RECEIPTS, "All Receipts"),
         "Field Goals": create_stat_instance(Url.TEAM_FIELD_GOALS, "Field Goals"),
         "Decoy Runs": create_stat_instance(Url.TEAM_DECOY_RUNS, "Decoy Runs"),
-        "Dummy Half Runs": create_stat_instance(
-            Url.TEAM_DUMMY_HALF_RUNS, "Dummy Half Runs"
-        ),
+        "Dummy Half Runs": create_stat_instance(Url.TEAM_DUMMY_HALF_RUNS, "Dummy Half Runs"),
         "Tackles": create_stat_instance(Url.TEAM_TACKLES, "Tackles"),
-        "Missed Tackles": create_stat_instance(
-            Url.TEAM_MISSED_TACKLES, "Missed Tackles"
-        ),
+        "Missed Tackles": create_stat_instance(Url.TEAM_MISSED_TACKLES, "Missed Tackles"),
         "Charge Downs": create_stat_instance(Url.TEAM_CHARGE_DOWNS, "Charge Downs"),
         "Intercepts": create_stat_instance(Url.TEAM_INTERCEPTS, "Intercepts"),
         "40/20 Kicks": create_stat_instance(Url.TEAM_40_20_KICKS, "40/20 Kicks"),
-        "Short Dropouts": create_stat_instance(
-            Url.TEAM_SHORT_DROPOUTS, "Short Dropouts"
-        ),
+        "Short Dropouts": create_stat_instance(Url.TEAM_SHORT_DROPOUTS, "Short Dropouts"),
         "Errors": create_stat_instance(Url.TEAM_ERRORS, "Errors"),
-        "Ineffective Tackles": create_stat_instance(
-            Url.TEAM_INEFFECTIVE_TACKLES, "Ineffective Tackles"
-        ),
-        "Penalties Conceded": create_stat_instance(
-            Url.TEAM_PENALTIES_CONCEDED, "Penalties Conceded"
-        ),
-        "Handling Errors": create_stat_instance(
-            Url.TEAM_HANDLING_ERRORS, "Handling Errors"
-        ),
+        "Ineffective Tackles": create_stat_instance(Url.TEAM_INEFFECTIVE_TACKLES, "Ineffective Tackles"),
+        "Penalties Conceded": create_stat_instance(Url.TEAM_PENALTIES_CONCEDED, "Penalties Conceded"),
+        "Handling Errors": create_stat_instance(Url.TEAM_HANDLING_ERRORS, "Handling Errors"),
     }
 
     logger.info("Updating teams data")
