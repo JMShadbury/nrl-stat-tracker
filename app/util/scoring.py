@@ -24,35 +24,34 @@ class ScoringRules(Enum):
     """
     Enum for scoring rules.
     """
-    TRIES = 0.5
     #PLAYED = -303.214
-    LINE_ENGAGED = 0.05
-    COMPLETION = 1
-    SUPPORT = 0.5
-    LINE_BREAKS = 0.6
-    POST_CONTACT_METRES = 0.1
-    TACKLE_BREAKS = 0.8
-    RUN_METRES = 0.0002
-    OFFLOADS = 2
-    KICK_METRES = 0.002
-    TRY_ASSISTS = 0.5
-    DECOY_RUNS = 0.1
-    DUMMY_HALF_RUNS = 0.5
-    MISSED_TACKLES = -0.5
-    CHARGE_DOWNS = 1
-    INTERCEPTS = 1.5
-    ERRORS = -0.5
-    INEFFECTIVE_TACKLES = -0.05
-    PENALTIES_CONCEDED = -0.05
-    HANDLING_ERRORS = -0.05
-    SHORT_DROPOUTS = -0.1
-    FOURTY_TWENTY_KICKS = 3
-    KICK_RETURN_METRES = 0.05
-    TACKLES = 0.002
-    FIELD_GOALS = 2
-    RUNS = 0.001
-    KICKS = 0.01
-    CONVERSION_PERCENT = 0.2
+    TRIES = 1.74394
+    LINE_ENGAGED = 0.16962499999999997
+    COMPLETION = 0.4724
+    SUPPORT = 0.1434
+    LINE_BREAKS = 1.54813
+    POST_CONTACT_METRES = 0.00896
+    TACKLE_BREAKS = 0.22104
+    RUN_METRES = 0.003861
+    OFFLOADS = 0.5344
+    KICK_METRES = 0.00816
+    TRY_ASSISTS = 2.1667
+    DECOY_RUNS = 0.15487499999999998
+    DUMMY_HALF_RUNS = 0.4192
+    MISSED_TACKLES = -0.1842
+    CHARGE_DOWNS = 5
+    INTERCEPTS = 7.7
+    ERRORS = -0.4403
+    INEFFECTIVE_TACKLES = -0.3286
+    PENALTIES_CONCEDED = -0.8434
+    HANDLING_ERRORS = -0.4762
+    SHORT_DROPOUTS = -3.889
+    FOURTY_TWENTY_KICKS = 5
+    KICK_RETURN_METRES = 0.044005
+    FIELD_GOALS = 5
+    RUNS = 0.02381
+    KICKS = 0.2318
+    CONVERSION_PERCENTAGE = 0.0774
 
 
 
@@ -83,16 +82,16 @@ def calculate_score(team_stats):
             value_str = str(value).replace(",", "")
 
             if value_str == 'nan':
-                logger.warning("NaN value encountered for statistic: %s", stat)
+                logger.warning(f"NaN value encountered for statistic: {stat}")
                 continue
 
             try:
                 value_float = float(value_str)
                 score += value_float * weight
             except ValueError:
-                logger.warning("Could not convert value: %s for statistic: %s", value, stat)
+                logger.warning(f"Could not convert value: {value} for statistic: {stat}")
         else:
-            logger.warning("Ignoring unmapped statistic: %s", stat)
+            logger.warning(f"Ignoring unmapped statistic: {stat}")
 
     # Dynamic adjustment for PLAYED statistic
     played_nerf = set_games_played(team_stats)
