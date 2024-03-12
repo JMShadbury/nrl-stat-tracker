@@ -65,3 +65,13 @@ class InvalidHTML(Exception):
 
     def __str__(self):
         return f"{self.html} -> {self.message}"
+    
+class WebScraperError(Exception):
+    """Exception raised for errors in the WebScraper class."""
+
+    def __init__(self, message="An error occurred in the WebScraper class."):
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return self.message

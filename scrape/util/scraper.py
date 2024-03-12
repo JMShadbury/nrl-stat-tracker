@@ -10,6 +10,7 @@ sys.path.append(
         os.path.join(
             os.path.dirname(__file__), '../..')))
 from common.logger import get_logger
+from util.exceptions import WebScraperError
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -62,7 +63,7 @@ class WebScraper:
                 logger.error("Couldn't load page")
                 self.close()
                 return None
-            except Exception as e:
+            except WebScraperError as e:
                 logger.error(f"An error occurred: {e}", exc_info=True)
                 self.close()
                 return None
