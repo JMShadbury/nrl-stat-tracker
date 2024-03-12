@@ -1,6 +1,7 @@
 """Module for web scraping."""
 
 # pylint: disable=R0801
+# pylint: disable=C0413
 
 import sys
 import os
@@ -25,7 +26,7 @@ class WebScraper:
     """Class to perform web scraping."""
 
     source = None
-    
+
     def __init__(self, url):
         '''
         Initialise the WebScraper
@@ -36,7 +37,7 @@ class WebScraper:
         logger.debug(f"Setting URL: {self.url}")
         options = Options()
         options.headless = True
-        options.add_argument("-headless") 
+        options.add_argument("-headless")
         self.driver = webdriver.Firefox(options=options)
 
     def load_page(self, xpath, delay=0):
