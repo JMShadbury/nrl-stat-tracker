@@ -6,21 +6,21 @@
 # pylint: disable=E0401
 # pylint: disable=C0103
 
+from bs4 import BeautifulSoup
+from selenium.webdriver.firefox.options import Options
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium import webdriver
+from util.exceptions import WebScraperError
+from common.logger import get_logger
 import sys
 import os
 sys.path.append(
     os.path.abspath(
         os.path.join(
             os.path.dirname(__file__), '../..')))
-from common.logger import get_logger
-from util.exceptions import WebScraperError
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.firefox.options import Options
-from bs4 import BeautifulSoup
 
 
 logger = get_logger()

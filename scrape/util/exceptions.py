@@ -1,5 +1,6 @@
 """ This module is use to define custom exceptions for the project. """
 
+
 class InvalidURL(Exception):
     """Exception raised for invalid URLs."""
 
@@ -10,6 +11,7 @@ class InvalidURL(Exception):
 
     def __str__(self):
         return f"{self.url} -> {self.message}"
+
 
 class InvalidPath(Exception):
     """Exception raised for invalid paths."""
@@ -22,6 +24,7 @@ class InvalidPath(Exception):
     def __str__(self):
         return f"{self.path} -> {self.message}"
 
+
 class InvalidFile(Exception):
     """Exception raised for invalid files."""
 
@@ -32,6 +35,7 @@ class InvalidFile(Exception):
 
     def __str__(self):
         return f"{self.file} -> {self.message}"
+
 
 class InvalidData(Exception):
     """Exception raised for invalid data."""
@@ -44,6 +48,7 @@ class InvalidData(Exception):
     def __str__(self):
         return f"{self.data} -> {self.message}"
 
+
 class InvalidJSON(Exception):
     """Exception raised for invalid JSON."""
 
@@ -55,6 +60,7 @@ class InvalidJSON(Exception):
     def __str__(self):
         return f"{self.json} -> {self.message}"
 
+
 class InvalidHTML(Exception):
     """Exception raised for invalid HTML."""
 
@@ -65,7 +71,8 @@ class InvalidHTML(Exception):
 
     def __str__(self):
         return f"{self.html} -> {self.message}"
-    
+
+
 class WebScraperError(Exception):
     """Exception raised for errors in the WebScraper class."""
 
