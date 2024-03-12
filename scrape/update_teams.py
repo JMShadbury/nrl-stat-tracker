@@ -8,16 +8,20 @@
 # pylint: disable=W1514
 # pylint: disable=W0718
 # pylint: disable=C0411
-
-
+import os
+import sys
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__), "..")))
+from common.logger import configure_logger
 import json
 from util.json_client import JSONClient
 from util.defaults import Url
 from stats.get_stats import Stats
-import os
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from common.logger import configure_logger
+
+
+
 
 try:
     logger = configure_logger("UpdateTeams.log")
@@ -38,27 +42,45 @@ try:
         "Tackle Breaks": create_stat_instance(Url.TEAM_TACKLE_BREAKS, "Tackle Breaks"),
         "Run Metres": create_stat_instance(Url.TEAM_ALL_RUN_METRES, "Run Metres"),
         "Runs": create_stat_instance(Url.TEAM_ALL_RUNS, "Runs"),
-        "Kick Return Metres": create_stat_instance(Url.TEAM_KICK_RETURN_METRES, "Kick Return Metres"),
+        "Kick Return Metres": create_stat_instance(
+            Url.TEAM_KICK_RETURN_METRES, "Kick Return Metres"
+        ),
         "Offloads": create_stat_instance(Url.TEAM_OFFLOADS, "Offloads"),
-        "Line Break Assists": create_stat_instance(Url.TEAM_LINE_BREAK_ASSISTS, "Line Break Assists"),
+        "Line Break Assists": create_stat_instance(
+            Url.TEAM_LINE_BREAK_ASSISTS, "Line Break Assists"
+        ),
         "Kicks": create_stat_instance(Url.TEAM_TOTAL_KICKS, "Kicks"),
         "Kick Metres": create_stat_instance(Url.TEAM_TOTAL_KICK_METRES, "Kick Metres"),
         "Try Assists": create_stat_instance(Url.TEAM_TRY_ASSISTS, "Try Assists"),
-        "Conversion Percentage": create_stat_instance(Url.TEAM_CONVERSION_PERCENT, "Conversion Percentage"),
+        "Conversion Percentage": create_stat_instance(
+            Url.TEAM_CONVERSION_PERCENT, "Conversion Percentage"
+        ),
         "All Receipts": create_stat_instance(Url.TEAM_ALL_RECEIPTS, "All Receipts"),
         "Field Goals": create_stat_instance(Url.TEAM_FIELD_GOALS, "Field Goals"),
         "Decoy Runs": create_stat_instance(Url.TEAM_DECOY_RUNS, "Decoy Runs"),
-        "Dummy Half Runs": create_stat_instance(Url.TEAM_DUMMY_HALF_RUNS, "Dummy Half Runs"),
+        "Dummy Half Runs": create_stat_instance(
+            Url.TEAM_DUMMY_HALF_RUNS, "Dummy Half Runs"
+        ),
         "Tackles": create_stat_instance(Url.TEAM_TACKLES, "Tackles"),
-        "Missed Tackles": create_stat_instance(Url.TEAM_MISSED_TACKLES, "Missed Tackles"),
+        "Missed Tackles": create_stat_instance(
+            Url.TEAM_MISSED_TACKLES, "Missed Tackles"
+        ),
         "Charge Downs": create_stat_instance(Url.TEAM_CHARGE_DOWNS, "Charge Downs"),
         "Intercepts": create_stat_instance(Url.TEAM_INTERCEPTS, "Intercepts"),
         "40/20 Kicks": create_stat_instance(Url.TEAM_40_20_KICKS, "40/20 Kicks"),
-        "Short Dropouts": create_stat_instance(Url.TEAM_SHORT_DROPOUTS, "Short Dropouts"),
+        "Short Dropouts": create_stat_instance(
+            Url.TEAM_SHORT_DROPOUTS, "Short Dropouts"
+        ),
         "Errors": create_stat_instance(Url.TEAM_ERRORS, "Errors"),
-        "Ineffective Tackles": create_stat_instance(Url.TEAM_INEFFECTIVE_TACKLES, "Ineffective Tackles"),
-        "Penalties Conceded": create_stat_instance(Url.TEAM_PENALTIES_CONCEDED, "Penalties Conceded"),
-        "Handling Errors": create_stat_instance(Url.TEAM_HANDLING_ERRORS, "Handling Errors")
+        "Ineffective Tackles": create_stat_instance(
+            Url.TEAM_INEFFECTIVE_TACKLES, "Ineffective Tackles"
+        ),
+        "Penalties Conceded": create_stat_instance(
+            Url.TEAM_PENALTIES_CONCEDED, "Penalties Conceded"
+        ),
+        "Handling Errors": create_stat_instance(
+            Url.TEAM_HANDLING_ERRORS, "Handling Errors"
+        ),
     }
 
     logger.info("Updating teams data")
@@ -70,12 +92,13 @@ try:
     logger.debug(f"Teams: {team_names}")
 
     # Create a dictionary of team names and abbreviations
-    team_names = {team.split(":")[0]: team.split(":")[1]
-                  for team in team_names}
+    team_names = {team.split(":")[0]: team.split(":")[1] for team in team_names}
 
     # Get all teams data for each stat
-    all_data = {stat_name: instance.get_all_teams_data()
-                for stat_name, instance in stats_instances.items()}
+    all_data = {
+        stat_name: instance.get_all_teams_data()
+        for stat_name, instance in stats_instances.items()
+    }
 
     logger.info("Processing teams data")
 
@@ -86,25 +109,37 @@ try:
             db_client = JSONClient(team_name)
 
             # Process teams data for each stat
-            processed_data = {stat_name: instance.process_teams_data(
-                all_data[stat_name], team_name) for stat_name, instance in stats_instances.items()}
+            processed_data = {
+                stat_name: instance.process_teams_data(all_data[stat_name], team_name)
+                for stat_name, instance in stats_instances.items()
+            }
 
             # Check if team name matches in all processed data
             if all(
-                team_name.replace(" ", "") == (data['TeamName'].replace(
-                    " ", "") if data and 'TeamName' in data else "")
-                for data in processed_data.values() if data and 'TeamName' in data
+                team_name.replace(" ", "")
+                == (
+                    data["TeamName"].replace(" ", "")
+                    if data and "TeamName" in data
+                    else ""
+                )
+                for data in processed_data.values()
+                if data and "TeamName" in data
             ):
                 # Filter out None values from processed_data
                 filtered_processed_data = {
-                    k: v for k, v in processed_data.items() if v is not None}
+                    k: v for k, v in processed_data.items() if v is not None
+                }
 
                 # Create the merged_data dictionary
-                merged_data = {key: value for d in filtered_processed_data.values()
-                               for key, value in d.items()}
+                merged_data = {
+                    key: value
+                    for d in filtered_processed_data.values()
+                    for key, value in d.items()
+                }
 
                 logger.info(
-                    f"Merged data for {team_name}: {json.dumps(merged_data, indent=2)}")
+                    f"Merged data for {team_name}: {json.dumps(merged_data, indent=2)}"
+                )
 
                 if merged_data:
                     logger.info(f"Inserting {team_name} into JSON")

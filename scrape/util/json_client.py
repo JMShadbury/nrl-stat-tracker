@@ -8,12 +8,16 @@
 # pylint: disable=W1514
 # pylint: disable=W0718
 # pylint: disable=W1514
-
-import json
 import os
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from util.exceptions import InvalidJSON, InvalidData
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__), '../..')))
 from common.logger import get_logger
+import json
+
 
 logger = get_logger()
 
@@ -49,7 +53,7 @@ class JSONClient:
                 file.seek(0)
                 json.dump(data, file)
             logger.debug("Item inserted into JSON file: {}".format(item))
-        except Exception as e:
+        except InvalidJSON as e:
             logger.error("Error inserting item into JSON file: {}".format(e))
 
     def read_data(self):
@@ -61,6 +65,6 @@ class JSONClient:
         try:
             with open(path + self.file_name, 'r') as file:
                 return json.load(file)
-        except Exception as e:
+        except InvalidData as e:
             logger.error("Error reading data from JSON file: {}".format(e))
             return []

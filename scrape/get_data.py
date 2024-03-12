@@ -8,11 +8,12 @@
 
 
 import os
-import json
-from util.json_client import JSONClient
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.logger import configure_logger
+import json
+from util.json_client import JSONClient
+
 
 # Configure logger
 logger = configure_logger("get_data.log")
