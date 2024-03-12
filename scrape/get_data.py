@@ -37,7 +37,7 @@ def save_json(data, directory, filename):
             json.dump(data, file, indent=4)
         logger.info("Data saved to %s", filepath)
     except IOError as e:
-        logger.error("Failed to save data: %s", e)
+        logger.error(f"Failed to save data: {e}")
 
 def process_team_data(team_names):
     """Process and save team data."""

@@ -8,6 +8,10 @@
 # pylint: disable=W1514
 # pylint: disable=W0718
 # pylint: disable=C0411
+from stats.get_stats import Stats
+from util.defaults import Url
+from util.json_client import JSONClient
+import json
 import os
 import sys
 sys.path.append(
@@ -15,12 +19,6 @@ sys.path.append(
         os.path.join(
             os.path.dirname(__file__), "..")))
 from common.logger import configure_logger
-import json
-from util.json_client import JSONClient
-from util.defaults import Url
-from stats.get_stats import Stats
-
-
 
 
 try:
@@ -92,7 +90,8 @@ try:
     logger.debug(f"Teams: {team_names}")
 
     # Create a dictionary of team names and abbreviations
-    team_names = {team.split(":")[0]: team.split(":")[1] for team in team_names}
+    team_names = {team.split(":")[0]: team.split(":")[1]
+                  for team in team_names}
 
     # Get all teams data for each stat
     all_data = {
@@ -110,7 +109,8 @@ try:
 
             # Process teams data for each stat
             processed_data = {
-                stat_name: instance.process_teams_data(all_data[stat_name], team_name)
+                stat_name: instance.process_teams_data(
+                    all_data[stat_name], team_name)
                 for stat_name, instance in stats_instances.items()
             }
 

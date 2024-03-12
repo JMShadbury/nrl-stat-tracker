@@ -14,13 +14,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from util.exceptions import WebScraperError
-from common.logger import get_logger
+
 import sys
 import os
 sys.path.append(
     os.path.abspath(
         os.path.join(
             os.path.dirname(__file__), '../..')))
+from common.logger import get_logger
 
 
 logger = get_logger()

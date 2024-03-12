@@ -8,6 +8,7 @@
 # pylint: disable=W1514
 # pylint: disable=W0718
 # pylint: disable=W1514
+import json
 import os
 import sys
 from util.exceptions import InvalidJSON, InvalidData
@@ -16,7 +17,6 @@ sys.path.append(
         os.path.join(
             os.path.dirname(__file__), '../..')))
 from common.logger import get_logger
-import json
 
 
 logger = get_logger()
@@ -34,7 +34,8 @@ class JSONClient:
         :param file_name: The name of the JSON file
         '''
         self.file_name = file_name
-        logger.debug("Initialising JSON client with file name: {}".format(path + self.file_name))
+        logger.debug(
+            f"Initialising JSON client with file name: {path + self.file_name}")
         # Create the file if it does not exist
         if not os.path.exists(path + self.file_name):
             with open(path + self.file_name, 'w') as file:
@@ -52,9 +53,9 @@ class JSONClient:
                 data.append(item)
                 file.seek(0)
                 json.dump(data, file)
-            logger.debug("Item inserted into JSON file: {}".format(item))
+            logger.debug(f"Item inserted into JSON file: {item}")
         except InvalidJSON as e:
-            logger.error("Error inserting item into JSON file: {}".format(e))
+            logger.error(f"Error inserting item into JSON file: {e}")
 
     def read_data(self):
         '''
@@ -66,5 +67,5 @@ class JSONClient:
             with open(path + self.file_name, 'r') as file:
                 return json.load(file)
         except InvalidData as e:
-            logger.error("Error reading data from JSON file: {}".format(e))
+            logger.error(f"Error reading data from JSON file: {e}")
             return []
