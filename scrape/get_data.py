@@ -57,11 +57,6 @@ def main():
     ladder_data = client.read_data()
     if ladder_data:
         save_json(ladder_data, 'app/ladder', 'ladder_data.json')
-        
-    client = JSONClient("NRL2024Rounds")
-    rounds_data = client.read_data()
-    if rounds_data:
-        save_json(rounds_data, 'app/rounds', 'rounds_data.json')
 
 if __name__ == '__main__':
     main()
