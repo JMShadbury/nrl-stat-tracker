@@ -10,14 +10,18 @@
 # pylint: disable=C0103
 # pylint: disable=W0718
 # pylint: disable=C0411
+import os
+import sys
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__), "..")))
+from common.logger import configure_logger
 
 from util.json_client import JSONClient
 from util.defaults import Url
 from stats.get_stats import Stats
-import os
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from common.logger import configure_logger
+
 
 def append_with_comma(original, to_append):
     """Append a string with a comma."""

@@ -7,7 +7,13 @@
 # pylint: disable=R1710
 # pylint: disable=C0411
 
-
+import sys
+import os
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__), '../..')))
+from common.logger import get_logger
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,10 +21,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.firefox.options import Options
 from bs4 import BeautifulSoup
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-from common.logger import get_logger
+
 
 logger = get_logger()
 
@@ -35,7 +38,7 @@ class WebScraper:
         '''
         logger.debug("Initialising WebScraper")
         self.url = url
-        logger.debug("Setting URL: %s", self.url)
+        logger.debug("Setting URL: {}".format(self.url))
         options = Options()
         options.headless = True
         options.add_argument("-headless") 
