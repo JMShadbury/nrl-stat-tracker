@@ -9,17 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
     steps:
-      - name: Auto-merge
+      - name: Auto-merge Dependabot PRs
         uses: actions/github-script@v5
         with:
           script: |
             const { pull_request } = context.payload;
-            if (pull_request.labels.some(label => label.name === 'YOUR_LABEL_FOR_AUTO_MERGE')) {
-              github.rest.pulls.merge({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pull_request.number
-              });
-            }
-          env:
-            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+            github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pull_request.number
+            });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
