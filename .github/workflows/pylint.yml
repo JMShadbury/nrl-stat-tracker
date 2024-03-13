@@ -11,10 +11,14 @@ jobs:
     steps:
       - name: Run Pylint
         uses: JMShadbury/github-actions-library/pylint-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} 
+
     
       - name: Upload Pylint Report
         uses: JMShadbury/github-actions-library/upload-artifact-action@v1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: 'pylint-report'
           path: 'pylint_output.txt'
 
