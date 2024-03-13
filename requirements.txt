@@ -1,5 +1,5 @@
 
-boto3==1.0.0
+boto3==1.34.61
 requests==2.31.0
 bs4==0.0.2
 selenium==3.3.0
