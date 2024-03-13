@@ -1,11 +1,7 @@
 name: Merge Dependabot PRs
 
 on:
-    workflow_run:
-      workflows: ["Pylint"]
-      types: 
-        - completed
-    pull_request_target:
+  pull_request_target:
 
 permissions:
   contents: write
@@ -16,10 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
     steps:
-      - name: Log Dependabot PR details
-        uses: actions/github-script@v5
+      - name: Run Pylint
+        uses: JMShadbury/github-actions-library/pylint-action@v1
+      - name: Merge PR
+        uses: JMShadbury/github-actions-library/merge-dependabot-action@v1
         with:
-          script: |
-            console.log(`Dependabot PR detected: ${context.payload.pull_request.html_url}`);
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

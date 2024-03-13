@@ -9,24 +9,12 @@ jobs:
       matrix:
         python-version: ["3.11"]
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pylint
-        pip install -r requirements.txt
-    - name: Analysing the code with pylint
-      run: |
-        pylint $(git ls-files '*.py') > pylint_output.txt
-      continue-on-error: false
-    - name: Upload Pylint report
-      if: always()  # Always run this step
-      uses: actions/upload-artifact@v3
-      with:
-        name: pylint-report
-        path: pylint_output.txt
+      - name: Run Pylint
+        uses: JMShadbury/github-actions-library/pylint-action@v1
+    
+      - name: Upload Pylint Report
+        uses: JMShadbury/github-actions-library/upload-artifact-action@v1
+        with:
+          name: 'pylint-report'
+          path: 'pylint_output.txt'
 
