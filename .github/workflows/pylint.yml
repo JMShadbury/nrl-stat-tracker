@@ -9,6 +9,11 @@ jobs:
       matrix:
         python-version: ["3.11"]
     steps:
+      - name: Debug workspace contents
+        run: |
+          ls -al ${{ github.workspace }}
+          cat ${{ github.workspace }}/requirements.txt
+      
       - name: Run Pylint
         uses: JMShadbury/github-actions-library/pylint-action@v1
         env:
