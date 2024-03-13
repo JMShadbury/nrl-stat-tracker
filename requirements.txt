@@ -1,6 +1,6 @@
 
 boto3==1.0.0
-requests==1.0.0
+requests==2.31.0
 bs4==0.0.1
 selenium==1.0.0
 flask==1.0.0
