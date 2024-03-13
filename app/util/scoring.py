@@ -24,7 +24,7 @@ class ScoringRules(Enum):
     """
     Enum for scoring rules.
     """
-    #PLAYED = -303.214
+    #PLAYED = -102.63299158823529
     TRIES = 1.74394
     LINE_ENGAGED = 0.16962499999999997
     COMPLETION = 0.4724
@@ -82,16 +82,16 @@ def calculate_score(team_stats):
             value_str = str(value).replace(",", "")
 
             if value_str == 'nan':
-                logger.warning(f"NaN value encountered for statistic: {stat}")
+                logger.debug(f"NaN value encountered for statistic: {stat}")
                 continue
 
             try:
                 value_float = float(value_str)
                 score += value_float * weight
             except ValueError:
-                logger.warning(f"Could not convert value: {value} for statistic: {stat}")
+                logger.debug(f"Could not convert value: {value} for statistic: {stat}")
         else:
-            logger.warning(f"Ignoring unmapped statistic: {stat}")
+            logger.debug(f"Ignoring unmapped statistic: {stat}")
 
     # Dynamic adjustment for PLAYED statistic
     played_nerf = set_games_played(team_stats)
@@ -99,7 +99,7 @@ def calculate_score(team_stats):
 
     if completion_rate > completion_rate_threshold:
         score += ScoringRules.COMPLETION_RATE.value * (completion_rate - completion_rate_threshold)
-    logger.warning("Calculated score: %s", score)
+    logger.debug(f"Calculated score: {score}")
     return score
 
 
