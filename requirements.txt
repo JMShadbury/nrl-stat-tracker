@@ -5,4 +5,5 @@ bs4==0.0.2
 selenium==3.3.0
 flask==3.0.2
 pandas==0.7.3
+numpy==1.20.2
 
