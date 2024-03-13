@@ -3,5 +3,5 @@ boto3==1.0.0
 requests==2.31.0
 bs4==0.0.1
 selenium==3.3.0
-flask==2.2.5
+flask==3.0.2
 pandas==1.5.0
