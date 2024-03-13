@@ -10,7 +10,7 @@ permissions:
 jobs:
   merge-dependabot:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+    if: github.actor == 'dependabot[bot]'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
