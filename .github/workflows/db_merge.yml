@@ -9,6 +9,22 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
+      - name: Wait for all checks to pass
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const { pull_request } = context.payload;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pull_number = pull_request.number;
+            let mergeable;
+
+            do {
+              await new Promise(r => setTimeout(r, 10000));
+              const { data: prData } = await github.rest.pulls.get({ owner, repo, pull_number });
+              mergeable = prData.mergeable;
+            } while (!mergeable);
+
       - name: Auto-merge Dependabot PRs
         uses: actions/github-script@v5
         with:
