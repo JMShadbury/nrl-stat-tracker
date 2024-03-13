@@ -5,6 +5,7 @@
 # pylint: disable=C0411
 # pylint: disable=E0401
 # pylint: disable=C0103
+# pylint: disable=E1123
 
 from bs4 import BeautifulSoup
 from selenium.webdriver.firefox.options import Options
