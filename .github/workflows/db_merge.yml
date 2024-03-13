@@ -1,51 +1,36 @@
-on: pull_request_target
-
-permissions:
-  contents: write
-  pull-requests: write
-  checks: read
-
-jobs:
-  auto-merge:
-    runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
-    steps:
-      - name: Wait for the Pylint check to pass
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const { pull_request } = context.payload;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const pull_number = pull_request.number;
-            const pylintCheckName = 'Pylint / build (3.11) (push)';
-
-            async function checkPassed() {
-              const { data: statusChecks } = await github.rest.checks.listForRef({
-                owner,
-                repo,
-                ref: pull_request.head.sha
+on:
+    workflow_run:
+      workflows: ["Main Workflow"]  # Replace with the name of your main workflow
+      types:
+        - completed
+  
+  permissions:
+    contents: write
+    pull-requests: write
+  
+  jobs:
+    auto-merge:
+      runs-on: ubuntu-latest
+      if: github.event.workflow_run.conclusion == 'success'  # Run only if the main workflow was successful
+      steps:
+        - name: Auto-merge Dependabot PRs
+          uses: actions/github-script@v5
+          with:
+            script: |
+              const prNumber = github.event.workflow_run.pull_requests[0].number;
+              const { data: pullRequest } = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
               });
-              const pylintCheck = statusChecks.check_runs.find(check => check.name === pylintCheckName);
-              return pylintCheck && pylintCheck.conclusion === 'success';
-            }
-
-            while (true) {
-              if (await checkPassed()) {
-                break;
+  
+              if (pullRequest.user.login === 'dependabot[bot]' && pullRequest.mergeable) {
+                await github.rest.pulls.merge({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: prNumber,
+                });
               }
-              await new Promise(r => setTimeout(r, 10000)); // Wait for 10 seconds before rechecking
-            }
-
-      - name: Auto-merge Dependabot PRs
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const { pull_request } = context.payload;
-            github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pull_request.number
-            });
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
