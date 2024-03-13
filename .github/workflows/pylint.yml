@@ -9,18 +9,16 @@ jobs:
       matrix:
         python-version: ["3.11"]
     steps:
-      - name: Debug workspace contents
-        run: |
-          ls -al ${{ github.workspace }}
-          cat ${{ github.workspace }}/requirements.txt
-      
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
       - name: Run Pylint
         uses: JMShadbury/github-actions-library/pylint-action@v1
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }} 
+          
       - name: Upload Pylint Report
         uses: JMShadbury/github-actions-library/upload-artifact-action@v1
         with:
           name: 'pylint-report'
           path: 'pylint_output.txt'
-
