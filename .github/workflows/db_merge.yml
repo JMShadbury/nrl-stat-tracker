@@ -1,39 +1,25 @@
-name: Auto Merge
+name: Merge Dependabot PRs
 
 on:
-  workflow_run:
-    workflows: ["Pylint"]  # This should match the name of your Pylint workflow
-    types:
-      - completed
+    workflow_run:
+      workflows: ["Pylint"]
+      types: 
+        - completed
+    pull_request_target:
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  auto-merge:
+  merge-dependabot:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
     steps:
-      - name: Auto-merge Dependabot PRs
+      - name: Log Dependabot PR details
         uses: actions/github-script@v5
         with:
           script: |
-            const repo = context.repo;
-            const prs = await github.rest.pulls.list({
-              owner: repo.owner,
-              repo: repo.repo,
-              state: 'open',
-            });
-
-            for (const pr of prs.data) {
-              if (pr.user.login === 'dependabot[bot]' && pr.mergeable) {
-                await github.rest.pulls.merge({
-                  owner: repo.owner,
-                  repo: repo.repo,
-                  pull_number: pr.number,
-                });
-              }
-            }
+            console.log(`Dependabot PR detected: ${context.payload.pull_request.html_url}`);
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
