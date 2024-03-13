@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Run Pylint
         uses: JMShadbury/github-actions-library/pylint-action@v1
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }} 
       - name: Upload Pylint Report
         uses: JMShadbury/github-actions-library/upload-artifact-action@v1
         with:
