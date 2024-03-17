@@ -1,50 +1,56 @@
 
 # NRL Stat Tracker
 
-## Description
-NRL Stat Tracker is an application designed to collect, analyze, and display statistics from NRL (National Rugby League) matches. It utilizes a combination of technologies including [specific languages, frameworks, libraries, etc.], making it a robust and efficient tool for NRL enthusiasts and analysts.
+## Introduction
+NRL Stat Tracker is an advanced application designed for collecting, analyzing, and displaying statistics from NRL (National Rugby League) matches. It caters to enthusiasts, analysts, and anyone keen on deep rugby match insights.
 
 ## Features
-- Real-time statistics tracking from NRL matches.
-- Data visualization tools for in-depth analysis.
-- Easy integration with DynamoDB for data storage and retrieval.
-- Customizable scripts for various analytical needs.
+- **Real-time Statistics Tracking**: Captures and displays live stats from NRL matches.
+- **Data Visualization**: Features advanced tools for insightful analysis of match data.
+- **Custom Scoring System**: Utilizes a unique algorithm for evaluating performance.
+- **Web Interface**: Offers a user-friendly interface for easy access to statistics.
+- **Data Scraping and Management**: Efficiently collects and processes data from various sources.
 
-## Installation
-To install NRL Stat Tracker, follow these steps:
+## Technologies Used
+- **Python**: For backend processing, data analysis, and scraping.
+- **HTML/CSS & Bootstrap**: Powers the front-end for a responsive web experience.
+- **JavaScript**: Enhances the interactivity of the web interface.
 
-1. Clone the repository:
-   ```
-   git clone [repository URL]
-   ```
-2. Navigate to the project directory:
-   ```
-   cd nrl-stat-tracker
-   ```
-3. [Any additional installation steps like setting up a virtual environment, installing dependencies, etc.]
+## Installation and Setup
+Instructions on setting up the application for smooth and efficient operation.
 
 ## Usage
-Everything is setup using makefile.
+To use the NRL Stat Tracker, follow these guidelines based on the provided `makefile`:
 
-The list of commands are:
-- `make build` - This will create a virtual environment and install all the dependencies.
-- `make updateStats` - This will update the ladder, teams and rounds.
-- `make updateTeams` - This will update the teams.
-- `make updateRounds` - This will update the rounds.
-- `make getData` - This will get the data from the NRL website.
-- `make viewStats` - This will display the stats.
-- `make clean` - This will remove the virtual environment and logs.
+1. **Build the Project**: 
+   - Run `make build` to set up a Python virtual environment, upgrade pip, and install required dependencies from `requirements.txt`.
 
+2. **Update Statistics**: 
+   - Use `make updateStats` to update team statistics. This command first builds the project and then updates the teams and ladder information.
 
-**_NOTE:_** Running `make getData` will run all required commands to get the data from the NRL website. After this is done, you can run `make viewStats` to view the stats.
+3. **Get Data**: 
+   - Run `make getData` to retrieve all necessary data for the application. This command builds the project, updates stats, and fetches additional data.
 
-## Contributing
-Contributions to NRL Stat Tracker are welcome. Please adhere to the following guidelines:
+4. **View Statistics**: 
+   - Execute `make viewStats` to start the application for viewing statistics.
 
-- Fork the repository and create your branch from `main`.
-- Write clear and concise commit messages.
-- Ensure code style and quality standards are maintained.
-- Create a pull request with a detailed description of changes.
+5. **Clean the Project**:
+   - `make clean` removes the virtual environment and temporary files.
+   - `make cleanAll` performs a more comprehensive clean-up, including all data and logs.
+
+6. **Backup and Restore**:
+   - Use targets like `make backup` and `make restoreBackup` for handling backups and restoration of data.
+
+7. **Testing**:
+   - The `make test` command runs a series of operations to build the project, update stats, get data, and view stats as a part of testing.
+
+Each of these commands should be run from the root directory of the project. The `makefile` is designed to streamline the setup, operation, and maintenance of the NRL Stat Tracker, making it efficient and user-friendly.
+
+## Contribution Guidelines
+We welcome contributions! Here's how you can contribute to this project effectively.
 
 ## License
-This project is licensed under the [License Name]. Please see the [LICENSE](LICENSE) file for more details.
+Details on the project's licensing and usage terms.
+
+---
+© NRL Stat Tracker Team
