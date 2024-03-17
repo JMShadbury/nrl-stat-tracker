@@ -24,44 +24,35 @@ class ScoringRules(Enum):
     """
     Enum for scoring rules.
     """
-    #PLAYED = -102.63299158823529
-    TRIES = 1.74394
-    LINE_ENGAGED = 0.16962499999999997
-    COMPLETION = 0.4724
-    SUPPORT = 0.1434
-    LINE_BREAKS = 1.54813
-    POST_CONTACT_METRES = 0.00896
-    TACKLE_BREAKS = 0.22104
-    RUN_METRES = 0.003861
-    OFFLOADS = 0.5344
-    KICK_METRES = 0.00816
-    TRY_ASSISTS = 2.1667
-    DECOY_RUNS = 0.15487499999999998
-    DUMMY_HALF_RUNS = 0.4192
-    MISSED_TACKLES = -0.1842
-    CHARGE_DOWNS = 5
-    INTERCEPTS = 7.7
-    ERRORS = -0.4403
-    INEFFECTIVE_TACKLES = -0.3286
-    PENALTIES_CONCEDED = -0.8434
-    HANDLING_ERRORS = -0.4762
-    SHORT_DROPOUTS = -3.889
-    FOURTY_TWENTY_KICKS = 5
-    KICK_RETURN_METRES = 0.044005
-    FIELD_GOALS = 5
-    RUNS = 0.02381
-    KICKS = 0.2318
-    CONVERSION_PERCENTAGE = 0.0774
-
-
-
-def set_games_played(stats):
-    """
-    Calculate the nerfed games played statistic.
-    """
-    played = stats.get("PLAYED", 0)
-    played_nerf = (played - played * 2)
-    return played_nerf
+    TRIES = 8
+    GOALS = 3
+    ALL_RECEIPTS = 0.0005
+    LINE_ENGAGED = 0.005
+    COMPLETION = 0.39
+    SUPPORT = 0.95
+    LINE_BREAKS = 5.88
+    POST_CONTACT_METRES = 0.3
+    TACKLE_BREAKS = 1.5
+    RUN_METRES = 0.0005
+    OFFLOADS = 4
+    KICK_METRES = 0.018
+    TRY_ASSISTS = 3.15
+    DECOY_RUNS = 0.23
+    DUMMY_HALF_RUNS = 1.24
+    TACKLES = 0.03
+    MISSED_TACKLES = -0.29
+    CHARGE_DOWNS = 53.12
+    INTERCEPTS = 24.29
+    ERRORS = -0.95
+    INEFFECTIVE_TACKLES = -0.64
+    PENALTIES_CONCEDED = -1.79
+    HANDLING_ERRORS = -1.14
+    SHORT_DROPOUTS = -0.3
+    FOURTY_TWENTY_KICKS = 0.6
+    KICK_RETURN_METRES = 0.00005
+    RUNS = 0.005
+    KICKS = 0.02
+    CONVERSION_PERCENTAGE = 0.015
 
 
 def calculate_score(team_stats):
@@ -92,10 +83,6 @@ def calculate_score(team_stats):
                 logger.debug(f"Could not convert value: {value} for statistic: {stat}")
         else:
             logger.debug(f"Ignoring unmapped statistic: {stat}")
-
-    # Dynamic adjustment for PLAYED statistic
-    played_nerf = set_games_played(team_stats)
-    score += played_nerf
 
     if completion_rate > completion_rate_threshold:
         score += ScoringRules.COMPLETION_RATE.value * (completion_rate - completion_rate_threshold)

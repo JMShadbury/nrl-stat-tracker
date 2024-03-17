@@ -46,7 +46,7 @@ class WebScraper:
         options.add_argument("-headless")
         self.driver = webdriver.Firefox(options=options)
 
-    def load_page(self, xpath, delay=0):
+    def load_page(self, xpath, button_xpath=None, delay=0):
         '''
         Load the page and return the source
         :param xpath: The xpath to find
@@ -56,10 +56,16 @@ class WebScraper:
         if not self.source:
             logger.debug(f"Loading page with xpath: {xpath}")
             self.driver.get(self.url)
-            logger.info(f"Getting all data from webpage: {self.url}")
+            logger.debug(f"Getting all data from webpage: {self.url}")
             try:
+                if button_xpath:
+                    button = WebDriverWait(self.driver, delay).until(
+                        EC.element_to_be_clickable((By.XPATH, button_xpath)))
+                    button.click()
+                    
                 WebDriverWait(self.driver, delay).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))
+
                 source = BeautifulSoup(self.driver.page_source, 'html.parser')
                 self.source = source
                 self.close()

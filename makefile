@@ -34,12 +34,14 @@ viewStats: build
 clean:
 	rm -rf venv
 	rm -rf logs
+	rm -rf app/logs
 	rm -rf __pycache__
+	rm -rf common/__pycache__
 	rm -rf app/__pycache__
 	rm -rf app/teams/__pycache__
 	rm -rf app/rounds/__pycache__
 	rm -rf app/ladder/__pycache__
-	rm -rd app/util/__pycache__
+	rm -rf app/util/__pycache__
 	rm -rf scrape/__pycache__
 	rm -rf scrape/all_data/__pycache__
 	rm -rf scrape/util/__pycache__

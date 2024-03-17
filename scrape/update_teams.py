@@ -77,7 +77,7 @@ try:
 
     # Get all teams data for each stat
     all_data = {
-        stat_name: instance.get_all_teams_data()
+        stat_name: instance.get_data()
         for stat_name, instance in stats_instances.items()
     }
 
@@ -119,7 +119,7 @@ try:
                     for key, value in d.items()
                 }
 
-                logger.info(
+                logger.debug(
                     f"Merged data for {team_name}: {json.dumps(merged_data, indent=2)}"
                 )
 

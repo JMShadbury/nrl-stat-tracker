@@ -67,12 +67,14 @@ class Stats:
         self.stat = stat
         self.scraper = WebScraper(self.url)
 
-    def get_all_teams_data(self):
+    def get_data(self):
         '''
         Get all the data from the URL
         :return: The data from the URL
         '''
-        return self.scraper.load_page(TeamDefaults.TEAMS_PATH.value)
+        
+        logger.info(f"Scrape data for stat: {self.stat}...")
+        return self.scraper.load_page(TeamDefaults.TEAMS_PATH.value, TeamDefaults.TEAMS_AVERAGE_BUTTON.value)
 
     def process_teams_data(self, soup, team_name):
         '''
