@@ -15,3 +15,4 @@ class TeamDefaults(Enum):
     TEAMS_ELEMENT_SELECT = 'tr.table-tbody__tr'
     TEAMS_ROW_TAG = 'span'
     TEAMS_ROW_CLASS = 'u-font-weight-600'
+    TEAMS_AVERAGE_BUTTON = "//button[contains(@class, 'toggle-group__item') and contains(text(), 'Average')]"
