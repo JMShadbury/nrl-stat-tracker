@@ -21,4 +21,4 @@ jobs:
         uses: JMShadbury/github-actions-library/upload-artifact-action@v1
         with:
           name: 'pylint-report'
-          path: 'pylint_output.txt'
+          path: '.'
