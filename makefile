@@ -64,10 +64,23 @@ fresh: tryCleanAll build getData
 	make viewStats
 .PHONY: fresh
 
+backup:
+	@$(MAKE) pre-backup round=$(round)
+	@$(MAKE) encryptBackup round=$(round)
+	@$(MAKE) prep-upload round=$(round)
+	@$(MAKE) uploadBackup round=$(round)
+	@$(MAKE) cleanBackup
+.PHONY: backupTest
+
+getBackup:
+	@$(MAKE) downloadBackup round=$(round)
+	@$(MAKE) decryptBackup round=$(round)
+	@$(MAKE) restoreBackup round=$(round)
+	@$(MAKE) cleanBackup
+
 pre-backup:
 	mkdir -p "backup/$(round)" && \
 	cp -r app/teams "backup/$(round)" && \
-	cp -r app/rounds "backup/$(round)" && \
 	cp -r app/ladder "backup/$(round)" && \
 	cp -r scrape/all_data "backup/$(round)"
 .PHONY: backup
@@ -95,7 +108,6 @@ downloadBackup:
 
 restoreBackup:
 	cp -r "backup/$(round)/$(round)/teams" app/ && \
-    cp -r "backup/$(round)/$(round)/rounds" app/ && \
     cp -r "backup/$(round)/$(round)/ladder" app/ && \
     cp -r "backup/$(round)/$(round)/all_data" scrape/
 .PHONY: restoreBackup
@@ -103,25 +115,6 @@ restoreBackup:
 cleanBackup:
 	rm -rf backup/*
 .PHONY: cleanBackup
-
-backupTestAll:
-	@$(MAKE) pre-backup round=2021-01-01
-	@$(MAKE) encryptBackup round=2021-01-01
-	@$(MAKE) prep-upload round=2021-01-01
-	@$(MAKE) uploadBackup round=2021-01-01
-	@$(MAKE) downloadBackup round=2021-01-01
-	@$(MAKE) decryptBackup round=2021-01-01
-	@$(MAKE) restoreBackup round=2021-01-01
-	@$(MAKE) cleanBackup
-.PHONY: backupTest
-
-test:
-	@$(MAKE) build
-	@$(MAKE) updateStats
-	@$(MAKE) getData
-	@$(MAKE) viewStats
-	@#$(MAKE) backupTest
-.PHONY: test
 
 prep-upload:
 	find backup/ -type f ! -name "*.encrypted" -delete
