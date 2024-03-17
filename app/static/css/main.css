@@ -12,6 +12,12 @@ body, html {
 .navbar-brand {
     color: #c9d1d9;
     font-weight: bold;
+    transition: color 0.3s ease;
+    font-size: 1.2em; /* Slightly larger */
+}
+
+.navbar-brand:hover {
+    color: #8aa2b5; /* Lighter shade on hover */
 }
 .container {
     background-color: #161b22;
@@ -48,18 +54,24 @@ body, html {
     display: none;
 }
 .btn-custom {
-    background-color: #3e4b58;
-    color: #fff;
+    background: linear-gradient(to right, #1f4068, #1b1b2f); /* Replace with your choice of colors */
+    color: #ffffff;
     border: none;
     border-radius: 4px;
     padding: 0.8rem 1.6rem;
     font-size: 1rem;
-    transition: background-color 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    text-transform: uppercase; /* Optional: to make the text uppercase */
+    font-weight: 600; /* Making the text a bit bolder */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
 }
+
 .btn-custom:hover {
-    background-color: #0056b3;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px); /* Slight lift when hovered */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Larger shadow for hover effect */
+    background: linear-gradient(to right, #3a6073, #16222a); /* Slightly darker on hover */
 }
+
 .table-custom {
     width: 100%;
     background-color: #161b22;
@@ -171,3 +183,25 @@ body, html {
       width: 50px; /* Adjust as needed */
       height: auto; /* Maintain aspect ratio */
   }
+
+  @media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1em; /* Smaller on mobile devices */
+    }
+
+    .btn-custom {
+        padding: 0.6rem 1.2rem; /* Smaller padding on mobile */
+        font-size: 0.9rem; /* Smaller font size on mobile */
+    }
+    
+    /* Stack buttons vertically on smaller screens */
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-group form {
+        width: 100%; /* Full width buttons on mobile */
+        margin-bottom: 0.5rem; /* Spacing between buttons */
+    }
+}

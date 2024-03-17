@@ -46,6 +46,7 @@ class Url(Enum):
     TEAM_INEFFECTIVE_TACKLES = "https://www.nrl.com/stats/teams/?competition=111&season=2024&stat=1000003"
     TEAM_PENALTIES_CONCEDED = "https://www.nrl.com/stats/teams/?competition=111&season=2024&stat=1000026"
     TEAM_HANDLING_ERRORS = "https://www.nrl.com/stats/teams/?competition=111&season=2024&stat=1000079"
+    
 
     # Draw
     DRAW = "https://www.nrl.com/draw/?competition=111&round={round}&season=2024"

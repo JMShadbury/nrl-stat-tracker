@@ -76,6 +76,7 @@ getBackup:
 	@$(MAKE) downloadBackup round=$(round)
 	@$(MAKE) decryptBackup round=$(round)
 	@$(MAKE) restoreBackup round=$(round)
+	@$(MAKE) cleanBackup
 .PHONY: getBackup
 
 pre-backup:
@@ -113,7 +114,7 @@ restoreBackup:
 .PHONY: restoreBackup
 
 cleanBackup:
-	rm -rf backup/*
+	rm -rf backup
 .PHONY: cleanBackup
 
 prep-upload:

@@ -61,6 +61,7 @@ try:
         "Ineffective Tackles": create_stat_instance(Url.TEAM_INEFFECTIVE_TACKLES, "Ineffective Tackles"),
         "Penalties Conceded": create_stat_instance(Url.TEAM_PENALTIES_CONCEDED, "Penalties Conceded"),
         "Handling Errors": create_stat_instance(Url.TEAM_HANDLING_ERRORS, "Handling Errors"),
+        "Possession": create_stat_instance(Url.TEAM_POSSESSION, "Possession"),
     }
 
     logger.info("Updating teams data")
@@ -130,6 +131,8 @@ try:
                     logger.debug(f"No data found for {team_name}")
             else:
                 logger.debug(f"Team name mismatch for {team_name}")
+                
+            logger.info(f"End Processing {team_name}")
         except Exception as e:
             logger.error(f"Error processing {team_name}: {e}", exc_info=True)
 except Exception as e:

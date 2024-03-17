@@ -53,6 +53,7 @@ class ScoringRules(Enum):
     RUNS = 0.005
     KICKS = 0.02
     CONVERSION_PERCENTAGE = 0.015
+    POSSESSION = 1
 
 
 def calculate_score(team_stats):
