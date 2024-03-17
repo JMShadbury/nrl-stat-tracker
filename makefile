@@ -76,7 +76,7 @@ getBackup:
 	@$(MAKE) downloadBackup round=$(round)
 	@$(MAKE) decryptBackup round=$(round)
 	@$(MAKE) restoreBackup round=$(round)
-	@$(MAKE) cleanBackup
+.PHONY: getBackup
 
 pre-backup:
 	mkdir -p "backup/$(round)" && \

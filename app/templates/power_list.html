@@ -28,7 +28,6 @@
             <tr>
                <th>Rank</th>
                <th>Team</th>
-               <th>Wins</th>
             </tr>
          </thead>
          <tbody>
@@ -43,7 +42,6 @@
                         <img src="{{ url_for('static', filename='path/to/tag_icon.svg') }}" alt="Defeats {{ defeated_team }}">
                     {% endfor %}
                 </td>
-                <td>{{ ranking.wins }}</td>
             </tr>
             {% endfor %}
         </tbody>
