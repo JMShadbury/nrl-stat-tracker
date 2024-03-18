@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About NRL Stat Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom mb-4">
+        <a class="navbar-brand" href="/">NRL Statistics Tracker</a>
+        <div class="ml-auto">
+         <div class="button-group" style="display: flex; justify-content: space-around; margin-top: 20px;">
+             <form action="/" method="get">
+                 <button type="submit" class="btn-custom">Home</button>
+             </form>
+             <form action="/compare" method="get">
+                <button type="submit" class="btn-custom">Compare Teams</button>
+            </form>
+            <form action="/ladder" method="get">
+                <button type="submit" class="btn-custom">View Ladder</button>
+            </form>
+             <form action="/power_list" method="get">
+                 <button type="submit" class="btn-custom">Power List</button>
+             </form>
+            <form action="/about" method="get">
+                <button type="submit" class="btn-custom">About</button>
+            </form>
+         </div>
+        </div>
+     </nav>
+    <div class="container text-center">
+        <h1 class="my-4">About NRL Stat Tracker</h1>
+
+        <!-- Include information similar to the README -->
+        <div class="about-content">
+            <!-- Include sections like Introduction, Features, Technologies Used, Installation and Setup, Usage, Contribution Guidelines, and License -->
+            <!-- Feel free to add humorous elements to each section -->
+            <h2>Introduction</h2>
+            <p>NRL Stat Tracker is an advanced application designed for collecting, analyzing, and displaying statistics from NRL (National Rugby League) matches. It caters to enthusiasts, analysts, and anyone keen on deep rugby match insights.</p>
+            
+            <h2>Features</h2>
+            <ul>
+                <li>Real-time Statistics Tracking: Captures and displays live stats from NRL matches.</li>
+                <li>Data Visualization: Features advanced tools for insightful analysis of match data.</li>
+                <li>Custom Scoring System: Utilizes a unique algorithm for evaluating performance.</li>
+                <li>Web Interface: Offers a user-friendly interface for easy access to statistics.</li>
+                <li>Data Scraping and Management: Efficiently collects and processes data from various sources.</li>
+            </ul>
+
+            <h2>Technologies Used</h2>
+            <ul>
+                <li>Python: For backend processing, data analysis, and scraping.</li>
+                <li>HTML/CSS & Bootstrap: Powers the front-end for a responsive web experience.</li>
+                <li>JavaScript: Enhances the interactivity of the web interface.</li>
+            </ul>
+
+            <h2>Scoring System</h2>
+            <p>The NRL Stat Tracker uses a custom scoring system to compare teams and generate power lists based on various statistics. Points are allocated according to the following rules:</p>
+            <ul>
+                {% for rule in scoring_rules %}
+                <li><strong>{{ rule.name }}:</strong> {{ scoring_descriptions[rule.name] }} - {{ '%.5f' % rule.value }} points</li>
+                {% endfor %}
+            </ul>
+            <p>These points are then used to determine the overall score of each team, which is used for comparison and ranking.</p>            
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/about.js') }}"></script>
+</body>
+</html>

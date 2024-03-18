@@ -14,6 +14,7 @@ from data_manager import load_data, load_rounds_data
 from util.scoring import calculate_score, compare_teams
 from flask import Flask, render_template, request, jsonify
 from common.logger import configure_logger
+from util.scoring import ScoringRules, scoring_descriptions
 import os
 import sys
 import json
@@ -147,6 +148,15 @@ def power_list():
     teams = sorted(team_data.index.unique())
     power_rankings = calculate_power_rankings(team_data, teams)
     return render_template("power_list.html", power_rankings=power_rankings)
+
+
+@app.route("/about")
+def about():
+    """
+    Route to view the about page.
+    """
+    return render_template("about.html", scoring_rules=ScoringRules, scoring_descriptions=scoring_descriptions)
+
 
 
 def calculate_power_rankings(team_data, teams):

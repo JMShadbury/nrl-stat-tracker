@@ -21,22 +21,59 @@ function updateModalContent(data, teamName) {
     const teamNameElement = modalContent.querySelector('#team-name');
     teamNameElement.textContent = teamName; // Set the team name
 
-    console.log("team name: ", teamName);
-    console.log("data: ", data);
-
     // Clear previous stats
     const existingTable = modalContent.querySelector('table');
     if (existingTable) existingTable.remove();
 
     // Create a new table for stats
     const table = document.createElement('table');
-    Object.entries(data).forEach(([stat, value]) => {
-        const row = table.insertRow();
-        const statCell = row.insertCell();
-        const valueCell = row.insertCell();
-        statCell.textContent = stat;
-        valueCell.textContent = value;
+
+    
+    const statsOrder = [
+        "Played",
+        "Tries",
+        "Try Assists",
+        "Points",
+        "Goals",
+        "Line Breaks",
+        "Line Break Assists",
+        "Completion",
+        "Possession",
+        "Conversion Percentage",
+        "Offloads",
+        "Tackle Breaks",
+        "Post Contact Metres",
+        "Kick Metres",
+        "Dummy Half Runs",
+        "Support",
+        "Runs",
+        "Run Metres",
+        "Kicks",
+        "Kick Return Metres",
+        "Tackles",
+        "Missed Tackles",
+        "Ineffective Tackles",
+        "Errors",
+        "Handling Errors",
+        "Penalties Conceded",
+        "Intercepts",
+        "Line Engaged",
+        "All Receipts",
+        "Decoy Runs",
+        "Charge Downs",
+    ];
+
+    // Iterate over statsOrder to ensure stats are displayed in the desired order
+    statsOrder.forEach(stat => {
+        if (data.hasOwnProperty(stat)) {
+            const row = table.insertRow();
+            const statCell = row.insertCell();
+            const valueCell = row.insertCell();
+            statCell.textContent = stat;
+            valueCell.textContent = data[stat];
+        }
     });
+
     modalContent.appendChild(table); // Append the table to the modal content
 }
 

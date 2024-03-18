@@ -54,6 +54,40 @@ class ScoringRules(Enum):
     KICKS = 0.02
     CONVERSION_PERCENTAGE = 0.015
     POSSESSION = 1
+    
+    
+scoring_descriptions = {
+    "TRIES": "Awarded for each try scored by the team.",
+    "GOALS": "Awarded for each successful goal kicked by the team.",
+    "ALL_RECEIPTS": "Awarded for each receipt of the ball by the team.",
+    "LINE_ENGAGED": "Awarded for each time the team engages the line.",
+    "COMPLETION": "Awarded for each time the team completes a set of six tackles.",
+    "SUPPORT": "Awarded for each time the team supports a player with the ball.",
+    "LINE_BREAKS": "Awarded for each line break made by the team.",
+    "POST_CONTACT_METRES": "Awarded for each metre gained after contact with an opposing player.",
+    "TACKLE_BREAKS": "Awarded for each tackle broken by the team.",
+    "RUN_METRES": "Awarded for each metre gained by the team.",
+    "OFFLOADS": "Awarded for each offload made by the team.",
+    "KICK_METRES": "Awarded for each metre gained from a kick made by the team.",
+    "TRY_ASSISTS": "Awarded for each try assist made by the team.",
+    "DECOY_RUNS": "Awarded for each decoy run made by the team.",
+    "DUMMY_HALF_RUNS": "Awarded for each dummy half run made by the team.",
+    "TACKLES": "Awarded for each tackle made by the team.",
+    "MISSED_TACKLES": "Deducted for each tackle missed by the team.",
+    "CHARGE_DOWNS": "Awarded for each charge down made by the team.",
+    "INTERCEPTS": "Awarded for each intercept made by the team.",
+    "ERRORS": "Deducted for each error made by the team.",
+    "INEFFECTIVE_TACKLES": "Deducted for each ineffective tackle made by the team.",
+    "PENALTIES_CONCEDED": "Deducted for each penalty conceded by the team.",
+    "HANDLING_ERRORS": "Deducted for each handling error made by the team.",
+    "SHORT_DROPOUTS": "Deducted for each short dropout made by the team.",
+    "FOURTY_TWENTY_KICKS": "Awarded for each 40/20 kick made by the team.",
+    "KICK_RETURN_METRES": "Awarded for each metre gained from a kick return made by the team.",
+    "RUNS": "Awarded for each run made by the team.",
+    "KICKS": "Awarded for each kick made by the team.",
+    "CONVERSION_PERCENTAGE": "Awarded for each percentage point of conversion rate achieved by the team.",
+    "POSSESSION": "Awarded for each minute of possession held by the team."
+}
 
 
 def calculate_score(team_stats):
