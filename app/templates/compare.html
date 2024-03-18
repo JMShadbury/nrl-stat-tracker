@@ -1,0 +1,93 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NRL Statistics</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Optional Bootstrap JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script type="text/javascript">
+        var comparison_data = {{ comparison_data | tojson | safe }};
+    </script>
+ </head>
+ <body style="overscroll-behavior-x: auto;">
+    <nav class="navbar navbar-expand-lg navbar-custom mb-4">
+       <a class="navbar-brand" href="#">NRL Statistics Tracker</a>
+       <div class="ml-auto">
+        <div class="button-group" style="display: flex; justify-content: space-around; margin-top: 20px;">
+            <form action="/" method="get">
+                <button type="submit" class="btn-custom">Home</button>
+            </form>
+            <form action="/ladder" method="get">
+                <button type="submit" class="btn-custom">View Ladder</button>
+            </form>
+            <form action="/power_list" method="get">
+                <button type="submit" class="btn-custom">Power List</button>
+            </form>
+        </div>
+       </div>
+    </nav>
+    <div class="container">
+       <h1 class="text-center">Team Comparison</h1>
+       <form method="post" action="/compare">
+        <div class="dropdown-custom">
+            <select name="team1" class="form-control">
+                <option value="" selected>Select Team 1</option>
+                {% for team in teams %}
+                <option value="{{ team }}" {% if selected_team1 and team == selected_team1 %}selected="selected"{% endif %}>{{ team }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="dropdown-custom">
+            <select name="team2" class="form-control">
+                <option value="" selected>Select Team 2</option>
+                {% for team in teams %}
+                <option value="{{ team }}" {% if selected_team2 and team == selected_team2 %}selected="selected"{% endif %}>{{ team }}</option>
+                {% endfor %}
+            </select>
+        </div>
+          <input type="submit" value="Compare" class="btn-custom">
+       </form>
+       {% if comparison_data %}
+       <div>
+        <div id="score-bar-container">
+            <div id="team1-bar" class="score-bar">
+                <span class="score-value" id="team1-score"></span>
+            </div>
+            <div id="score-info">
+                <img id="winning-team-icon" src="" alt="Winning Team" class="team-icon" style="display: none;">
+                <span id="winning-percentage"></span>
+            </div>
+        
+            <div id="team2-bar" class="score-bar">
+                <span class="score-value" id="team2-score"></span>
+            </div>
+        </div>
+              {% for stat, values in comparison_data.team1.data.items() %}
+              
+              {% endfor %}
+           <table class="table table-hover table-bordered table-custom">
+             <thead class="thead-dark sticky-header">
+                <tr>
+                   <th>Statistic</th>
+                   <th><img src="{{ url_for('static', filename='img/' + comparison_data.team1.name.lower() + '.svg') }}" alt="{{ comparison_data.team1.name }}" class="team-icon"></th>
+                   <th><img src="{{ url_for('static', filename='img/' + comparison_data.team2.name.lower() + '.svg') }}" alt="{{ comparison_data.team2.name }}" class="team-icon"></th>
+                </tr>
+             </thead>
+             <tbody>
+                {% for stat, value in comparison_data.team1.data.items() %}
+                <tr>
+                    <td>{{ stat }}</td>
+                    <td>{{ value }}</td>
+                    <td>{{ comparison_data.team2.data[stat] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+       </div>
+       {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body></html>
