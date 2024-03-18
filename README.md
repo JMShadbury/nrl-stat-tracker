@@ -52,10 +52,10 @@ NRL Stat Tracker is an advanced application designed for collecting, analyzing, 
           choco install make
 
 <a name="usage"></a>
+
 ## Usage
 <details>
 <summary>Click to expand!</summary>
-
 
 To use the NRL Stat Tracker, follow these guidelines based on the provided `makefile`:
 
@@ -63,24 +63,42 @@ To use the NRL Stat Tracker, follow these guidelines based on the provided `make
    - Run `make build` to set up a Python virtual environment, upgrade pip, and install required dependencies from `requirements.txt`.
 
 2. **Update Statistics**: 
-   - Use `make updateStats` to update team statistics. This command first builds the project and then updates the teams and ladder information.
+   - Use `make updateStats` to update team statistics. This command builds the project and then updates the teams and ladder information.
 
-3. **Get Data**: 
+3. **Update Teams**:
+   - Run `make updateTeams` to specifically update team data. This command also involves building the project.
+
+4. **Update Rounds**:
+   - Use `make updateRounds` to update round-specific information. This command first builds the project.
+
+5. **Get Data**: 
    - Run `make getData` to retrieve all necessary data for the application. This command builds the project, updates stats, and fetches additional data.
 
-4. **View Statistics**: 
-   - Execute `make viewStats` to start the application for viewing statistics.
+6. **Run Application**:
+   - Execute `make run` to start the application. It builds the project, gets data if not present, and launches the app for viewing statistics.
 
-5. **Clean the Project**:
+7. **Clean the Project**:
    - `make clean` removes the virtual environment and temporary files.
    - `make cleanAll` performs a more comprehensive clean-up, including all data and logs.
 
-6. **Backup and Restore**:
-   - Use targets like `make backup` and `make restoreBackup` for handling backups and restoration of data.
+8. **Attempt to Clean All**:
+   - Run `make tryCleanAll` to attempt a full cleanup; suppresses error messages if any steps fail.
 
-7. **Testing**:
-   - The `make test` command runs a series of operations to build the project, update stats, get data, and view stats as a part of testing.
+9. **Start Fresh**:
+   - Use `make fresh` to clean the project completely and start fresh by building the project and fetching new data.
+
+10. **Backup and Restore**:
+   - `make backup` handles backup creation, encryption, and uploading to storage.
+   - `make getBackup` downloads, decrypts, and restores data from the backup.
+   - `make uploadBackup` and `make downloadBackup` specifically handle uploading and downloading backups.
+   - `make encryptBackup` and `make decryptBackup` are used for encrypting and decrypting backups.
+   - `make restoreBackup` and `make cleanBackup` are used to restore data from backups and clean up backup files, respectively.
+
+11. **Prepare for Backup Upload**:
+   - `make prep-upload` prepares for uploading the backup by cleaning up unnecessary files.
+
 </details>
+
 
 <a name="contribution-guidelines"></a>
 ## Contribution Guidelines
