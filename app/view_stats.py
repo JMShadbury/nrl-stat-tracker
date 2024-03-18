@@ -57,8 +57,6 @@ def team_stats(team_name):
     try:
         # Assuming `team_data` is a pandas DataFrame with your data
         team_stats_data = team_data.loc[team_name].fillna(0).to_dict()
-        logger.info(f"Team stats data: {team_stats_data}")
-        logger.info(f"Team Name: {team_name}")
         
         if team_stats_data:
             return jsonify(team_stats_data)
