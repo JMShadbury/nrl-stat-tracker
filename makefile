@@ -1,123 +1,103 @@
+# Variables
+VENV_ACTIVATE = . venv/bin/activate &&
+PYTHON = python
+PIP = pip
+MKDIR_P = mkdir -p
+CP_R = cp -r
+RM_RF = rm -rf
+TAR_CZVF = tar -czvf
+TAR_XZVF = tar -xzvf
+OPENSSL_ENC = openssl enc
+AWS_S3_CP = aws s3 cp
+FIND = find
+AWK = awk
+RM_EMPTY_DIR = $(FIND) backup/ -type d -empty -delete
+JSON_FILES := $(wildcard app/teams/*.json)
+
+ifeq ($(OS),Windows_NT)
+	VENV_ACTIVATE = venv\Scripts\activate &&
+	PYTHON = py
+	MKDIR_P = mkdir $(subst /,\,$(dir $@)) > nul 2>&1 || true
+	CP_R = xcopy /s /e
+	RM_RF = rmdir /s /q
+	TAR_CZVF = tar -czvf
+	TAR_XZVF = tar -xzvf
+	OPENSSL_ENC = openssl enc
+	AWS_S3_CP = aws s3 cp
+	FIND = dir /b /ad /s
+	AWK = awk
+	RM_EMPTY_DIR = $(FIND) backup\ -type d -empty | $(AWK) '{ print "rmdir /s /q \"" $$0 "\"" }' | cmd
+endif
+
 # Targets
+.PHONY: all build updateStats updateTeams updateRounds getData run clean cleanAll fresh backup getBackup pre-backup encryptBackup decryptBackup uploadBackup downloadBackup restoreBackup cleanBackup prep-upload
+
+all: fresh
 
 build:
-	python -m venv venv && \
-	. venv/bin/activate && \
-	pip install --upgrade pip && \
-	pip install -r requirements.txt 
-.PHONY: build
+	$(PYTHON) -m venv venv && \
+	$(VENV_ACTIVATE) \
+	$(PIP) install --upgrade pip && \
+	$(PIP) install -r requirements.txt
 
 updateStats: build updateTeams
-	. venv/bin/activate && \
-	python scrape/update_ladder.py
-.PHONY: updateLadder
+	$(VENV_ACTIVATE) $(PYTHON) scrape/update_ladder.py
 
 updateTeams: build
-	. venv/bin/activate && \
-	python scrape/update_teams.py
-.PHONY: updateTeams
+	$(VENV_ACTIVATE) $(PYTHON) scrape/update_teams.py
 
 updateRounds: build
-	. venv/bin/activate && \
-	python scrape/update_rounds.py
+	$(VENV_ACTIVATE) $(PYTHON) scrape/update_rounds.py
 
-getData: build updateStats 
-	. venv/bin/activate && \
-	python scrape/get_data.py
-.PHONY: getData
+getData: build updateStats
+	$(VENV_ACTIVATE) $(PYTHON) scrape/get_data.py
 
-viewStats: build
-	. venv/bin/activate && \
-	cd app && \
-	python view_stats.py
+run: build $(if $(JSON_FILES),,getData)
+	$(VENV_ACTIVATE) cd app && $(PYTHON) view_stats.py
 
 clean:
-	rm -rf venv
-	rm -rf logs
-	rm -rf app/logs
-	rm -rf __pycache__
-	rm -rf common/__pycache__
-	rm -rf app/__pycache__
-	rm -rf app/teams/__pycache__
-	rm -rf app/rounds/__pycache__
-	rm -rf app/ladder/__pycache__
-	rm -rf app/util/__pycache__
-	rm -rf scrape/__pycache__
-	rm -rf scrape/all_data/__pycache__
-	rm -rf scrape/util/__pycache__
-	rm -rf scrape/stats/__pycache__
-.PHONY: clean
+	$(RM_RF) venv logs app/logs __pycache__ common/__pycache__ app/__pycache__ app/teams/__pycache__ app/rounds/__pycache__ app/ladder/__pycache__ app/util/__pycache__ scrape/__pycache__ scrape/all_data/__pycache__ scrape/util/__pycache__ scrape/stats/__pycache__
 
 cleanAll: clean
-	rm -rf scrape/all_data/*
-	rm -rf app/teams/*.json
-	rm -rf app/rounds
-	rm -rf app/ladder
-	rm -rf backup/
-.PHONY: cleanAll
+	$(RM_RF) scrape/all_data/* app/teams/*.json app/rounds app/ladder backup/
 
-tryCleanAll: 
+tryCleanAll:
 	@$(MAKE) cleanAll 2>/dev/null || true
-.PHONY: tryCleanAll
 
-fresh: tryCleanAll build getData
-	make viewStats
-.PHONY: fresh
+fresh: tryCleanAll build getData run
 
-backup:
-	@$(MAKE) pre-backup round=$(round)
-	@$(MAKE) encryptBackup round=$(round)
-	@$(MAKE) prep-upload round=$(round)
-	@$(MAKE) uploadBackup round=$(round)
-	@$(MAKE) cleanBackup
-.PHONY: backupTest
+backup: pre-backup encryptBackup prep-upload uploadBackup cleanBackup
 
-getBackup:
-	@$(MAKE) downloadBackup round=$(round)
-	@$(MAKE) decryptBackup round=$(round)
-	@$(MAKE) restoreBackup round=$(round)
-	@$(MAKE) cleanBackup
-.PHONY: getBackup
+getBackup: downloadBackup decryptBackup restoreBackup cleanBackup
 
 pre-backup:
-	mkdir -p "backup/$(round)" && \
-	cp -r app/teams "backup/$(round)" && \
-	cp -r app/ladder "backup/$(round)" && \
-	cp -r scrape/all_data "backup/$(round)"
-.PHONY: backup
+	$(MKDIR_P) "backup/$(round)"
+	$(CP_R) app/teams app/ladder scrape/all_data "backup/$(round)"
 
 encryptBackup:
-	@if [ -z "$(round)" ]; then echo "Error: No round specified for backup"; exit 1; fi
-	tar -czvf "backup/$(round).tar.gz" -C "backup/" "$(round)" && \
-	openssl enc -aes-256-cbc -pbkdf2 -iter 10000 -salt -in "backup/$(round).tar.gz" -out "backup/$(round).tar.gz.encrypted" -pass file:/Users/joelhutson/.pers/personal
-.PHONY: encryptBackup
-
+	$(TAR_CZVF) "backup/$(round).tar.gz" -C "backup/" "$(round)" && \
+	$(OPENSSL_ENC) -aes-256-cbc -pbkdf2 -iter 10000 -salt -in "backup/$(round).tar.gz" -out "backup/$(round).tar.gz.encrypted" -pass file:/Users/joelhutson/.pers/personal
 
 decryptBackup:
-	openssl enc -d -aes-256-cbc -pbkdf2 -iter 10000 -in "backup/$(round)/$(round).tar.gz.encrypted" -out "backup/$(round)/$(round).tar.gz" -pass file:/Users/joelhutson/.pers/personal && \
-	tar -xzvf "backup/$(round)/$(round).tar.gz" -C "backup/$(round)/" && \
-	rm "backup/$(round)/$(round).tar.gz" "backup/$(round)/$(round).tar.gz.encrypted"
-.PHONY: decryptBackup
+	$(OPENSSL_ENC) -d -aes-256-cbc -pbkdf2 -iter 10000 -in "backup/$(round).tar.gz.encrypted" -out "backup/$(round).tar.gz" -pass file:/Users/joelhutson/.pers/personal && \
+	$(TAR_XZVF) "backup/$(round).tar.gz" -C "backup/$(round)/" && \
+	$(RM_RF) "backup/$(round).tar.gz" "backup/$(round).tar.gz.encrypted"
 
 uploadBackup:
-	aws s3 cp "backup/$(round).tar.gz.encrypted" s3://2024-nrl-data/$(round)/$(round).tar.gz.encrypted --profile joeladmin
-.PHONY: uploadBackup
+	$(AWS_S3_CP) "backup/$(round).tar.gz.encrypted" s3://2024-nrl-data/$(round)/$(round).tar.gz.encrypted --profile $(AWS_PROFILE)
 
 downloadBackup:
-	aws s3 cp s3://2024-nrl-data/$(round) backup/$(round) --recursive --profile joeladmin
-.PHONY: downloadBackup
+	$(AWS_S3_CP) s3://2024-nrl-data/$(round) backup/$(round) --recursive --profile $(AWS_PROFILE)
 
 restoreBackup:
-	cp -r "backup/$(round)/$(round)/teams" app/ && \
-    cp -r "backup/$(round)/$(round)/ladder" app/ && \
-    cp -r "backup/$(round)/$(round)/all_data" scrape/
-.PHONY: restoreBackup
+	$(CP_R) "backup/$(round)/teams" app/ && \
+    $(CP_R) "backup/$(round)/ladder" app/ && \
+    $(CP_R) "backup/$(round)/all_data" scrape/
 
 cleanBackup:
-	rm -rf backup
-.PHONY: cleanBackup
+	$(RM_RF) backup
+	$(RM_EMPTY_DIR)
 
 prep-upload:
-	find backup/ -type f ! -name "*.encrypted" -delete
-	find backup/ -type d -empty -delete
-.PHONY: prep-upload
+	$(FIND) backup/ -type f ! -name "*.encrypted" -delete
+	$(RM_EMPTY_DIR)
