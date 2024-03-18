@@ -60,7 +60,7 @@
             <p>The NRL Stat Tracker uses a custom scoring system to compare teams and generate power lists based on various statistics. Points are allocated according to the following rules:</p>
             <ul>
                 {% for rule in scoring_rules %}
-                <li><strong>{{ rule.name }}:</strong> {{ scoring_descriptions[rule.name] }} - {{ '%.5f' % rule.value }} points</li>
+                <li><strong>{{ rule.name }}:</strong> {{ scoring_descriptions[rule.name] }} : {{ '%.5f' % rule.value }} points</li>
                 {% endfor %}
             </ul>
             <p>These points are then used to determine the overall score of each team, which is used for comparison and ranking.</p>            

@@ -86,7 +86,7 @@ scoring_descriptions = {
     "RUNS": "Awarded for each run made by the team.",
     "KICKS": "Awarded for each kick made by the team.",
     "CONVERSION_PERCENTAGE": "Awarded for each percentage point of conversion rate achieved by the team.",
-    "POSSESSION": "Awarded for each minute of possession held by the team."
+    "POSSESSION": "Awarded for each percentage of possession held by the team."
 }
 
 
