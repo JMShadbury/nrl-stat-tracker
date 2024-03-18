@@ -32,10 +32,39 @@ NRL Stat Tracker is an advanced application designed for collecting, analyzing, 
 ## Installation and Setup
 Instructions on setting up the application for smooth and efficient operation.
 
+<a name="prerequisites"></a>
+### Prerequisites
+- Make
+
+<a name="setup"></a>
+### Setup
+1. **Mac**:
+    - Install Homebrew (if not already installed):
+       ```shell
+       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+       ```
+    - Install Make using Homebrew:
+       ```shell
+       brew install make
+       ```
+
+2. **Windows**:
+    - Install Chocolatey (if not already installed):
+       - Open PowerShell as Administrator and run the following command:
+          ```shell
+          Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+          ```
+    - Install Make using Chocolatey:
+       - Open PowerShell as Administrator and run the following command:
+          ```shell
+          choco install make
+          ```
+
 <a name="usage"></a>
 ## Usage
 <details>
 <summary>Click to expand!</summary>
+
 
 To use the NRL Stat Tracker, follow these guidelines based on the provided `makefile`:
 
