@@ -56,7 +56,6 @@ def team_stats(team_name):
         return jsonify({"error": "Team name is required"}), 400
     try:
         # Assuming `team_data` is a pandas DataFrame with your data
-        print(team_data)
         team_stats_data = team_data.loc[team_name].fillna(0).to_dict()
         logger.info(f"Team stats data: {team_stats_data}")
         logger.info(f"Team Name: {team_name}")
