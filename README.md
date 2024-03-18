@@ -30,14 +30,6 @@ NRL Stat Tracker is an advanced application designed for collecting, analyzing, 
 
 <a name="installation-and-setup"></a>
 ## Installation and Setup
-Instructions on setting up the application for smooth and efficient operation.
-
-<a name="prerequisites"></a>
-### Prerequisites
-- Make
-
-<a name="setup"></a>
-### Setup
 1. **Mac**:
     - Install Homebrew (if not already installed):
        ```shell
@@ -58,7 +50,6 @@ Instructions on setting up the application for smooth and efficient operation.
        - Open PowerShell as Administrator and run the following command:
           ```shell
           choco install make
-          ```
 
 <a name="usage"></a>
 ## Usage
