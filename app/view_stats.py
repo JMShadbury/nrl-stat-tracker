@@ -12,7 +12,7 @@ Flask application
 
 from data_manager import load_data, load_rounds_data
 from util.scoring import calculate_score, compare_teams
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from common.logger import configure_logger
 import os
 import sys
@@ -34,9 +34,43 @@ app = Flask(
 # Load team data
 team_data = load_data()
 
-
 @app.route("/", methods=["GET", "POST"])
 def index():
+    """
+    Route to the index page.
+    """
+    
+    team_images = os.listdir('static/img')
+    
+    return render_template("index.html", team_images=team_images)
+
+
+@app.route("/team_stats/<team_name>", methods=["GET"])
+def team_stats(team_name):
+    """
+    Route to get stats for a specific team.
+    """
+    if not team_name:
+        # Return an error if team_name is empty
+        return jsonify({"error": "Team name is required"}), 400
+    try:
+        # Assuming `team_data` is a pandas DataFrame with your data
+        print(team_data)
+        team_stats_data = team_data.loc[team_name].fillna(0).to_dict()
+        logger.info(f"Team stats data: {team_stats_data}")
+        logger.info(f"Team Name: {team_name}")
+        
+        if team_stats_data:
+            return jsonify(team_stats_data)
+        else:
+            return jsonify({"error": "Team not found"}), 404
+    except KeyError:
+        # Handle the case where the team isn't found
+        return jsonify({"error": "Team not found"}), 404
+
+
+@app.route("/compare", methods=["GET", "POST"])
+def compare():
     """
     Route to compare teams.
     """
@@ -72,7 +106,7 @@ def index():
                 }
 
         return render_template(
-            "index.html",
+            "compare.html",
             teams=teams,
             selected_team1=selected_team1,
             selected_team2=selected_team2,
@@ -103,16 +137,6 @@ def view_ladder():
         logger.error("Unexpected error: %s", e, exc_info=True)
         return "An unexpected error occurred", 500
 
-
-@app.route("/rounds")
-def rounds():
-    """
-    Route to view the rounds.
-    """
-    rounds_data = load_rounds_data()
-    logger.debug("Rounds Data: %s", rounds_data)
-    print(rounds_data)  # Use print to see the output directly in the console.
-    return render_template("rounds.html", rounds=rounds_data)
 
 
 @app.route("/power_list")
