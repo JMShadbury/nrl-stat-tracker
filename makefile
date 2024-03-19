@@ -57,10 +57,10 @@ pre-backup:
 	$(CP_R) app/teams app/ladder scrape/all_data "backup/$(round)"
 
 uploadBackup:
-	$(AWS_S3_CP) --recursive "backup/$(round)" s3://2024-nrl-data/$(round)/ --profile $(AWS_PROFILE)
+	$(AWS_S3_CP) --recursive "backup/$(round)" s3://2024-nrl-data/$(round)/ 
 
 downloadBackup:
-	$(AWS_S3_CP) --recursive s3://2024-nrl-data/$(round)/ "backup/$(round)" --profile $(AWS_PROFILE)
+	$(AWS_S3_CP) --recursive s3://2024-nrl-data/$(round)/ "backup/$(round)" 
 
 restoreBackup:
 	$(CP_R) "backup/$(round)/teams" app/ && \
