@@ -55,9 +55,12 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Run Make Backup
-      run: make backup ROUND=${{ env.ROUND_NUMBER }}
       env:
         BACKUP_PASSWORD: ${{ secrets.BACKUP_PASSWORD }}
+      run: |
+        sleep 30
+        make backup ROUND=${{ env.ROUND_NUMBER }}
+      
 
     - name: Update Round Number
       if: ${{ steps.current-round.outputs.round < 27 }}
