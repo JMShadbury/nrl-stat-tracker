@@ -28,7 +28,6 @@ jobs:
           mkdir -p app/teams
           echo "[]" > app/ladder/ladder_data.json
           while read team; do
-            mkdir -p "scrape/all_data/$team"
             if [ ! -f "app/teams/$team.json" ]; then
               touch "app/teams/$team.json"
             fi
