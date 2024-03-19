@@ -59,7 +59,7 @@ jobs:
         BACKUP_PASSWORD: ${{ secrets.BACKUP_PASSWORD }}
       run: |
         sleep 30
-        make backup ROUND=${{ env.ROUND_NUMBER }}
+        make backup ROUND="${{ steps.current-round.outputs.round }}"
       
 
     - name: Update Round Number
