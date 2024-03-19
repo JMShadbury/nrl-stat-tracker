@@ -57,7 +57,7 @@ jobs:
     - name: Run Make Backup
       env:
         BACKUP_PASSWORD: ${{ secrets.BACKUP_PASSWORD }}
-        ROUND: ${{ env.round }}
+        ROUND: ${{ env.ROUND_NUMBER }}
       run: |
         sleep 30
         make backup
