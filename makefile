@@ -5,9 +5,6 @@ PIP = pip
 MKDIR_P = mkdir -p
 CP_R = cp -r
 RM_RF = rm -rf
-TAR_CZVF = tar -czvf
-TAR_XZVF = tar -xzvf
-OPENSSL_ENC = openssl enc
 AWS_S3_CP = aws s3 cp
 FIND = find
 AWK = awk
@@ -15,7 +12,7 @@ RM_EMPTY_DIR = $(FIND) backup/ -type d -empty -delete
 JSON_FILES := $(wildcard app/teams/*.json)
 
 # Targets
-.PHONY: all build updateStats updateTeams updateRounds getData run clean cleanAll fresh backup getBackup pre-backup encryptBackup decryptBackup uploadBackup downloadBackup restoreBackup cleanBackup prep-upload
+.PHONY: all build updateStats updateTeams updateRounds getData run clean cleanAll fresh backup getBackup pre-backup uploadBackup downloadBackup restoreBackup cleanBackup prep-upload
 
 all: fresh
 
@@ -51,38 +48,29 @@ tryCleanAll:
 
 fresh: tryCleanAll build getData run
 
-backup: pre-backup encryptBackup prep-upload uploadBackup cleanBackup
+backup: pre-backup uploadBackup cleanBackup
 
-getBackup: downloadBackup decryptBackup restoreBackup cleanBackup
+getBackup: downloadBackup restoreBackup cleanBackup
 
 pre-backup:
 	$(MKDIR_P) "backup/$(round)"
 	$(CP_R) app/teams app/ladder scrape/all_data "backup/$(round)"
 
-encryptBackup:
-	$(TAR_CZVF) "backup/$(round).tar.gz" -C "backup/$(round)" . && \
-	$(OPENSSL_ENC) -aes-256-cbc -pbkdf2 -iter 10000 -salt -in "backup/$(round).tar.gz" -out "backup/$(round).tar.gz.encrypted" -pass env:BACKUP_PASSWORD
-
-decryptBackup:
-	$(OPENSSL_ENC) -d -aes-256-cbc -pbkdf2 -iter 10000 -in "backup/$(round).tar.gz.encrypted" -out "backup/$(round).tar.gz" -pass env:BACKUP_PASSWORD && \
-	$(TAR_XZVF) "backup/$(round).tar.gz" -C "backup/$(round)/" && \
-	$(RM_RF) "backup/$(round).tar.gz" "backup/$(round).tar.gz.encrypted"
-
 uploadBackup:
-	$(AWS_S3_CP) "backup/$(round).tar.gz.encrypted" s3://2024-nrl-data/$(round)/$(round).tar.gz.encrypted --profile $(AWS_PROFILE)
+	$(AWS_S3_CP) --recursive "backup/$(round)" s3://2024-nrl-data/$(round)/ --profile $(AWS_PROFILE)
 
 downloadBackup:
-	$(AWS_S3_CP) s3://2024-nrl-data/$(round) backup/$(round) --recursive --profile $(AWS_PROFILE)
+	$(AWS_S3_CP) --recursive s3://2024-nrl-data/$(round)/ "backup/$(round)" --profile $(AWS_PROFILE)
 
 restoreBackup:
 	$(CP_R) "backup/$(round)/teams" app/ && \
-    $(CP_R) "backup/$(round)/ladder" app/ && \
-    $(CP_R) "backup/$(round)/all_data" scrape/
+	$(CP_R) "backup/$(round)/ladder" app/ && \
+	$(CP_R) "backup/$(round)/all_data" scrape/
 
 cleanBackup:
 	$(RM_RF) backup
 	$(RM_EMPTY_DIR)
 
 prep-upload:
-	$(FIND) backup/ -type f ! -name "*.encrypted" -delete
+	$(FIND) backup/ -type f -delete
 	$(RM_EMPTY_DIR)
