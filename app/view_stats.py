@@ -84,8 +84,8 @@ def compare():
             selected_team2 = request.form.get("team2", "")
 
             if selected_team1 in teams and selected_team2 in teams:
-                team1_data = team_data.loc[selected_team1].to_dict()
-                team2_data = team_data.loc[selected_team2].to_dict()
+                team1_data = team_data.loc[selected_team1].fillna(0).to_dict()
+                team2_data = team_data.loc[selected_team2].fillna(0).to_dict()
 
                 team1_score = calculate_score(team1_data)
                 team2_score = calculate_score(team2_data)
