@@ -67,14 +67,13 @@ try:
     logger.info("Updating teams data")
 
     # Read team names from file
-    with open("app/teams/teams", "r") as f:
+    with open(os.path.join(os.path.dirname(__file__), "teams"), "r") as f:
         team_names = f.read().splitlines()
 
     logger.debug(f"Teams: {team_names}")
 
     # Create a dictionary of team names and abbreviations
-    team_names = {team.split(":")[0]: team.split(":")[1]
-                  for team in team_names}
+    team_names = {team for team in team_names}
 
     # Get all teams data for each stat
     all_data = {

@@ -8,12 +8,12 @@ __pycache__
 *.so
 
 
-app/teams/*
-!app/teams/teams
+
 
 # Distribution / packaging
 .Python
 scrape/all_data/*
+teams/
 ladder/
 rounds/
 build/
