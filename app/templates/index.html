@@ -6,7 +6,6 @@
     <title>Welcome to NRL Stat Tracker</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/welcome.css') }}">
-    <!-- Additional head elements -->
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom mb-4">
@@ -33,26 +32,20 @@
      </nav>
     <div class="container text-center">
         <h1 class="my-4">Welcome to NRL Stat Tracker</h1>
-        <p class="mb-4">A hub for your rugby league statistics, crafted for enthusiasts and analysts.</p>
+        <p class="mb-4">A hub for your rugby league statistics, crafted for enthusiasts and analysts.</p><br><br>
+        <p class="mb-4">Select a team to view their statistics</p>
 
         <div id="team-icons" class="d-flex flex-wrap justify-content-center">
-            <!-- Dynamically generate team icons -->
             {% for team in team_images %}
                 <div class="team-icon" onclick="openStats('{{ team }}')" style="background-image: url('{{ url_for('static', filename='img/' + team) }}');">
-
-                    <!-- Icons can be background images for these divs -->
                 </div>
             {% endfor %}
         </div>
     </div>
-
-    <!-- Modal for displaying team stats - initially hidden -->
     <div id="stats-modal" class="modal">
-        <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2 id="team-name"></h2>
-            <!-- Content will be loaded dynamically -->
         </div>
     </div>
 

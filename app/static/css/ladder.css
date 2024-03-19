@@ -5,218 +5,141 @@ body, html {
     background-color: #0d1117;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
+
 .navbar-custom {
     background-color: #161b22;
     padding: 0.5rem 1rem;
 }
+
 .navbar-brand {
     color: #c9d1d9;
     font-weight: bold;
     transition: color 0.3s ease;
-    font-size: 1.2em; /* Slightly larger */
+    font-size: 1.2em;
 }
 
 .navbar-brand:hover {
-    color: #8aa2b5; /* Lighter shade on hover */
+    color: #8aa2b5;
 }
-.container {
-    background-color: #161b22;
-    box-shadow: 0 8px 24px rgba(0,0,0,.5);
-}
-.container-custom {
+
+.container, .container-custom {
     background-color: #161b22;
     padding: 2rem;
     border-radius: 6px;
     margin: 2rem auto;
     box-shadow: 0 8px 24px rgba(0,0,0,.5);
 }
+
+.dropdown-custom select, .table-container .table th, .table-container .table td {
+    color: #c9d1d9;
+}
+
 .dropdown-custom select {
     width: 100%;
     height: 2.5rem;
-    padding: 0.5rem;
+    padding: 0.6rem; /* Unified padding */
     background: #0d1117;
     font-size: 14px;
-    color: #c9d1d9;
     border: 1px solid #30363d;
     border-radius: 6px;
     margin-bottom: 1rem;
     appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     text-align: center;
 }
+
 .dropdown-custom select:focus {
     outline: none;
     border-color: #238636;
-    background-color: transparent;
 }
-.dropdown-custom select::-ms-expand {
-    display: none;
-}
+
 .btn-custom {
-    background: linear-gradient(to right, #1f4068, #1b1b2f); /* Replace with your choice of colors */
+    background: linear-gradient(to right, #1f4068, #1b1b2f);
     color: #ffffff;
     border: none;
     border-radius: 4px;
     padding: 0.8rem 1.6rem;
     font-size: 1rem;
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-    text-transform: uppercase; /* Optional: to make the text uppercase */
-    font-weight: 600; /* Making the text a bit bolder */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
-}
-
-.btn-custom:hover {
-    transform: translateY(-2px); /* Slight lift when hovered */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Larger shadow for hover effect */
-    background: linear-gradient(to right, #3a6073, #16222a); /* Slightly darker on hover */
-}
-
-.table-custom {
-    width: 100%;
-    background-color: #161b22;
-    border-collapse: collapse;
-    border-spacing: 0;
-    color: white;
-}
-.table-custom th, .table-custom td {
-    padding: .8rem;
-    border-bottom: 1px solid #30363d;
-}
-.table-custom th {
-    text-align: left;
-    border-bottom: 2px solid #30363d;
-}
-.table-custom tbody tr:hover {
-    background-color: #0d1117;
-}
-.footer-custom {
-    background-color: #161b22;
-    color: #c9d1d9;
-    padding: 1rem;
-    text-align: center;
-    border-top: 1px solid #30363d;
-}
-.mb-2 {
-    margin-bottom: 2rem;
-}
-.container-custom {
-    margin: 1rem;
-    padding: 1rem;
-}
-.btn-custom {
-    padding: .8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     width: 100%;
     margin-bottom: 1rem;
 }
-.dropdown-custom select {
-    padding: .6rem;
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to right, #3a6073, #16222a);
 }
+
+.table-custom, .table-container .table {
+    width: 100%;
+    background-color: #161b22;
+    border-collapse: collapse;
+}
+
+.table-custom th, .table-custom td, .table-container .table th, .table-container .table td {
+    padding: .8rem;
+    border-bottom: 1px solid #30363d;
+}
+
+.table-custom th, .table-container .table th {
+    text-align: left;
+    border-bottom: 2px solid #30363d;
+}
+
+.table-custom tbody tr:hover, .table-hover tbody tr:hover {
+    background-color: #0d1117;
+}
+
 .sticky-header th {
     position: sticky;
     top: 0;
     background-color: #161b22;
-    z-index: 10; 
+    z-index: 10;
 }
+
 #score-bar-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 80%;
-  margin: 20px auto;
-  margin-top: 20px;
-  overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: 20px auto;
+    overflow: hidden;
 }
+
 .score-bar {
-      width: 0;
-      border-radius: 10px;
-      flex-grow: 0;
-      height: 20px;
-      transition: width 1.5s ease-in-out;
-  }
-  
-  #team1-bar {
-      background-color: blue;
-  }
-  
-  #team2-bar {
-      background-color: red;
-  }
-  
-  #score-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin: 0 10px;
-  }
-  
-  #winning-team {
-      font-weight: bold;
-      font-size: 1.2em;
-      padding-bottom: 0.2em;
-  }
-  
-  #winning-percentage {
-      font-size: smaller;
-      font-size: 1em;
-  }
+    width: 0;
+    border-radius: 10px;
+    height: 20px;
+    transition: width 1.5s ease-in-out;
+}
 
-  .score-value {
-      display: inline-block;
-      position: relative;
-      right: 100%; 
-      margin-right: 10px;
-      color: #fff;
-      z-index: 1;
-      
-  }
-  
-  #team2-bar .score-value {
-      right: auto;
-      left: 100%; /* Flip for the right side */
-      margin-right: 0;
-      margin-left: 10px;
-  }
+#team1-bar {
+    background-color: blue;
+}
 
-  .team-icon {
-      width: 50px; /* Adjust as needed */
-      height: auto; /* Maintain aspect ratio */
-  }
+#team2-bar {
+    background-color: red;
+}
 
+#score-info, .back-button, .position-highlight, .win, .loss {
+    display: block; /* Makes sure these elements are block-level */
+}
 
-.table-container {
-    overflow-x: auto;
-}
-.table {
-    color: #c9d1d9;
-    background-color: #202428;
-}
-.table th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #30363d;
-    background-color: #343a40; /* Header background color */
-}
-.table td {
-    padding: .75rem;
-    vertical-align: top;
-    border-top: 1px solid #30363d;
-}
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(255, 255, 255, .05);
-}
-.table-hover tbody tr:hover {
-    background-color: rgba(255, 255, 255, .1);
-}
-.position-highlight {
+#winning-team, #winning-percentage, .score-value {
     font-weight: bold;
 }
+
 .win {
-    color: #28a745; /* Green */
+    color: #28a745;
 }
+
 .loss {
-    color: #dc3545; /* Red */
+    color: #dc3545;
 }
+
 .back-button {
     margin: 20px;
     background-color: #3e4b58;
@@ -224,36 +147,35 @@ body, html {
     border-radius: 4px;
     padding: 0.5rem 1rem;
     text-align: center;
-    display: inline-block;
     text-decoration: none;
 }
+
 .back-button:hover {
     background-color: #0056b3;
 }
 
-img {
-    max-width: 30px;
+img.team-icon {
+    max-width: 30px; /* Size for team icons */
     height: auto;
 }
 
 @media (max-width: 768px) {
     .navbar-brand {
-        font-size: 1em; /* Smaller on mobile devices */
+        font-size: 1em;
     }
 
     .btn-custom {
-        padding: 0.6rem 1.2rem; /* Smaller padding on mobile */
-        font-size: 0.9rem; /* Smaller font size on mobile */
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
     }
     
-    /* Stack buttons vertically on smaller screens */
     .button-group {
         flex-direction: column;
         align-items: center;
     }
 
     .button-group form {
-        width: 100%; /* Full width buttons on mobile */
-        margin-bottom: 0.5rem; /* Spacing between buttons */
+        width: 100%;
+        margin-bottom: 0.5rem;
     }
 }

@@ -18,8 +18,22 @@ function openStats(team) {
 
 function updateModalContent(data, teamName) {
     const modalContent = document.querySelector('.modal-content');
-    const teamNameElement = modalContent.querySelector('#team-name');
-    teamNameElement.textContent = teamName; // Set the team name
+    
+    // Find and remove the existing team icon if present
+    const existingTeamIcon = modalContent.querySelector('.team-icon');
+    if (existingTeamIcon) {
+        existingTeamIcon.remove();
+    }
+
+    // Capitalize the first letter of the team name and keep the rest in lower case
+    const formattedTeamName = teamName.charAt(0).toUpperCase() + teamName.slice(1).toLowerCase();
+
+    // Create and insert new team icon
+    const teamIcon = document.createElement('img');
+    teamIcon.src = '/static/img/' + formattedTeamName + '.svg'; // Adjust the path for Flask app structure
+    teamIcon.alt = teamName;
+    teamIcon.className = 'team-icon';
+    modalContent.insertBefore(teamIcon, modalContent.firstChild); // Insert the icon at the beginning
 
     // Clear previous stats
     const existingTable = modalContent.querySelector('table');
