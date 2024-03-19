@@ -14,21 +14,6 @@ AWK = awk
 RM_EMPTY_DIR = $(FIND) backup/ -type d -empty -delete
 JSON_FILES := $(wildcard app/teams/*.json)
 
-ifeq ($(OS),Windows_NT)
-	VENV_ACTIVATE = venv\Scripts\activate &&
-	PYTHON = py
-	MKDIR_P = mkdir $(subst /,\,$(dir $@)) > nul 2>&1 || true
-	CP_R = xcopy /s /e
-	RM_RF = rmdir /s /q
-	TAR_CZVF = tar -czvf
-	TAR_XZVF = tar -xzvf
-	OPENSSL_ENC = openssl enc
-	AWS_S3_CP = aws s3 cp
-	FIND = dir /b /ad /s
-	AWK = awk
-	RM_EMPTY_DIR = $(FIND) backup\ -type d -empty | $(AWK) '{ print "rmdir /s /q \"" $$0 "\"" }' | cmd
-endif
-
 # Targets
 .PHONY: all build updateStats updateTeams updateRounds getData run clean cleanAll fresh backup getBackup pre-backup encryptBackup decryptBackup uploadBackup downloadBackup restoreBackup cleanBackup prep-upload
 
