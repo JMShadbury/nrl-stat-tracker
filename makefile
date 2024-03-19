@@ -53,19 +53,19 @@ backup: pre-backup uploadBackup cleanBackup
 getBackup: downloadBackup restoreBackup cleanBackup
 
 pre-backup:
-	$(MKDIR_P) "backup/$(round)"
-	$(CP_R) app/teams app/ladder scrape/all_data "backup/$(round)"
+	$(MKDIR_P) "backup/$(ROUND_NUMBER)"
+	$(CP_R) app/teams app/ladder scrape/all_data "backup/$(ROUND_NUMBER)"
 
 uploadBackup:
-	$(AWS_S3_CP) --recursive "backup/$(round)" s3://2024-nrl-data/$(round)/ 
+	$(AWS_S3_CP) --recursive "backup/$(ROUND_NUMBER)" s3://2024-nrl-data/$(ROUND_NUMBER)/ 
 
 downloadBackup:
-	$(AWS_S3_CP) --recursive s3://2024-nrl-data/$(round)/ "backup/$(round)" 
+	$(AWS_S3_CP) --recursive s3://2024-nrl-data/$(ROUND_NUMBER)/ "backup/$(ROUND_NUMBER)" 
 
 restoreBackup:
-	$(CP_R) "backup/$(round)/teams" app/ && \
-	$(CP_R) "backup/$(round)/ladder" app/ && \
-	$(CP_R) "backup/$(round)/all_data" scrape/
+	$(CP_R) "backup/$(ROUND_NUMBER)/teams" app/ && \
+	$(CP_R) "backup/$(ROUND_NUMBER)/ladder" app/ && \
+	$(CP_R) "backup/$(ROUND_NUMBER)/all_data" scrape/
 
 cleanBackup:
 	@if [ -d "backup/" ]; then \
