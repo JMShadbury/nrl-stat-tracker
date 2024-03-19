@@ -60,7 +60,7 @@ pre-backup:
 	$(CP_R) app/teams app/ladder scrape/all_data "backup/$(round)"
 
 encryptBackup:
-	$(TAR_CZVF) "backup/$(round).tar.gz" -C "backup/" "$(round)" && \
+	$(TAR_CZVF) "backup/$(round).tar.gz" -C "backup/$(round)" . && \
 	$(OPENSSL_ENC) -aes-256-cbc -pbkdf2 -iter 10000 -salt -in "backup/$(round).tar.gz" -out "backup/$(round).tar.gz.encrypted" -pass env:BACKUP_PASSWORD
 
 decryptBackup:
