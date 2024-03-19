@@ -56,6 +56,8 @@ jobs:
 
     - name: Run Make Backup
       run: make backup ROUND=${{ env.ROUND_NUMBER }}
+      env:
+        BACKUP_PASSWORD: ${{ secrets.BACKUP_PASSWORD }}
 
     - name: Update Round Number
       if: ${{ steps.current-round.outputs.round < 27 }}
