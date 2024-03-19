@@ -67,7 +67,7 @@ try:
     logger.info("Updating teams data")
 
     # Read team names from file
-    with open("teams", "r") as f:
+    with open(os.path.join(os.path.dirname(__file__), "teams"), "r") as f:
         team_names = f.read().splitlines()
 
     logger.debug(f"Teams: {team_names}")
