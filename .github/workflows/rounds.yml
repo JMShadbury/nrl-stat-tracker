@@ -30,6 +30,9 @@ jobs:
       run: |
         echo "ROUND_NUMBER=$(cat round.txt)" >> $GITHUB_ENV
         echo "::set-output name=round::$(cat round.txt)"
+
+    - name: Scrape NRL Data
+      run: make getData
     
     - name: Configure AWS
       uses: aws-actions/configure-aws-credentials@v3
