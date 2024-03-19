@@ -30,24 +30,6 @@ body, html {
     box-shadow: 0 8px 24px rgba(0,0,0,.5);
 }
 
-.dropdown-custom select {
-    width: 100%;
-    height: 2.5rem;
-    padding: 0.6rem; /* Unified padding */
-    background: #0d1117;
-    font-size: 14px;
-    color: #c9d1d9;
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    appearance: none;
-}
-
-.dropdown-custom select:focus {
-    outline: none;
-    border-color: #238636;
-}
-
 .btn-custom {
     background: linear-gradient(to right, #1f4068, #1b1b2f);
     color: #ffffff;
