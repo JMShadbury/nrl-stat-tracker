@@ -32,7 +32,7 @@ jobs:
             if [ ! -f "app/teams/$team.json" ]; then
               touch "app/teams/$team.json"
             fi
-          done < app/teams/teams
+          done < scrape/teams
 
     - name: Set up Python
       uses: actions/setup-python@v2
