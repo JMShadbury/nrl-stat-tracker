@@ -13,7 +13,7 @@ __pycache__
 # Distribution / packaging
 .Python
 scrape/all_data/*
-teams/
+app/teams/
 ladder/
 rounds/
 build/
