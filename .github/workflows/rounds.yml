@@ -27,7 +27,7 @@ jobs:
         echo "::set-output name=round::$(cat round.txt)"
     
     - name: Configure AWS
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v3
       with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: GitHubActions
