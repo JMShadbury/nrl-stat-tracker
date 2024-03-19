@@ -31,7 +31,7 @@ jobs:
       with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: GitHubActions
-          aws-region: 
+          aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Run Make Backup
       run: make backup ROUND=$ROUND_NUMBER
