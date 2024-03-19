@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NRL Statistics - AI Predicted Power List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/power-list.css') }}">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -48,10 +48,6 @@
                 <td>
                     <img src="{{ url_for('static', filename='img/' + ranking.team.lower() + '.svg') }}" alt="{{ ranking.team }}" class="team-icon">
                     {{ ranking.team }}
-                    <!-- Displaying tags for defeating higher-ranked teams -->
-                    {% for defeated_team in ranking.defeats_higher_ranked %}
-                        <img src="{{ url_for('static', filename='path/to/tag_icon.svg') }}" alt="Defeats {{ defeated_team }}">
-                    {% endfor %}
                 </td>
             </tr>
             {% endfor %}
