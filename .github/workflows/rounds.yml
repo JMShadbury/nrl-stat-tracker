@@ -55,15 +55,15 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Run Make Backup
-      run: make backup ROUND=$ROUND_NUMBER
+      run: make backup ROUND=${{ env.ROUND_NUMBER }}
 
     - name: Update Round Number
       if: ${{ steps.current-round.outputs.round < 27 }}
       run: |
-        echo $(( $ROUND_NUMBER + 1 )) > round.txt
+        echo $(( ${{ env.ROUND_NUMBER }} + 1 )) > round.txt
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add round.txt
-        git commit -m "Update round number to $(( $ROUND_NUMBER + 1 ))"
+        git commit -m "Update round number to $(( ${{ env.ROUND_NUMBER }} + 1 ))"
         git push origin nrl-rounds-backups
 
