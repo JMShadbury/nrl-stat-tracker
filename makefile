@@ -68,10 +68,10 @@ restoreBackup:
 	$(CP_R) "backup/$(round)/all_data" scrape/
 
 cleanBackup:
-    @if [ -d "backup/" ]; then \
-        $(FIND) backup/ -type d -empty -delete; \
-    fi
-
+	@if [ -d "backup/" ]; then \
+		$(FIND) backup/ -type d -empty -delete; \
+	fi
+	$(RM_EMPTY_DIR)
 
 prep-upload:
 	$(FIND) backup/ -type f -delete
