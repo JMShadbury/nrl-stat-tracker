@@ -73,8 +73,7 @@ try:
     logger.debug(f"Teams: {team_names}")
 
     # Create a dictionary of team names and abbreviations
-    team_names = {team.split(":")[0]: team.split(":")[1]
-                  for team in team_names}
+    team_names = {team for team in team_names}
 
     # Get all teams data for each stat
     all_data = {
