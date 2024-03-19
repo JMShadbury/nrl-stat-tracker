@@ -25,6 +25,7 @@ jobs:
       run: |
           mkdir -p scrape/all_data
           mkdir -p app/ladder
+          mkdir -p app/teams
           echo "[]" > app/ladder/ladder_data.json
           while read team; do
             mkdir -p "scrape/all_data/$team"
