@@ -26,6 +26,7 @@ jobs:
           mkdir -p scrape/all_data
           touch scrape/all_data/Ladder
           mkdir -p app/ladder
+          echo "[]" > app/ladder/ladder_data.json
           while read team; do
             mkdir -p "scrape/all_data/$team"
             if [ ! -f "app/teams/$team.json" ]; then
