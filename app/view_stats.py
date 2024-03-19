@@ -75,8 +75,8 @@ def compare():
     logger.info("Index route called")
     try:
         teams = sorted(team_data.index.unique())
-        selected_team1 = ""
-        selected_team2 = ""
+        selected_team1 = None
+        selected_team2 = None
         comparison_data = None
 
         if request.method == "POST":
