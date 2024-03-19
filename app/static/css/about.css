@@ -1,3 +1,4 @@
+/* Base styles for the entire page */
 body, html {
     height: 100%;
     margin: 0;
@@ -6,6 +7,7 @@ body, html {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
+/* Navbar customizations */
 .navbar-custom {
     background-color: #161b22;
     padding: 0.5rem 1rem;
@@ -21,6 +23,7 @@ body, html {
     color: #8aa2b5;
 }
 
+/* Container for main content area */
 .container {
     background-color: #161b22;
     padding: 2rem;
@@ -29,9 +32,10 @@ body, html {
     box-shadow: 0 8px 24px rgba(0,0,0,.5);
 }
 
+/* Styling for about page content */
 .about-content {
-    color: #c9d1d9;
     margin-top: 1rem;
+    text-align: left; /* Ensure text alignment is consistent */
 }
 
 .about-content h2 {
@@ -39,8 +43,9 @@ body, html {
     margin-bottom: 1rem;
 }
 
-.about-content p {
-    margin-bottom: 1rem;
+.about-content p,
+.about-content ul li {
+    margin-bottom: 0.5rem;
 }
 
 .about-content ul {
@@ -48,10 +53,21 @@ body, html {
     padding-left: 1rem;
 }
 
-.about-content ul li {
-    margin-bottom: 0.5rem;
+/* Make strong text bold within about content */
+.about-content strong {
+    font-weight: bold;
 }
 
+/* Custom list items for about content */
+.about-content ul li::before {
+    content: "•";
+    color: #58a6ff;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+/* Button customizations */
 .btn-custom {
     background: linear-gradient(to right, #1f4068, #1b1b2f);
     color: #ffffff;
@@ -71,24 +87,25 @@ body, html {
     background: linear-gradient(to right, #3a6073, #16222a);
 }
 
-.about-content {
-    color: #c9d1d9;
-    margin-top: 1rem;
-    text-align: left; /* Align text to the left */
-}
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1em; /* Smaller on mobile devices */
+    }
 
-.about-content ul li {
-    margin-bottom: 0.5rem;
-}
+    .btn-custom {
+        padding: 0.6rem 1.2rem; /* Smaller padding on mobile */
+        font-size: 0.9rem; /* Smaller font size on mobile */
+    }
 
-.about-content ul li strong {
-    font-weight: bold;
-}
+    /* Stack buttons vertically on smaller screens */
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
 
-.about-content ul li::before {
-    content: "•";
-    color: #58a6ff;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
+    .button-group form {
+        width: 100%; /* Full width buttons on mobile */
+        margin-bottom: 0.5rem; /* Spacing between buttons */
+    }
 }
