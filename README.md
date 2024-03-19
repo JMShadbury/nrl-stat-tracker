@@ -40,17 +40,6 @@ NRL Stat Tracker is an advanced application designed for collecting, analyzing, 
        brew install make
        ```
 
-2. **Windows**:
-    - Install Chocolatey (if not already installed):
-       - Open PowerShell as Administrator and run the following command:
-          ```shell
-          Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-          ```
-    - Install Make using Chocolatey:
-       - Open PowerShell as Administrator and run the following command:
-          ```shell
-          choco install make
-
 <a name="usage"></a>
 
 ## Usage
