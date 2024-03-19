@@ -1,0 +1,48 @@
+name: Backup NRL Data
+
+on:
+  schedule:
+    - cron: '0 0 * * 2'  # Runs at 00:00 every Tuesday
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+      with:
+        ref: nrl-rounds-backups
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Read Current Round
+      id: current-round
+      run: |
+        echo "ROUND_NUMBER=$(cat round.txt)" >> $GITHUB_ENV
+        echo "::set-output name=round::$(cat round.txt)"
+    
+    - name: Configure AWS
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: GitHubActions
+          aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Run Make Backup
+      run: make backup ROUND=$ROUND_NUMBER
+
+    - name: Update Round Number
+      if: ${{ steps.current-round.outputs.round < 27 }}
+      run: |
+        echo $(( $ROUND_NUMBER + 1 )) > round.txt
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add round.txt
+        git commit -m "Update round number to $(( $ROUND_NUMBER + 1 ))"
+        git push origin nrl-rounds-backups
+

@@ -61,10 +61,10 @@ pre-backup:
 
 encryptBackup:
 	$(TAR_CZVF) "backup/$(round).tar.gz" -C "backup/" "$(round)" && \
-	$(OPENSSL_ENC) -aes-256-cbc -pbkdf2 -iter 10000 -salt -in "backup/$(round).tar.gz" -out "backup/$(round).tar.gz.encrypted" -pass file:/Users/joelhutson/.pers/personal
+	$(OPENSSL_ENC) -aes-256-cbc -pbkdf2 -iter 10000 -salt -in "backup/$(round).tar.gz" -out "backup/$(round).tar.gz.encrypted" -pass env:BACKUP_PASSWORD
 
 decryptBackup:
-	$(OPENSSL_ENC) -d -aes-256-cbc -pbkdf2 -iter 10000 -in "backup/$(round).tar.gz.encrypted" -out "backup/$(round).tar.gz" -pass file:/Users/joelhutson/.pers/personal && \
+	$(OPENSSL_ENC) -d -aes-256-cbc -pbkdf2 -iter 10000 -in "backup/$(round).tar.gz.encrypted" -out "backup/$(round).tar.gz" -pass env:BACKUP_PASSWORD && \
 	$(TAR_XZVF) "backup/$(round).tar.gz" -C "backup/$(round)/" && \
 	$(RM_RF) "backup/$(round).tar.gz" "backup/$(round).tar.gz.encrypted"
 
