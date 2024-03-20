@@ -1,16 +1,21 @@
-name: Protect nrl-rounds-backups Branch
+name: Enforce Branch Protection Rules
 
 on:
-  pull_request:
-    branches: [ nrl-rounds-backups ]
   push:
-    branches: [ nrl-rounds-backups ]
+    branches:
+      - main
+      - nrl-rounds-backups
+  pull_request:
+    branches:
+      - main
+      - nrl-rounds-backups
 
 jobs:
-  protect-branch:
+  protect-branches:
     runs-on: ubuntu-latest
     steps:
-    - name: Use Branch Protector Action
+    - name: Protect Main and NRL Rounds Backups Branches
       uses: JMShadbury/github-actions-library/branch-protector@v1
       with:
-        allowed_actor: 'github-actions[bot]'
+        source_branch: 'nrl-rounds-backups'
+        target_branch: 'main'
