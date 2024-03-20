@@ -84,13 +84,13 @@ jobs:
         pr_title: 'Update round number to ${{ env.ROUND_NUMBER }}'
         labels: 'automerge'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         
 
     - name: Automerge
       uses: pascalgn/automerge-action@v0.16.2
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           MERGE_LABELS: 'automerge'  
           MERGE_METHOD: 'squash'     
           MERGE_COMMIT_MESSAGE: 'auto-merge'
