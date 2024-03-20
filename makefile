@@ -41,7 +41,7 @@ clean:
 	$(RM_RF) venv logs app/logs __pycache__ common/__pycache__ app/__pycache__ app/teams/__pycache__ app/rounds/__pycache__ app/ladder/__pycache__ app/util/__pycache__ scrape/__pycache__ scrape/all_data/__pycache__ scrape/util/__pycache__ scrape/stats/__pycache__
 
 cleanAll: clean
-	$(RM_RF) scrape/all_data/* app/teams/*.json app/rounds app/ladder backup/
+	$(RM_RF) scrape/all_data/* app/teams/ app/rounds app/ladder backup/
 
 tryCleanAll:
 	@$(MAKE) cleanAll 2>/dev/null || true
