@@ -60,28 +60,21 @@ jobs:
         sleep 30
         make backup
 
-    - name: Check if branch exists
-      id: check-branch
+    - name: Check out a new branch
       run: |
-        git fetch --quiet
-        git rev-parse --verify update-branch-${{ github.run_number }}
-      continue-on-error: true
-
-    - name: Create a new branch if it doesn't exist
-      if: steps.check-branch.outputs.stdout == ''
-      run: |
-        git checkout -b update-branch-${{ github.run_number }}
-        git push origin update-branch-${{ github.run_number }}
+          git checkout -b update-branch-${{ github.run_number }}
+          git push origin update-branch-${{ github.run_number }}
+      
 
     - name: Update Round Number
       run: |
-        new_round=$((${{ env.ROUND_NUMBER }} + 1))
-        echo $new_round > round.txt
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add round.txt
-        git commit -m "Update round number to $new_round"
-        git push origin update-branch-${{ github.run_number }}
+          new_round=$((${{ env.ROUND_NUMBER }} + 1))
+          echo $new_round > round.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add round.txt
+          git commit -m "Update round number to $new_round"
+          git push
 
     - name: Create Pull Request with Label using hub-pr-creator
       uses: JMShadbury/github-actions-library/hub-pr-creator@v1
@@ -90,8 +83,8 @@ jobs:
         head_branch: 'update-branch-${{ github.run_number }}'
         pr_title: 'Update round number to ${{ env.ROUND_NUMBER }}'
         labels: 'automerge'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }} # Pass the GITHUB_TOKEN directly to the action
+        
 
     - name: Automerge
       uses: pascalgn/automerge-action@v0.16.2
