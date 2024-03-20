@@ -13,4 +13,4 @@ jobs:
     - name: Use Branch Protector Action
       uses: JMShadbury/github-actions-library/branch-protector@v1
       with:
-        allowed_actor: 'github-actions[bot]'
+        allowed_actor: 'shadbury'
