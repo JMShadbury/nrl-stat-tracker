@@ -79,12 +79,12 @@ jobs:
     - name: Create Pull Request with Label using hub-pr-creator
       uses: JMShadbury/github-actions-library/hub-pr-creator@v1
       with:
-        base_branch: 'main'
+        base_branch: 'nrl-rounds-backups'
         head_branch: 'update-branch-${{ github.run_number }}'
         pr_title: 'Update round number to ${{ env.ROUND_NUMBER }}'
         labels: 'automerge'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        github_token: ${{ secrets.GH_PAT }}
+        
         
 
     - name: Automerge
