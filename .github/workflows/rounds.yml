@@ -63,7 +63,7 @@ jobs:
     - name: Check out a new branch
       run: |
           git checkout -b update-branch-${{ github.run_number }}
-          git push origin update-branch-${{ github.run_number }}
+          git push --set-upstream origin update-branch-${{ github.run_number }}
       
 
     - name: Update Round Number
