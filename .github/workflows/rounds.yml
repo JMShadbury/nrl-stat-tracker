@@ -60,21 +60,28 @@ jobs:
         sleep 30
         make backup
 
-    - name: Check out a new branch
+    - name: Check if branch exists
+      id: check-branch
       run: |
-          git checkout -b update-branch-${{ github.run_number }}
-          git push origin update-branch-${{ github.run_number }}
-      
+        git fetch --quiet
+        git rev-parse --verify update-branch-${{ github.run_number }}
+      continue-on-error: true
+
+    - name: Create a new branch if it doesn't exist
+      if: steps.check-branch.outputs.stdout == ''
+      run: |
+        git checkout -b update-branch-${{ github.run_number }}
+        git push origin update-branch-${{ github.run_number }}
 
     - name: Update Round Number
       run: |
-          new_round=$((${{ env.ROUND_NUMBER }} + 1))
-          echo $new_round > round.txt
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add round.txt
-          git commit -m "Update round number to $new_round"
-          git push
+        new_round=$((${{ env.ROUND_NUMBER }} + 1))
+        echo $new_round > round.txt
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add round.txt
+        git commit -m "Update round number to $new_round"
+        git push origin update-branch-${{ github.run_number }}
 
     - name: Create Pull Request with Label using hub-pr-creator
       uses: JMShadbury/github-actions-library/hub-pr-creator@v1
@@ -85,7 +92,6 @@ jobs:
         labels: 'automerge'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
 
     - name: Automerge
       uses: pascalgn/automerge-action@v0.16.2
@@ -94,4 +100,4 @@ jobs:
           MERGE_LABELS: 'automerge'  
           MERGE_METHOD: 'squash'     
           MERGE_COMMIT_MESSAGE: 'auto-merge'
-          MERGE_FILTER_AUTHOR: 'github-actions[bot]'   
+          MERGE_FILTER_AUTHOR: 'github-actions[bot]'
