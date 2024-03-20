@@ -3,6 +3,7 @@ name: Backup NRL Data
 on:
   schedule:
     - cron: '0 0 * * 2'  # Runs at 00:00 every Tuesday
+  workflow_dispatch:
 
 permissions:
   id-token: write
