@@ -95,4 +95,3 @@ jobs:
           MERGE_LABELS: 'automerge'  
           MERGE_METHOD: 'squash'     
           MERGE_COMMIT_MESSAGE: 'auto-merge'
-          MERGE_FILTER_AUTHOR: 'shadbury'   
