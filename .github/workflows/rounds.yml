@@ -57,7 +57,6 @@ jobs:
         BACKUP_PASSWORD: ${{ secrets.BACKUP_PASSWORD }}
         ROUND_NUMBER: ${{ steps.current-round.outputs.round }}
       run: |
-        sleep 30
         make backup
 
     - name: Check out a new branch
@@ -85,7 +84,13 @@ jobs:
         labels: 'automerge'
         github_token: ${{ secrets.GH_PAT }}
         
-        
+    - name: Wait for Status checks
+      run: |
+        sleep 10
+        pr_number=$(hub pr list | grep "Update round number to ${{ env.ROUND_NUMBER }}" | awk '{print $1}')
+        while [ "$(hub pr status $pr_number | grep -c "pending")" -gt 0 ]; do
+          sleep 10
+        done
 
     - name: Automerge
       uses: pascalgn/automerge-action@v0.16.2
