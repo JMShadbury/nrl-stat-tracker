@@ -94,5 +94,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           MERGE_LABELS: 'automerge'  
           MERGE_METHOD: 'squash'     
-          MERGE_COMMIT_MESSAGE: 'auto-merge'
-          MERGE_FILTER_AUTHOR: 'shadbury'   
+          MERGE_COMMIT_MESSAGE: 'auto-merge'  
