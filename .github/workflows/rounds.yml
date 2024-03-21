@@ -93,4 +93,3 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           MERGE_LABELS: 'automerge'
-  
