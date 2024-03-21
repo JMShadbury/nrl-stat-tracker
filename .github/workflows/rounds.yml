@@ -83,12 +83,3 @@ jobs:
         pr_title: 'Update round number to ${{ env.ROUND_NUMBER }}'
         labels: 'automerge'
         github_token: ${{ secrets.GH_PAT }}
-        
-    - name: Wait for Status checks
-      run: |
-        sleep 30
-
-    - name: Automerge
-      uses: pascalgn/automerge-action@v0.16.2
-      env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}  
