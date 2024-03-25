@@ -35,7 +35,7 @@ getData: build updateStats
 	$(VENV_ACTIVATE) $(PYTHON) scrape/get_data.py
 
 run: build $(if $(JSON_FILES),,getData)
-	$(VENV_ACTIVATE) cd app && $(PYTHON) view_stats.py
+	$(RM_RF) scrape/all_data && $(VENV_ACTIVATE) cd app && $(PYTHON) view_stats.py
 
 clean:
 	$(RM_RF) venv logs app/logs __pycache__ common/__pycache__ app/__pycache__ app/teams/__pycache__ app/rounds/__pycache__ app/ladder/__pycache__ app/util/__pycache__ scrape/__pycache__ scrape/all_data/__pycache__ scrape/util/__pycache__ scrape/stats/__pycache__ geckodriver.log

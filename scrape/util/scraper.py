@@ -71,7 +71,6 @@ class WebScraper:
                 source = BeautifulSoup(self.driver.page_source, 'html.parser')
                 self.source = source
                 logger.info("Page loaded successfully")
-                logger.debug(f"Returning source: {source}")
                 self.close()
                 return source
             except TimeoutException:
