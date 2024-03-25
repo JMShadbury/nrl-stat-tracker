@@ -59,8 +59,10 @@ class WebScraper:
             logger.debug(f"Getting all data from webpage: {self.url}")
             try:
                 if button_xpath:
+                    logger.debug(f"Getting button with xpath: {button_xpath}")
                     button = WebDriverWait(self.driver, delay).until(
                         EC.element_to_be_clickable((By.XPATH, button_xpath)))
+                    logger.debug(f"Clicking button: {button}")
                     button.click()
                     
                 WebDriverWait(self.driver, delay).until(
