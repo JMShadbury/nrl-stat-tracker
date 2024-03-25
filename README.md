@@ -7,8 +7,6 @@
 3. [Technologies Used](#technologies-used)
 4. [Installation and Setup](#installation-and-setup)
 5. [Usage](#usage)
-6. [Contribution Guidelines](#contribution-guidelines)
-7. [License](#license)
 
 <a name="introduction"></a>
 ## Introduction
@@ -94,14 +92,6 @@ To use the NRL Stat Tracker, follow these guidelines based on the provided `make
 
 </details>
 
-
-<a name="contribution-guidelines"></a>
-## Contribution Guidelines
-We welcome contributions! Here's how you can contribute to this project effectively.
-
-<a name="license"></a>
-## License
-Details on the project's licensing and usage terms.
 
 ---
 © NRL Stat Tracker Team
