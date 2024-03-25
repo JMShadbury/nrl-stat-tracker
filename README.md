@@ -47,8 +47,13 @@ NRL Stat Tracker is an advanced application designed for collecting, analyzing, 
 <a name="usage"></a>
 
 ## Usage
+
+To run the application, use the following command:
+**Run Application**:
+   - Execute `make run` to start the application. It builds the project, gets data if not present, and launches the app for viewing statistics.
+
 <details>
-<summary>Click to expand!</summary>
+<summary>More options - Click to expand!</summary>
 
 To use the NRL Stat Tracker, follow these guidelines based on the provided `makefile`:
 
@@ -67,27 +72,24 @@ To use the NRL Stat Tracker, follow these guidelines based on the provided `make
 5. **Get Data**: 
    - Run `make getData` to retrieve all necessary data for the application. This command builds the project, updates stats, and fetches additional data.
 
-6. **Run Application**:
-   - Execute `make run` to start the application. It builds the project, gets data if not present, and launches the app for viewing statistics.
-
-7. **Clean the Project**:
+6. **Clean the Project**:
    - `make clean` removes the virtual environment and temporary files.
    - `make cleanAll` performs a more comprehensive clean-up, including all data and logs.
 
-8. **Attempt to Clean All**:
+7. **Attempt to Clean All**:
    - Run `make tryCleanAll` to attempt a full cleanup; suppresses error messages if any steps fail.
 
-9. **Start Fresh**:
+8. **Start Fresh**:
    - Use `make fresh` to clean the project completely and start fresh by building the project and fetching new data.
 
-10. **Backup and Restore**:
+9. **Backup and Restore**:
    - `make backup` handles backup creation, encryption, and uploading to storage.
    - `make getBackup` downloads, decrypts, and restores data from the backup.
    - `make uploadBackup` and `make downloadBackup` specifically handle uploading and downloading backups.
    - `make encryptBackup` and `make decryptBackup` are used for encrypting and decrypting backups.
    - `make restoreBackup` and `make cleanBackup` are used to restore data from backups and clean up backup files, respectively.
 
-11. **Prepare for Backup Upload**:
+10. **Prepare for Backup Upload**:
    - `make prep-upload` prepares for uploading the backup by cleaning up unnecessary files.
 
 </details>
