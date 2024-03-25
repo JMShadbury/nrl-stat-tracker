@@ -39,6 +39,10 @@ NRL Stat Tracker is an advanced application designed for collecting, analyzing, 
        ```shell
        brew install make
        ```
+    - Install Python 3 using Homebrew:
+         ```shell
+         brew install python
+         ```
 
 <a name="usage"></a>
 
