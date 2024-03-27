@@ -18,7 +18,7 @@ jobs:
           GITHUB_WORKSPACE: ${{ github.workspace }} 
           
       - name: Upload Code
-        uses: JMShadbury/github-actions-library/upload-artifact-action@v11
+        uses: JMShadbury/github-actions-library/upload-artifact-action@v1
         with:
           name: 'nrl-stat-tracker'
           path: '.'
