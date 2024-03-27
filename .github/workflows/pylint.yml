@@ -17,8 +17,8 @@ jobs:
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }} 
           
-      - name: Upload Pylint Report
-        uses: JMShadbury/github-actions-library/upload-artifact-action@v1
+      - name: Upload Code
+        uses: JMShadbury/github-actions-library/upload-artifact-action@v11
         with:
           name: 'nrl-stat-tracker'
           path: '.'
