@@ -73,7 +73,7 @@ try:
     logger.debug(f"Teams: {team_names}")
 
     # Create a dictionary of team names and abbreviations
-    team_names = {team for team in team_names}
+    team_names = set(team_names)
 
     # Get all teams data for each stat
     all_data = {
@@ -130,7 +130,6 @@ try:
                     logger.debug(f"No data found for {team_name}")
             else:
                 logger.debug(f"Team name mismatch for {team_name}")
-                
             logger.info(f"End Processing {team_name}")
         except Exception as e:
             logger.error(f"Error processing {team_name}: {e}", exc_info=True)

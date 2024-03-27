@@ -50,7 +50,7 @@ def process_team_data(team_names):
 def main():
     """Main function."""
     with open(os.path.join(os.path.dirname(__file__), "teams"), "r") as f:
-        team_names = [team for team in f.read().splitlines()]
+        team_names = list(f.read().splitlines())
     process_team_data(team_names)
     
     client = JSONClient("Ladder")

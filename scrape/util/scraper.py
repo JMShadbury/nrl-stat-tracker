@@ -64,7 +64,6 @@ class WebScraper:
                         EC.element_to_be_clickable((By.XPATH, button_xpath)))
                     logger.debug(f"Clicking button: {button}")
                     button.click()
-                    
                 WebDriverWait(self.driver, delay).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))
 
