@@ -1,6 +1,13 @@
 
 # NRL Stat Tracker
 
+
+## Status
+
+![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/pylint.yml/badge.svg)
+
+![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/rounds.yml/badge.svg)
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Features](#features)
@@ -76,13 +83,3 @@ To use the NRL Stat Tracker, follow these guidelines based on the provided `make
    - Use `make fresh` to clean the project completely and start fresh by building the project and fetching new data.
 
 </details>
-
-
-<a name="status"></a>
-
-## Status
-
-![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/pylint.yml/badge.svg)
-
-![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/rounds.yml/badge.svg)
-
