@@ -7,6 +7,7 @@
 3. [Technologies Used](#technologies-used)
 4. [Installation and Setup](#installation-and-setup)
 5. [Usage](#usage)
+6. [Status](#status)
 
 <a name="introduction"></a>
 ## Introduction
@@ -81,8 +82,8 @@ To use the NRL Stat Tracker, follow these guidelines based on the provided `make
 
 ## Status
 
-Python Linting: ![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/pylint.yml/badge.svg)
+Python Linting:   ![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/pylint.yml/badge.svg)
 
 
-NRL Backups: ![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/rounds.yml/badge.svg)
+NRL Backups:      ![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/rounds.yml/badge.svg)
 
