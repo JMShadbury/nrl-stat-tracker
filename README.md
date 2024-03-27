@@ -14,7 +14,6 @@
 3. [Technologies Used](#technologies-used)
 4. [Installation and Setup](#installation-and-setup)
 5. [Usage](#usage)
-6. [Status](#status)
 
 <a name="introduction"></a>
 ## Introduction
