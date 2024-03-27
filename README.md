@@ -77,5 +77,13 @@ To use the NRL Stat Tracker, follow these guidelines based on the provided `make
 </details>
 
 
----
-© NRL Stat Tracker Team
+<a name="status"></a>
+
+## Status
+
+Python Linting:
+
+![lint workflow](https://github.com/github/docs/actions/workflows/pylint.yml/badge.svg)
+
+NRL Backups:
+![backup workflow](https://github.com/github/docs/actions/workflows/rounds.yml/badge.svg)
