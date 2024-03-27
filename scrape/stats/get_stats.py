@@ -72,7 +72,7 @@ class Stats:
         Get all the data from the URL
         :return: The data from the URL
         '''
-        
+
         logger.info(f"Scrape data for stat: {self.stat}...")
         return self.scraper.load_page(TeamDefaults.TEAMS_PATH.value, TeamDefaults.TEAMS_AVERAGE_BUTTON.value)
 

@@ -8,6 +8,7 @@ based on various statistics.
 # pylint: disable=E1101
 # pylint: disable=C0413
 # pylint: disable=R1705
+# pylint: disable=C0301
 
 from enum import Enum
 import sys
@@ -54,8 +55,7 @@ class ScoringRules(Enum):
     KICKS = 0.02
     CONVERSION_PERCENTAGE = 0.015
     POSSESSION = 1
-    
-    
+
 scoring_descriptions = {
     "TRIES": "Awarded for each try scored by the team.",
     "GOALS": "Awarded for each successful goal kicked by the team.",

@@ -9,8 +9,9 @@ Flask application
 # pylint: disable=W0621
 # pylint: disable=C0413
 # pylint: disable=C0411
+# pylint: disable=C0412
 
-from data_manager import load_data, load_rounds_data
+from data_manager import load_data
 from util.scoring import calculate_score, compare_teams
 from flask import Flask, render_template, request, jsonify
 from common.logger import configure_logger
@@ -60,8 +61,7 @@ def team_stats(team_name):
         
         if team_stats_data:
             return jsonify(team_stats_data)
-        else:
-            return jsonify({"error": "Team not found"}), 404
+        return jsonify({"error": "Team not found"}), 404
     except KeyError:
         # Handle the case where the team isn't found
         return jsonify({"error": "Team not found"}), 404
