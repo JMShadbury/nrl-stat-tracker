@@ -64,31 +64,15 @@ To use the NRL Stat Tracker, follow these guidelines based on the provided `make
 3. **Update Teams**:
    - Run `make updateTeams` to specifically update team data. This command also involves building the project.
 
-4. **Update Rounds**:
-   - Use `make updateRounds` to update round-specific information. This command first builds the project.
-
-5. **Get Data**: 
+4. **Get Data**: 
    - Run `make getData` to retrieve all necessary data for the application. This command builds the project, updates stats, and fetches additional data.
 
-6. **Clean the Project**:
+5. **Clean the Project**:
    - `make clean` removes the virtual environment and temporary files.
    - `make cleanAll` performs a more comprehensive clean-up, including all data and logs.
 
-7. **Attempt to Clean All**:
-   - Run `make tryCleanAll` to attempt a full cleanup; suppresses error messages if any steps fail.
-
-8. **Start Fresh**:
+6. **Start Fresh**:
    - Use `make fresh` to clean the project completely and start fresh by building the project and fetching new data.
-
-9. **Backup and Restore**:
-   - `make backup` handles backup creation, encryption, and uploading to storage.
-   - `make getBackup` downloads, decrypts, and restores data from the backup.
-   - `make uploadBackup` and `make downloadBackup` specifically handle uploading and downloading backups.
-   - `make encryptBackup` and `make decryptBackup` are used for encrypting and decrypting backups.
-   - `make restoreBackup` and `make cleanBackup` are used to restore data from backups and clean up backup files, respectively.
-
-10. **Prepare for Backup Upload**:
-   - `make prep-upload` prepares for uploading the backup by cleaning up unnecessary files.
 
 </details>
 
