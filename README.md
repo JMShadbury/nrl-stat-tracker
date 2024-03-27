@@ -81,9 +81,8 @@ To use the NRL Stat Tracker, follow these guidelines based on the provided `make
 
 ## Status
 
-Python Linting:
+Python Linting: ![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/pylint.yml/badge.svg)
 
-![lint workflow](https://github.com/github/docs/actions/workflows/pylint.yml/badge.svg?event=push)
 
-NRL Backups:
-![backup workflow](https://github.com/github/docs/actions/workflows/rounds.yml/badge.svg?event=push)
+NRL Backups: ![lint workflow](https://github.com/JMShadbury/nrl-stat-tracker/actions/workflows/rounds.yml/badge.svg)
+
