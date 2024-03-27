@@ -1,5 +1,5 @@
 
-requests==2.15.0
+requests==2.31.0
 bs4==0.0.0
 selenium==4.7.0
 flask==3.0.2
