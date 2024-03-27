@@ -28,9 +28,6 @@ updateStats: build updateTeams
 updateTeams: build
 	$(VENV_ACTIVATE) $(PYTHON) scrape/update_teams.py
 
-updateRounds: build
-	$(VENV_ACTIVATE) $(PYTHON) scrape/update_rounds.py
-
 getData: build updateStats
 	$(VENV_ACTIVATE) $(PYTHON) scrape/get_data.py
 
@@ -48,16 +45,7 @@ tryCleanAll:
 
 fresh: tryCleanAll build getData run
 
-backup: pre-backup uploadBackup cleanBackup
-
 getBackup: downloadBackup restoreBackup cleanBackup
-
-pre-backup:
-	$(MKDIR_P) "backup/$(ROUND_NUMBER)"
-	$(CP_R) app/teams app/ladder scrape/all_data "backup/$(ROUND_NUMBER)"
-
-uploadBackup:
-	$(AWS_S3_CP) --recursive "backup/$(ROUND_NUMBER)" s3://2024-nrl-data/$(ROUND_NUMBER)/ 
 
 downloadBackup:
 	$(AWS_S3_CP) --recursive s3://2024-nrl-data/$(ROUND_NUMBER)/ "backup/$(ROUND_NUMBER)" 
@@ -71,8 +59,4 @@ cleanBackup:
 	@if [ -d "backup/" ]; then \
 		$(FIND) backup/ -type d -empty -delete; \
 	fi
-	$(RM_EMPTY_DIR)
-
-prep-upload:
-	$(FIND) backup/ -type f -delete
 	$(RM_EMPTY_DIR)
