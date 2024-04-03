@@ -7,11 +7,10 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Now, import other modules
 import glob
 import json
 import pandas as pd
-from common.logger import get_logger  # This should work if the path is correct
+from common.logger import get_logger 
 
 logger = get_logger()
 
