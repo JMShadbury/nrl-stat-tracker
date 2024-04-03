@@ -2,17 +2,17 @@
 Flask application
 """
 
-from data_manager import load_data
-from util.scoring import calculate_score, compare_teams
-from flask import Flask, render_template, request, jsonify
-from common.logger import configure_logger
-from util.scoring import ScoringRules, scoring_descriptions
 import os
 import sys
 import json
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from flask import Flask, render_template, request, jsonify
+from data_manager import load_data
+from util.scoring import calculate_score, compare_teams
+from util.scoring import ScoringRules, scoring_descriptions
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from common.logger import configure_logger
 
 # Configure logger
 logger = configure_logger("flask.log")

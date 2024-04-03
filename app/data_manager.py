@@ -6,10 +6,9 @@ import os
 import glob
 import json
 import sys
+import pandas as pd
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.logger import get_logger
-import pandas as pd
-
 
 logger = get_logger()
 
