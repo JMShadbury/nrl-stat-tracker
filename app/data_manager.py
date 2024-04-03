@@ -3,12 +3,15 @@ This module handles loading and aggregating team data from JSON files into a pan
 """
 
 import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Now, import other modules
 import glob
 import json
-import sys
 import pandas as pd
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from common.logger import get_logger
+from common.logger import get_logger  # This should work if the path is correct
 
 logger = get_logger()
 
