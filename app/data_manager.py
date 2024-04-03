@@ -2,10 +2,6 @@
 This module handles loading and aggregating team data from JSON files into a pandas DataFrame.
 """
 
-# pylint: disable=E0401
-# pylint: disable=C0413
-# pylint: disable=C0411
-
 import os
 import glob
 import json

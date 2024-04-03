@@ -2,15 +2,6 @@
 Flask application
 """
 
-# pylint: disable=C0301
-# pylint: disable=C0303
-# pylint: disable=E0401
-# pylint: disable=W0718
-# pylint: disable=W0621
-# pylint: disable=C0413
-# pylint: disable=C0411
-# pylint: disable=C0412
-
 from data_manager import load_data
 from util.scoring import calculate_score, compare_teams
 from flask import Flask, render_template, request, jsonify
