@@ -1,11 +1,5 @@
 """Module to update ladder data."""
 
-# pylint: disable=E0401
-# pylint: disable=C0413
-# pylint: disable=W0718
-# pylint: disable=C0411
-
-
 from util.defaults import Url
 from util.json_client import JSONClient
 from util.scraper import WebScraper

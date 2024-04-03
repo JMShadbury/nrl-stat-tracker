@@ -1,13 +1,5 @@
 """ This module updates the teams data in the JSON database """
 
-# pylint: disable=E0401
-# pylint: disable=C0301
-# pylint: disable=C0413
-# pylint: disable=C0301
-# pylint: disable=C0116
-# pylint: disable=W1514
-# pylint: disable=W0718
-# pylint: disable=C0411
 from stats.get_stats import Stats
 from util.defaults import Url
 from util.json_client import JSONClient

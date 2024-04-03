@@ -1,13 +1,6 @@
 """Module for interacting with JSON files."""
 
-# pylint: disable=E0401
-# pylint: disable=C0413
-# pylint: disable=C0411
-# pylint: disable=C0103
-# pylint: disable=C0209
-# pylint: disable=W1514
-# pylint: disable=W0718
-# pylint: disable=W1514
+
 import json
 import os
 import sys

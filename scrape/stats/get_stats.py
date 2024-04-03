@@ -1,23 +1,5 @@
 """ This module contains functionality for scraping statistics from the NRL website. """
 
-# pylint: disable=E0401
-# pylint: disable=E1126
-# pylint: disable=C0301
-# pylint: disable=C0413
-# pylint: disable=C0116
-# pylint: disable=R1705
-# pylint: disable=C0115
-# pylint: disable=C0209
-# pylint: disable=R0914
-# pylint: disable=W0702
-# pylint: disable=W0718
-# pylint: disable=C0209
-# pylint: disable=E1126
-# pylint: disable=R0915
-# pylint: disable=W0622
-# pylint: disable=W0613
-# pylint: disable=C0411
-
 from util.scraper import WebScraper
 from stats.constants import TeamDefaults
 import sys

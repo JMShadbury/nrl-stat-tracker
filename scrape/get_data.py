@@ -1,12 +1,5 @@
 """Module to retrieve and process data."""
 
-# pylint: disable=C0303
-# pylint: disable=E0401
-# pylint: disable=C0413
-# pylint: disable=W1514
-# pylint: disable=C0411
-
-
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

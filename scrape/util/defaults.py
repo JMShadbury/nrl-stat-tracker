@@ -1,8 +1,5 @@
 """Module containing URL enumeration."""
 
-# pylint: disable=C0303
-# pylint: disable=C0301
-
 from enum import Enum
 
 

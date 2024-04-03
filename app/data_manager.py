@@ -2,18 +2,16 @@
 This module handles loading and aggregating team data from JSON files into a pandas DataFrame.
 """
 
-# pylint: disable=E0401
-# pylint: disable=C0413
-# pylint: disable=C0411
-
 import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Now, import other modules
 import glob
 import json
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from common.logger import get_logger
 import pandas as pd
-
+from common.logger import get_logger  # This should work if the path is correct
 
 logger = get_logger()
 
