@@ -66,7 +66,7 @@ class Stats:
         :return: The processed data
         '''
         if soup:
-            logger.info(f"Processing {self.stat} data...")
+            logger.debug(f"Processing {self.stat} data...")
             table_element = soup.find(
                 TeamDefaults.TEAMS_CONTAINER_TAG.value, class_=TeamDefaults.TEAMS_CONTAINER_CLASS.value)
             logger.debug(f"Table element: {table_element}")
