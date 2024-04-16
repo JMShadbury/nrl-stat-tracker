@@ -67,8 +67,7 @@ class ConsoleHandler(logging.Handler):
 
     def emit(self, record):
         log_message = self.format(record)
-        if record.levelname in ("INFO", "WARNING", "ERROR"):
-            print(log_message)
+        print(log_message)
 
 def configure_logger(log_filename):
     """
