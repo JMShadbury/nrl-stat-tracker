@@ -4,9 +4,9 @@
     <title>NRL Statistics</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Optional Bootstrap JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity= "sha384-abc8bf5fef7ae43cced2b4fb69b2b8d494ad40802a560455ce96f3a39b265caa7861f46f1fef1a6ed4c4d4f8ba8e2ce8" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-50ed9e4f40a91ea752250ea126dcb9295a61b4f8735a3f563b57251d33066b7243670ae742ae2c17ce9d207343cf45b5" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-2634a6560c9dd29de95c1d6b4626d9500628208cba3ab43a56b8c811a15ffe7246cc8c450ec7f8c74c4833e074ee344c" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <script type="text/javascript">
         var comparison_data = {{ comparison_data | tojson | safe }};
